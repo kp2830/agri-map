@@ -1,2 +1,11 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
+
+.field-selected {
+  filter: drop-shadow(0 0 5px rgba(11, 11, 11, 0.45));
+}
+
+.leaflet-control-attribution {
+  font-size: 10px;
+  opacity: 0.85;
+}
