@@ -1,5 +1,6 @@
 import cors from 'cors'
 import express from 'express'
+import { agricultureRouter } from './routes/agriculture.js'
 import { geoRouter } from './routes/geo.js'
 import { healthRouter } from './routes/health.js'
 
@@ -11,6 +12,7 @@ export function createApp() {
 
   app.use('/health', healthRouter)
   app.use('/geo', geoRouter)
+  app.use('/agriculture', agricultureRouter)
 
   return app
 }

@@ -12,6 +12,18 @@ export function latLngToCellToken(lat: number, lng: number, level: number = DEFA
   return s2.cellid.toToken(cell)
 }
 
+/**
+ * Converts a lat/lng coordinate to the decimal string form of the S2 cell ID
+ * containing it — the format the Agricultural Understanding API's
+ * `locationSpecifier.s2CellId` expects (a 64-bit unsigned integer as a
+ * decimal string), distinct from the hex `token` form used elsewhere.
+ */
+export function latLngToCellId(lat: number, lng: number, level: number = DEFAULT_LEVEL): string {
+  const leaf = s2.cellid.fromLatLng(s2.LatLng.fromDegrees(lat, lng))
+  const cell = s2.cellid.parent(leaf, level)
+  return cell.toString()
+}
+
 /** Returns the center lat/lng of the S2 cell identified by the given token. */
 export function cellTokenToLatLng(token: string): { lat: number; lng: number } {
   const cell = s2.cellid.fromToken(token)
