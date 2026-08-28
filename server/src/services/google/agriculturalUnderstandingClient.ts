@@ -18,10 +18,16 @@ function getApiKey(): string {
   return key
 }
 
-/** Calls a v1 method on the Agricultural Understanding API. Never logs the API key or request URL. */
+/**
+ * Calls a v1 method on the Agricultural Understanding API. Never logs the API key or
+ * request URL. `signal` lets an in-flight call be aborted (e.g. the client that
+ * triggered this search has already navigated to a newer one) so we stop waiting on
+ * — and Node stops holding open — a request nobody needs the result of anymore.
+ */
 export async function callAgriculturalUnderstanding<TResponse>(
   method: 'lookupLandscape' | 'monitorLandscape',
   body: unknown,
+  signal?: AbortSignal,
 ): Promise<TResponse> {
   const apiKey = getApiKey()
 
@@ -29,6 +35,7 @@ export async function callAgriculturalUnderstanding<TResponse>(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    signal,
   })
 
   if (!response.ok) {

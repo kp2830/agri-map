@@ -13,12 +13,14 @@ const EMPTY_FEATURE_COLLECTION: GeoJSON.FeatureCollection = { type: 'FeatureColl
  * A 404 from the API means the cell genuinely has no landscape data (e.g. it's
  * outside agricultural coverage) — that's a real empty result, not a failure.
  */
-export async function fetchLandscape(s2CellId: string): Promise<GeoJSON.FeatureCollection> {
+export async function fetchLandscape(s2CellId: string, signal?: AbortSignal): Promise<GeoJSON.FeatureCollection> {
   let response: LookupLandscapeResponse
   try {
-    response = await callAgriculturalUnderstanding<LookupLandscapeResponse>('lookupLandscape', {
-      locationSpecifier: { s2CellId },
-    })
+    response = await callAgriculturalUnderstanding<LookupLandscapeResponse>(
+      'lookupLandscape',
+      { locationSpecifier: { s2CellId } },
+      signal,
+    )
   } catch (error) {
     if (error instanceof AgriculturalUnderstandingApiError && error.status === 404) {
       return EMPTY_FEATURE_COLLECTION

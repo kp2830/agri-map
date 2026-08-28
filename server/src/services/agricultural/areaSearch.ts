@@ -2,8 +2,18 @@ import { cellTokenToCellId, cellTokenToLatLng, getCellTokensForSquareArea } from
 import type { NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural.js'
 import { fetchLandscape } from './alu/index.js'
 import { fetchMonitoring } from './amed/index.js'
-import { getCachedCell, setCachedCell } from './cellCache.js'
+import { getOrFetchCell } from './cellCache.js'
 import { joinLandscapeWithMonitoring } from './normalize.js'
+
+/** Thrown when a search is abandoned because the caller's AbortSignal fired (e.g. the
+ *  HTTP client that requested it already disconnected — a newer click superseded it). Not
+ *  a real failure: the controller recognizes this by name and simply sends no response. */
+export class SearchAbortedError extends Error {
+  constructor() {
+    super('Agricultural area search aborted')
+    this.name = 'AbortError'
+  }
+}
 
 /** Side length (km) of the normal analysis area queried around a clicked point — this is the
  *  displayed geographic result area, not an S2 cell; it's covered by many real Level-13 cells. */
@@ -78,29 +88,37 @@ async function mapWithConcurrency<T, R>(items: T[], limit: number, fn: (item: T)
 interface CellResult {
   collection: NormalizedFieldCollection | null
   error: unknown
-  fromCache: boolean
+  /** 'cache': a completed result from an earlier fetch. 'inflight': shared another
+   *  concurrent search's still-pending fetch of this same cell instead of duplicating it.
+   *  'miss': this call actually issued the ALU+AMED request. */
+  origin: 'cache' | 'inflight' | 'miss'
 }
 
 /**
- * Fetches ALU+AMED data for a single S2 cell, using the existing service functions — or the
- * in-memory cache if this exact cell was already fetched recently (see cellCache.ts). Never
- * throws — a failed cell is reported via `error` so it can't take down the whole multi-cell
- * search; the caller decides what a run of all-failed cells means.
+ * Fetches ALU+AMED data for a single S2 cell — via the shared cache/in-flight-request
+ * registry in cellCache.ts, which also coalesces this exact cell being requested by
+ * another concurrent (e.g. overlapping-search) caller at the same time into one network
+ * call. Never throws — a failed cell is reported via `error` so it can't take down the
+ * whole multi-cell search; the caller decides what a run of all-failed cells means.
  */
-async function fetchCell(token: string): Promise<CellResult> {
+async function fetchCell(token: string, signal?: AbortSignal): Promise<CellResult> {
   const s2CellId = cellTokenToCellId(token)
 
-  const cached = getCachedCell(s2CellId)
-  if (cached) return { collection: cached, error: null, fromCache: true }
-
   try {
-    const [landscape, monitoring] = await Promise.all([fetchLandscape(s2CellId), fetchMonitoring(s2CellId)])
-    const collection = joinLandscapeWithMonitoring(landscape, monitoring)
-    setCachedCell(s2CellId, collection)
-    return { collection, error: null, fromCache: false }
+    const { collection, origin } = await getOrFetchCell(s2CellId, async () => {
+      const [landscape, monitoring] = await Promise.all([
+        fetchLandscape(s2CellId, signal),
+        fetchMonitoring(s2CellId, signal),
+      ])
+      return joinLandscapeWithMonitoring(landscape, monitoring)
+    })
+    return { collection, error: null, origin }
   } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      return { collection: null, error, origin: 'miss' }
+    }
     console.error(`Agricultural cell analysis failed for cell ${token}:`, error instanceof Error ? error.message : error)
-    return { collection: null, error, fromCache: false }
+    return { collection: null, error, origin: 'miss' }
   }
 }
 
@@ -222,25 +240,56 @@ function capToClosest(tokens: string[], selected: LatLng, limit: number): string
  * (in bounded rings, with a controlled concurrency limit and a hard cell/radius budget)
  * until real coverage is found or the max search radius is reached.
  */
-export async function searchAgriculturalArea(lat: number, lng: number): Promise<AreaSearchResult> {
+/**
+ * Runs the existing ALU+AMED pipeline over an approximately 5km x 5km area around the
+ * clicked point. `signal`, if given, lets the caller (the HTTP controller) abandon the
+ * search once its client has disconnected — e.g. a newer map click superseded this one —
+ * so cells not yet queried are never fetched, and in-flight ALU/AMED HTTP calls are
+ * cancelled rather than run to completion for a result nobody will read.
+ */
+export async function searchAgriculturalArea(lat: number, lng: number, signal?: AbortSignal): Promise<AreaSearchResult> {
   const searchStartedAt = Date.now()
   const selected: LatLng = { lat, lng }
   const queriedTokens = new Set<string>()
   let attempted = 0
   let succeeded = 0
   let cacheHits = 0
+  let coalescedHits = 0
+  let mergeMs = 0
+  let nearestMs = 0
   let firstError: unknown = null
 
+  function throwIfAborted(): void {
+    if (signal?.aborted) throw new SearchAbortedError()
+  }
+
+  function timedMerge(collections: NormalizedFieldCollection[]): NormalizedFieldCollection {
+    const startedAt = Date.now()
+    const result = mergeCollections(collections)
+    mergeMs += Date.now() - startedAt
+    return result
+  }
+
+  function timedNearest(collection: NormalizedFieldCollection) {
+    const startedAt = Date.now()
+    const result = nearestField(selected, collection)
+    nearestMs += Date.now() - startedAt
+    return result
+  }
+
   async function queryNewTokens(tokens: string[], stageLabel: string): Promise<NormalizedFieldCollection[]> {
+    throwIfAborted()
     tokens.forEach((token) => queriedTokens.add(token))
     attempted += tokens.length
 
     const stageStartedAt = Date.now()
-    const results = await mapWithConcurrency(tokens, CONCURRENCY_LIMIT, fetchCell)
+    const results = await mapWithConcurrency(tokens, CONCURRENCY_LIMIT, (token) => fetchCell(token, signal))
     const collections: NormalizedFieldCollection[] = []
     let stageCacheHits = 0
+    let stageCoalesced = 0
     for (const result of results) {
-      if (result.fromCache) stageCacheHits++
+      if (result.origin === 'cache') stageCacheHits++
+      if (result.origin === 'inflight') stageCoalesced++
       if (result.collection) {
         succeeded++
         collections.push(result.collection)
@@ -249,8 +298,9 @@ export async function searchAgriculturalArea(lat: number, lng: number): Promise<
       }
     }
     cacheHits += stageCacheHits
+    coalescedHits += stageCoalesced
     console.log(
-      `[areaSearch] stage=${stageLabel} cells=${tokens.length} cacheHits=${stageCacheHits} tookMs=${Date.now() - stageStartedAt}`,
+      `[areaSearch] stage=${stageLabel} cells=${tokens.length} cacheHits=${stageCacheHits} coalesced=${stageCoalesced} concurrency=${CONCURRENCY_LIMIT} tookMs=${Date.now() - stageStartedAt}`,
     )
     return collections
   }
@@ -273,14 +323,14 @@ export async function searchAgriculturalArea(lat: number, lng: number): Promise<
 
   function logSummary(status: string): void {
     console.log(
-      `[areaSearch] done status=${status} cellsQueried=${queriedTokens.size} cacheHits=${cacheHits} totalMs=${Date.now() - searchStartedAt}`,
+      `[areaSearch] done status=${status} cellsQueried=${queriedTokens.size} attempted=${attempted} cacheHits=${cacheHits} coalesced=${coalescedHits} mergeMs=${mergeMs} nearestMs=${nearestMs} totalMs=${Date.now() - searchStartedAt}`,
     )
   }
 
   // Stage 0: the normal ~5km x 5km analysis area — the full square, not a closest-N subset.
   const initialTokens = newTokensForStage(INITIAL_AREA_SIDE_KM)
   const initialCollections = await queryNewTokens(initialTokens, 'initial-5km')
-  let merged = mergeCollections(initialCollections)
+  let merged = timedMerge(initialCollections)
 
   if (attempted > 0 && succeeded === 0) await fail()
 
@@ -288,7 +338,7 @@ export async function searchAgriculturalArea(lat: number, lng: number): Promise<
   // that returned only trees/water/wells (no fields) must not stop the search early, and
   // must never be reported to the user as agricultural coverage (see hasValidField).
   if (hasValidField(merged)) {
-    const nearest = nearestField(selected, merged)
+    const nearest = timedNearest(merged)
     logSummary('found_in_area')
     return {
       s2CellIds: [...queriedTokens].map(cellTokenToCellId),
@@ -306,6 +356,7 @@ export async function searchAgriculturalArea(lat: number, lng: number): Promise<
   // Progressive expansion: query only the newly-covered ring of cells at each step. Stops
   // immediately at the first stage with real coverage — later, larger stages are never queried.
   for (const sideKm of EXPANSION_STEP_SIDE_KM) {
+    throwIfAborted()
     if (remainingBudget() <= 0) break
 
     const newTokens = newTokensForStage(sideKm)
@@ -314,9 +365,9 @@ export async function searchAgriculturalArea(lat: number, lng: number): Promise<
     const stageCollections = await queryNewTokens(newTokens, `expand-${sideKm}km`)
     if (attempted > 0 && succeeded === 0) await fail()
 
-    merged = mergeCollections(stageCollections)
+    merged = timedMerge(stageCollections)
     if (hasValidField(merged)) {
-      const nearest = nearestField(selected, merged)
+      const nearest = timedNearest(merged)
       logSummary('found_nearby')
       return {
         s2CellIds: [...queriedTokens].map(cellTokenToCellId),

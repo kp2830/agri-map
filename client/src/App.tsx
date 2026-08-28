@@ -9,6 +9,7 @@ import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
 import { useAgriculturalFields } from './features/fields/useAgriculturalFields'
 import { defaultMapCenter } from './lib/config'
+import { markPerf } from './lib/perf'
 import { MapView } from './features/map/MapView'
 import type { CoverageInfo, NormalizedFieldFeature } from './types/agricultural'
 
@@ -107,6 +108,7 @@ function App() {
   }
 
   function handleMapClick(lat: number, lng: number) {
+    markPerf('click')
     setLatInput(String(lat))
     setLngInput(String(lng))
     void analyze(lat, lng)
@@ -142,7 +144,14 @@ function App() {
   const fieldCollection = state.status === 'success' ? state.data.fieldCollection : null
   const coverage = state.status === 'success' ? state.data.coverage : null
   const isEmpty = fieldCollection !== null && fieldCollection.features.length === 0
-  const cropColorMap = fieldCollection ? buildCropColorMap(summarizeCropShares(fieldCollection)) : new Map<string, string>()
+
+  // Recomputing this means re-walking every field feature — memoized so it only happens
+  // when the loaded data actually changes, not on every unrelated re-render (e.g. typing
+  // in the lat/lng inputs, or selecting a field).
+  const cropColorMap = useMemo(
+    () => (fieldCollection ? buildCropColorMap(summarizeCropShares(fieldCollection)) : new Map<string, string>()),
+    [fieldCollection],
+  )
 
   // Crop options are always derived from the complete result (never the filtered view),
   // so picking "Mustard" doesn't shrink the dropdown down to just "Mustard" afterward.

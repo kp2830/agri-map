@@ -5,6 +5,7 @@ import { Circle, CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap
 import { colorForFeature } from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
+import { logPerfDelta, markPerf } from '../../lib/perf'
 import type { CoverageInfo, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
 
 interface MapViewProps {
@@ -153,6 +154,52 @@ export function MapView({
 
   const isNearbyCoverage = coverage?.status === 'found_nearby'
 
+  // The GeoJSON layer only needs to be torn down and rebuilt (thousands of Leaflet path
+  // layers, for a large result) when the underlying *data* changes — a new search result or
+  // a crop-filter change. Selecting/deselecting a field is a per-layer style tweak, applied
+  // imperatively below via layersByIdRef, so it's deliberately excluded from this key: doing
+  // otherwise would recreate the entire polygon set on every single field click.
+  const geoJsonDataKey = `${center?.lat}-${center?.lng}-${selectedCrop}`
+  const layersByIdRef = useRef(new Map<string, Layer>())
+  const prevDataKeyRef = useRef(geoJsonDataKey)
+  if (prevDataKeyRef.current !== geoJsonDataKey) {
+    prevDataKeyRef.current = geoJsonDataKey
+    layersByIdRef.current = new Map()
+  }
+
+  // Imperatively restyles just the previously- and newly-selected layers (at most two) via
+  // Leaflet's own setStyle, instead of remounting the whole GeoJSON layer for a selection
+  // change — see geoJsonDataKey above.
+  const prevSelectedIdRef = useRef<string | null>(null)
+  useEffect(() => {
+    const restyle = (id: string) => {
+      const layer = layersByIdRef.current.get(id) as (Layer & Partial<L.Path>) | undefined
+      // Point-geometry features (e.g. a dug well) render as an L.Marker, which has no
+      // setStyle — featureStyle's PathOptions never applied to those even before this
+      // change (Leaflet's `style` prop only affects vector/Path layers), so skipping them
+      // here preserves that same behavior instead of throwing on a non-Path layer.
+      if (!layer || typeof layer.setStyle !== 'function') return
+      const feature = (layer as unknown as { feature?: NormalizedFieldFeature }).feature
+      if (feature) layer.setStyle(featureStyle(feature))
+    }
+
+    const prevId = prevSelectedIdRef.current
+    if (prevId !== null && prevId !== selectedFieldId) restyle(prevId)
+    if (selectedFieldId !== null) restyle(selectedFieldId)
+    prevSelectedIdRef.current = selectedFieldId
+    // featureStyle is a fresh closure each render but only depends on selectedFieldId/cropColorMap,
+    // which are already this effect's real dependencies — re-deriving it here is intentional.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFieldId, cropColorMap])
+
+  // Perceived-performance instrumentation: time from the API response landing to this
+  // specific result actually being committed to the Leaflet layer (i.e. on screen).
+  useEffect(() => {
+    if (!visibleFieldCollection) return
+    markPerf('rendered')
+    logPerfDelta('responseReceived', 'rendered', 'response-received → fields-rendered')
+  }, [visibleFieldCollection])
+
   return (
     <div className="relative h-full w-full">
       {/*
@@ -202,13 +249,16 @@ export function MapView({
 
         {visibleFieldCollection && (
           <GeoJSON
-            key={`${center?.lat}-${center?.lng}-${selectedFieldId ?? 'none'}-${selectedCrop}`}
+            key={geoJsonDataKey}
             data={visibleFieldCollection}
             style={featureStyle}
             onEachFeature={(feature, layer: Layer) => {
+              const normalized = feature as NormalizedFieldFeature
+              if (normalized.id !== undefined) layersByIdRef.current.set(String(normalized.id), layer)
+
               layer.on('click', (event: LeafletMouseEvent) => {
                 L.DomEvent.stopPropagation(event)
-                onSelectField(feature as NormalizedFieldFeature)
+                onSelectField(normalized)
               })
             }}
           />

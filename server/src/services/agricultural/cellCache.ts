@@ -23,6 +23,14 @@ interface CacheEntry {
 
 const cache = new Map<string, CacheEntry>()
 
+/**
+ * Promises for cells currently being fetched, keyed the same as `cache`. Lets two
+ * overlapping searches (e.g. two nearby map clicks in flight at once) that both need
+ * the same not-yet-cached cell share a single outbound ALU+AMED request instead of
+ * each firing their own — see getOrFetchCell.
+ */
+const inFlight = new Map<string, Promise<NormalizedFieldCollection>>()
+
 export function getCachedCell(cellId: string): NormalizedFieldCollection | undefined {
   const entry = cache.get(cellId)
   if (!entry) return undefined
@@ -39,4 +47,39 @@ export function setCachedCell(cellId: string, collection: NormalizedFieldCollect
     if (oldestKey !== undefined) cache.delete(oldestKey)
   }
   cache.set(cellId, { collection, expiresAt: Date.now() + TTL_MS })
+}
+
+export type CellFetchOrigin = 'cache' | 'inflight' | 'miss'
+
+/**
+ * Returns the cached result for `cellId` if present. Otherwise, if another caller is
+ * already fetching this exact cell (an overlapping search), awaits and shares that same
+ * in-flight promise rather than issuing a second ALU+AMED request. Only a genuine miss
+ * calls `fetcher()` and registers it for anyone else to join while it's pending.
+ *
+ * A rejected fetch is not cached (so the next attempt retries for real) and is removed
+ * from `inFlight` as soon as it settles, propagating the same error to every caller that
+ * was sharing it.
+ */
+export async function getOrFetchCell(
+  cellId: string,
+  fetcher: () => Promise<NormalizedFieldCollection>,
+): Promise<{ collection: NormalizedFieldCollection; origin: CellFetchOrigin }> {
+  const cached = getCachedCell(cellId)
+  if (cached) return { collection: cached, origin: 'cache' }
+
+  const pending = inFlight.get(cellId)
+  if (pending) return { collection: await pending, origin: 'inflight' }
+
+  const promise = fetcher()
+    .then((collection) => {
+      setCachedCell(cellId, collection)
+      return collection
+    })
+    .finally(() => {
+      inFlight.delete(cellId)
+    })
+  inFlight.set(cellId, promise)
+
+  return { collection: await promise, origin: 'miss' }
 }

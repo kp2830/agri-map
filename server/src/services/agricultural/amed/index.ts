@@ -13,12 +13,14 @@ const EMPTY_FEATURE_COLLECTION: GeoJSON.FeatureCollection = { type: 'FeatureColl
  * A 404 from the API means the cell genuinely has no monitoring data — that's a
  * real empty result (e.g. a cell with only non-field features), not a failure.
  */
-export async function fetchMonitoring(s2CellId: string): Promise<GeoJSON.FeatureCollection> {
+export async function fetchMonitoring(s2CellId: string, signal?: AbortSignal): Promise<GeoJSON.FeatureCollection> {
   let response: MonitorLandscapeResponse
   try {
-    response = await callAgriculturalUnderstanding<MonitorLandscapeResponse>('monitorLandscape', {
-      locationSpecifier: { s2CellId },
-    })
+    response = await callAgriculturalUnderstanding<MonitorLandscapeResponse>(
+      'monitorLandscape',
+      { locationSpecifier: { s2CellId } },
+      signal,
+    )
   } catch (error) {
     if (error instanceof AgriculturalUnderstandingApiError && error.status === 404) {
       return EMPTY_FEATURE_COLLECTION
