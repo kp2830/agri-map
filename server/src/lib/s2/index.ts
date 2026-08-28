@@ -50,3 +50,45 @@ export function getCoveringCellTokens(
 
   return coverer.covering(geometry).map((cell) => s2.cellid.toToken(cell))
 }
+
+/** Converts an S2 cell token to the decimal cell-ID string the Agricultural Understanding API expects. */
+export function cellTokenToCellId(token: string): string {
+  return s2.cellid.fromToken(token).toString()
+}
+
+const KM_PER_DEGREE_LAT = 111.32
+
+/** Approximate square GeoJSON polygon of the given side length (km), centered on lat/lng. */
+function squareAroundPoint(lat: number, lng: number, sideKm: number): GeoJSON.Polygon {
+  const halfKm = sideKm / 2
+  const dLat = halfKm / KM_PER_DEGREE_LAT
+  const cosLat = Math.max(Math.cos((lat * Math.PI) / 180), 0.01)
+  const dLng = halfKm / (KM_PER_DEGREE_LAT * cosLat)
+
+  return {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [lng - dLng, lat - dLat],
+        [lng + dLng, lat - dLat],
+        [lng + dLng, lat + dLat],
+        [lng - dLng, lat + dLat],
+        [lng - dLng, lat - dLat],
+      ],
+    ],
+  }
+}
+
+/**
+ * Returns the Level-13 S2 cell tokens covering an approximately `sideKm` x `sideKm`
+ * square area centered on lat/lng. The S2 cell level itself is unchanged (still
+ * Level 13, ~1km cell width) — this only determines how many of those existing
+ * cells are needed to cover an area larger than a single cell.
+ */
+export function getCellTokensForSquareArea(lat: number, lng: number, sideKm: number): string[] {
+  return getCoveringCellTokens(squareAroundPoint(lat, lng, sideKm), {
+    minLevel: DEFAULT_LEVEL,
+    maxLevel: DEFAULT_LEVEL,
+    maxCells: 4096,
+  })
+}

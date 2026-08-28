@@ -1,11 +1,12 @@
 import type { Request, Response } from 'express'
-import { latLngToCellId } from '../lib/s2/index.js'
-import { fetchLandscape } from '../services/agricultural/alu/index.js'
-import { fetchMonitoring } from '../services/agricultural/amed/index.js'
-import { joinLandscapeWithMonitoring } from '../services/agricultural/normalize.js'
+import { searchAgriculturalArea } from '../services/agricultural/areaSearch.js'
 import { AgriculturalUnderstandingApiError } from '../services/google/agriculturalUnderstandingClient.js'
 
-/** Returns normalized ALU+AMED fields for the S2 Level-13 cell containing the given lat/lng. */
+/**
+ * Returns normalized ALU+AMED fields for the ~5km x 5km agricultural analysis area
+ * around the given lat/lng, expanding the search outward to find the nearest real
+ * coverage if that initial area has none. See services/agricultural/areaSearch.ts.
+ */
 export async function getFields(req: Request, res: Response) {
   const lat = Number(req.query.lat)
   const lng = Number(req.query.lng)
@@ -20,12 +21,9 @@ export async function getFields(req: Request, res: Response) {
     return
   }
 
-  const s2CellId = latLngToCellId(lat, lng)
-
   try {
-    const [landscape, monitoring] = await Promise.all([fetchLandscape(s2CellId), fetchMonitoring(s2CellId)])
-    const fieldCollection = joinLandscapeWithMonitoring(landscape, monitoring)
-    res.json({ s2CellId, fieldCollection })
+    const { s2CellIds, fieldCollection, coverage } = await searchAgriculturalArea(lat, lng)
+    res.json({ selected: { lat, lng }, s2CellIds, fieldCollection, coverage })
   } catch (error) {
     if (error instanceof AgriculturalUnderstandingApiError) {
       res.status(502).json({ error: error.message })

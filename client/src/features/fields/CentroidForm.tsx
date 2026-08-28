@@ -1,7 +1,10 @@
-import { useId, useState } from 'react'
-import { defaultMapCenter } from '../../lib/config'
+import { useId } from 'react'
 
 interface CentroidFormProps {
+  lat: string
+  lng: string
+  onLatChange: (value: string) => void
+  onLngChange: (value: string) => void
   onSubmit: (lat: number, lng: number) => void
   isLoading: boolean
 }
@@ -9,9 +12,7 @@ interface CentroidFormProps {
 const inputClasses =
   'w-24 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-emerald-500'
 
-export function CentroidForm({ onSubmit, isLoading }: CentroidFormProps) {
-  const [lat, setLat] = useState(String(defaultMapCenter.lat))
-  const [lng, setLng] = useState(String(defaultMapCenter.lng))
+export function CentroidForm({ lat, lng, onLatChange, onLngChange, onSubmit, isLoading }: CentroidFormProps) {
   const latId = useId()
   const lngId = useId()
 
@@ -49,7 +50,7 @@ export function CentroidForm({ onSubmit, isLoading }: CentroidFormProps) {
           max={90}
           placeholder="e.g. 18.624"
           value={lat}
-          onChange={(event) => setLat(event.target.value)}
+          onChange={(event) => onLatChange(event.target.value)}
           className={inputClasses}
         />
       </div>
@@ -67,7 +68,7 @@ export function CentroidForm({ onSubmit, isLoading }: CentroidFormProps) {
           max={180}
           placeholder="e.g. 73.076"
           value={lng}
-          onChange={(event) => setLng(event.target.value)}
+          onChange={(event) => onLngChange(event.target.value)}
           className={inputClasses}
         />
       </div>
@@ -85,7 +86,7 @@ export function CentroidForm({ onSubmit, isLoading }: CentroidFormProps) {
 
       {showRangeError && (
         <p className="basis-full text-xs text-red-600" role="alert">
-          Latitude must be between -90 and 90, longitude between -180 and 180.
+          Please enter valid latitude and longitude. Latitude must be between -90 and 90, longitude between -180 and 180.
         </p>
       )}
     </form>

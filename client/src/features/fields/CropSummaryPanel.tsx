@@ -1,18 +1,63 @@
 import { useState } from 'react'
 import type { AluFeatureType, NormalizedFieldCollection } from '../../types/agricultural'
 import { colorForAluType, colorForCropLabel, formatAluType, formatCropLabel, formatHectares } from './cropDisplay'
+import { ALL_CROPS, filterFieldsByCrop, totalFieldAreaSqM, type CropFilterValue } from './cropFilter'
 import { summarizeCropShares } from './cropSummary'
 
 interface CropSummaryPanelProps {
   fieldCollection: NormalizedFieldCollection
   cropColorMap: Map<string, string>
+  selectedCrop: CropFilterValue
 }
 
 const VISIBLE_ROWS = 6
 const NON_FIELD_TYPES: Exclude<AluFeatureType, 'field'>[] = ['trees', 'farm_pond', 'other_water', 'dug_well']
 
-export function CropSummaryPanel({ fieldCollection, cropColorMap }: CropSummaryPanelProps) {
+/** A single crop is selected: total area/field count for just that crop, from real field data. */
+function SelectedCropSummary({ fieldCollection, cropColorMap, selectedCrop }: CropSummaryPanelProps) {
+  const matching = filterFieldsByCrop(fieldCollection, selectedCrop)
+  const areaSqM = matching.features.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
+  const totalArea = totalFieldAreaSqM(fieldCollection)
+  const sharePercent = totalArea > 0 ? (areaSqM / totalArea) * 100 : null
+  const color = colorForCropLabel(selectedCrop, cropColorMap)
+
+  if (matching.features.length === 0) {
+    return <p className="text-sm text-slate-500">No {formatCropLabel(selectedCrop)} fields in this area.</p>
+  }
+
+  return (
+    <div>
+      <div className="mb-2 flex items-center gap-2">
+        <span className="h-3 w-3 shrink-0 rounded-sm" style={{ backgroundColor: color }} aria-hidden />
+        <h3 className="text-sm font-semibold text-slate-900">{formatCropLabel(selectedCrop)}</h3>
+      </div>
+      <dl className="divide-y divide-slate-50">
+        <div className="flex items-baseline justify-between py-1 text-sm">
+          <dt className="text-slate-500">Fields</dt>
+          <dd className="font-medium text-slate-800">{matching.features.length}</dd>
+        </div>
+        <div className="flex items-baseline justify-between py-1 text-sm">
+          <dt className="text-slate-500">Total area</dt>
+          <dd className="font-medium text-slate-800">{formatHectares(areaSqM)}</dd>
+        </div>
+        {sharePercent !== null && (
+          <div className="flex items-baseline justify-between py-1 text-sm">
+            <dt className="text-slate-500">Share of analyzed agricultural area</dt>
+            <dd className="font-medium text-slate-800">{sharePercent.toFixed(1)}%</dd>
+          </div>
+        )}
+      </dl>
+    </div>
+  )
+}
+
+export function CropSummaryPanel({ fieldCollection, cropColorMap, selectedCrop }: CropSummaryPanelProps) {
   const [showAll, setShowAll] = useState(false)
+
+  if (selectedCrop !== ALL_CROPS) {
+    return <SelectedCropSummary fieldCollection={fieldCollection} cropColorMap={cropColorMap} selectedCrop={selectedCrop} />
+  }
+
   const shares = summarizeCropShares(fieldCollection)
 
   const presentNonFieldTypes = NON_FIELD_TYPES.filter((type) =>
