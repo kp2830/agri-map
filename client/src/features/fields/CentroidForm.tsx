@@ -5,16 +5,43 @@ interface CentroidFormProps {
   lng: string
   onLatChange: (value: string) => void
   onLngChange: (value: string) => void
+  /** Initial field-data coverage side length (km) — the "grid" the search/display area uses. */
+  gridKm: number
+  onGridKmChange: (value: number) => void
+  /** Maximum fallback search distance (km) from the original clicked point. */
+  maxSearchKm: number
+  onMaxSearchKmChange: (value: number) => void
   onSubmit: (lat: number, lng: number) => void
   isLoading: boolean
 }
 
+/** Mirrors server's ALLOWED_GRID_KM (server/src/services/agricultural/areaSearch.ts) — kept in
+ *  sync manually since this repo has no shared client/server code path (see CLAUDE.md). */
+const GRID_KM_OPTIONS = [1, 2, 3, 4, 5]
+/** Mirrors server's ALLOWED_MAX_SEARCH_KM. */
+const MAX_SEARCH_KM_OPTIONS = [10, 15, 20, 25, 30]
+
 const inputClasses =
   'w-24 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-emerald-500'
+const selectClasses =
+  'rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-emerald-500'
 
-export function CentroidForm({ lat, lng, onLatChange, onLngChange, onSubmit, isLoading }: CentroidFormProps) {
+export function CentroidForm({
+  lat,
+  lng,
+  onLatChange,
+  onLngChange,
+  gridKm,
+  onGridKmChange,
+  maxSearchKm,
+  onMaxSearchKmChange,
+  onSubmit,
+  isLoading,
+}: CentroidFormProps) {
   const latId = useId()
   const lngId = useId()
+  const gridId = useId()
+  const maxSearchId = useId()
 
   const parsedLat = Number(lat)
   const parsedLng = Number(lng)
@@ -71,6 +98,42 @@ export function CentroidForm({ lat, lng, onLatChange, onLngChange, onSubmit, isL
           onChange={(event) => onLngChange(event.target.value)}
           className={inputClasses}
         />
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label htmlFor={gridId} className="text-xs font-medium text-slate-500">
+          Field Coverage
+        </label>
+        <select
+          id={gridId}
+          value={gridKm}
+          onChange={(event) => onGridKmChange(Number(event.target.value))}
+          className={selectClasses}
+        >
+          {GRID_KM_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option} km × {option} km
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label htmlFor={maxSearchId} className="text-xs font-medium text-slate-500">
+          Max Search
+        </label>
+        <select
+          id={maxSearchId}
+          value={maxSearchKm}
+          onChange={(event) => onMaxSearchKmChange(Number(event.target.value))}
+          className={selectClasses}
+        >
+          {MAX_SEARCH_KM_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option} km
+            </option>
+          ))}
+        </select>
       </div>
 
       <button

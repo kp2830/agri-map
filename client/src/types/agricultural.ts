@@ -23,7 +23,7 @@ export type NormalizedFieldFeature = GeoJSON.Feature<GeoJSON.Geometry, Normalize
 export type NormalizedFieldCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry, NormalizedFieldProperties>
 
 export interface CoverageInfo {
-  /** 'found_in_area': coverage was within the initial ~5km analysis area. 'found_nearby': the search expanded outward to find it. 'not_found': nothing within the max search radius. */
+  /** 'found_in_area': coverage was within the initial user-selected grid area. 'found_nearby': the search expanded outward to find it. 'not_found': nothing within the user-selected max search radius. */
   status: 'found_in_area' | 'found_nearby' | 'not_found'
   /** Side length (km) of the square area that was searched when this result was produced. */
   searchAreaSideKm: number

@@ -15,18 +15,35 @@ export class SearchAbortedError extends Error {
   }
 }
 
-/** Side length (km) of the normal analysis area queried around a clicked point — this is the
- *  displayed geographic result area, not an S2 cell; it's covered by many real Level-13 cells. */
-const INITIAL_AREA_SIDE_KM = 5
+/** Allowed values for the user-configurable initial grid/coverage side length (km). Mirrored
+ *  in client/src/features/fields/CentroidForm.tsx for the dropdown options — kept in sync
+ *  manually since this repo has no shared client/server code path (see CLAUDE.md). */
+export const ALLOWED_GRID_KM = [1, 2, 3, 4, 5]
+/** Allowed values for the user-configurable maximum fallback search distance (km). Mirrored
+ *  in client/src/features/fields/CentroidForm.tsx for the dropdown options. */
+export const ALLOWED_MAX_SEARCH_KM = [10, 15, 20, 25, 30]
+export const DEFAULT_GRID_KM = 3
+export const DEFAULT_MAX_SEARCH_KM = 10
+
 /**
- * Cumulative square side lengths (km) tried, in order, if the initial area has no coverage.
- * Radii: 5, 8, 10, 15, 20, 25, 30 — extends the previous 10km-radius ceiling out to the new
- * 30km maximum fallback distance, continuing the same progression already established for the
- * first three stages rather than introducing a different shape.
+ * Candidate expansion radii (km) the fallback search steps through, filtered down to those
+ * strictly beyond the selected grid's own half-width and up to the selected max search
+ * distance. Every allowed ALLOWED_MAX_SEARCH_KM value is itself a candidate, so the search
+ * always reaches exactly the user-selected maximum as its final stage. This generalizes what
+ * was previously a fixed [10, 16, 20, 30, 40, 50, 60] (km sides) progression — for the old
+ * fixed grid=5/maxSearch=30 case this produces the identical stages.
  */
-const EXPANSION_STEP_SIDE_KM = [10, 16, 20, 30, 40, 50, 60]
-/** Half of the largest expansion step — the furthest out the search will ever look. */
-const MAX_SEARCH_RADIUS_KM = EXPANSION_STEP_SIDE_KM[EXPANSION_STEP_SIDE_KM.length - 1] / 2
+const CANDIDATE_EXPANSION_RADII_KM = [5, 8, 10, 15, 20, 25, 30]
+
+/** Builds the cumulative square side lengths (km) to try, in order, beyond the initial grid,
+ *  stopping exactly at `maxSearchKm`. */
+function buildExpansionStepsSideKm(gridKm: number, maxSearchKm: number): number[] {
+  const gridRadiusKm = gridKm / 2
+  const radii = CANDIDATE_EXPANSION_RADII_KM.filter((radius) => radius > gridRadiusKm && radius <= maxSearchKm)
+  if (radii[radii.length - 1] !== maxSearchKm) radii.push(maxSearchKm)
+  return radii.map((radius) => radius * 2)
+}
+
 /**
  * Max cells queried across the whole search (initial + all expansion stages combined) — a
  * last-resort safety valve only, NOT a per-stage design lever. Fallback stages are no longer
@@ -49,7 +66,7 @@ const TOTAL_CELL_BUDGET = 4000
 const CONCURRENCY_LIMIT = 10
 
 export interface CoverageInfo {
-  /** 'found_in_area': coverage was within the initial ~5km area. 'found_nearby': expansion was needed. 'not_found': nothing within the max search radius. */
+  /** 'found_in_area': coverage was within the initial gridKm x gridKm area. 'found_nearby': expansion was needed. 'not_found': nothing within maxSearchKm. */
   status: 'found_in_area' | 'found_nearby' | 'not_found'
   /** Side length (km) of the square area that was searched when this result was produced. */
   searchAreaSideKm: number
@@ -234,22 +251,27 @@ function capToClosest(tokens: string[], selected: LatLng, limit: number): string
 }
 
 /**
- * Runs the existing ALU+AMED pipeline over an approximately 5km x 5km area around the
- * clicked point, merging and deduplicating results across the underlying Level-13 cells.
- * If that area has no agricultural coverage, progressively expands the search outward
- * (in bounded rings, with a controlled concurrency limit and a hard cell/radius budget)
- * until real coverage is found or the max search radius is reached.
+ * Runs the existing ALU+AMED pipeline over a `gridKm` x `gridKm` area around the clicked
+ * point, merging and deduplicating results across the underlying Level-13 cells. If that
+ * area has no agricultural coverage, progressively expands the search outward (in bounded
+ * rings, with a controlled concurrency limit and a hard cell/radius budget) until real
+ * coverage is found or `maxSearchKm` is reached. `signal`, if given, lets the caller (the
+ * HTTP controller) abandon the search once its client has disconnected — e.g. a newer map
+ * click superseded this one — so cells not yet queried are never fetched, and in-flight
+ * ALU/AMED HTTP calls are cancelled rather than run to completion for a result nobody will
+ * read. `gridKm`/`maxSearchKm` are trusted to already be validated by the caller (see
+ * ALLOWED_GRID_KM/ALLOWED_MAX_SEARCH_KM and the controller's validation of the request).
  */
-/**
- * Runs the existing ALU+AMED pipeline over an approximately 5km x 5km area around the
- * clicked point. `signal`, if given, lets the caller (the HTTP controller) abandon the
- * search once its client has disconnected — e.g. a newer map click superseded this one —
- * so cells not yet queried are never fetched, and in-flight ALU/AMED HTTP calls are
- * cancelled rather than run to completion for a result nobody will read.
- */
-export async function searchAgriculturalArea(lat: number, lng: number, signal?: AbortSignal): Promise<AreaSearchResult> {
+export async function searchAgriculturalArea(
+  lat: number,
+  lng: number,
+  gridKm: number = DEFAULT_GRID_KM,
+  maxSearchKm: number = DEFAULT_MAX_SEARCH_KM,
+  signal?: AbortSignal,
+): Promise<AreaSearchResult> {
   const searchStartedAt = Date.now()
   const selected: LatLng = { lat, lng }
+  const expansionStepsSideKm = buildExpansionStepsSideKm(gridKm, maxSearchKm)
   const queriedTokens = new Set<string>()
   let attempted = 0
   let succeeded = 0
@@ -327,9 +349,9 @@ export async function searchAgriculturalArea(lat: number, lng: number, signal?: 
     )
   }
 
-  // Stage 0: the normal ~5km x 5km analysis area — the full square, not a closest-N subset.
-  const initialTokens = newTokensForStage(INITIAL_AREA_SIDE_KM)
-  const initialCollections = await queryNewTokens(initialTokens, 'initial-5km')
+  // Stage 0: the normal gridKm x gridKm analysis area — the full square, not a closest-N subset.
+  const initialTokens = newTokensForStage(gridKm)
+  const initialCollections = await queryNewTokens(initialTokens, `initial-${gridKm}km`)
   let merged = timedMerge(initialCollections)
 
   if (attempted > 0 && succeeded === 0) await fail()
@@ -345,17 +367,17 @@ export async function searchAgriculturalArea(lat: number, lng: number, signal?: 
       fieldCollection: merged,
       coverage: {
         status: 'found_in_area',
-        searchAreaSideKm: INITIAL_AREA_SIDE_KM,
+        searchAreaSideKm: gridKm,
         nearestDistanceKm: nearest?.distanceKm ?? null,
         nearestFieldCentroid: nearest?.centroid ?? null,
-        maxSearchRadiusKm: MAX_SEARCH_RADIUS_KM,
+        maxSearchRadiusKm: maxSearchKm,
       },
     }
   }
 
   // Progressive expansion: query only the newly-covered ring of cells at each step. Stops
   // immediately at the first stage with real coverage — later, larger stages are never queried.
-  for (const sideKm of EXPANSION_STEP_SIDE_KM) {
+  for (const sideKm of expansionStepsSideKm) {
     throwIfAborted()
     if (remainingBudget() <= 0) break
 
@@ -377,7 +399,7 @@ export async function searchAgriculturalArea(lat: number, lng: number, signal?: 
           searchAreaSideKm: sideKm,
           nearestDistanceKm: nearest?.distanceKm ?? null,
           nearestFieldCentroid: nearest?.centroid ?? null,
-          maxSearchRadiusKm: MAX_SEARCH_RADIUS_KM,
+          maxSearchRadiusKm: maxSearchKm,
         },
       }
     }
@@ -389,10 +411,10 @@ export async function searchAgriculturalArea(lat: number, lng: number, signal?: 
     fieldCollection: { type: 'FeatureCollection', features: [] },
     coverage: {
       status: 'not_found',
-      searchAreaSideKm: EXPANSION_STEP_SIDE_KM[EXPANSION_STEP_SIDE_KM.length - 1],
+      searchAreaSideKm: expansionStepsSideKm[expansionStepsSideKm.length - 1] ?? gridKm,
       nearestDistanceKm: null,
       nearestFieldCentroid: null,
-      maxSearchRadiusKm: MAX_SEARCH_RADIUS_KM,
+      maxSearchRadiusKm: maxSearchKm,
     },
   }
 }

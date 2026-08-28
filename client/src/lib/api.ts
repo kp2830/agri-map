@@ -13,6 +13,15 @@ export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> 
   return response.json() as Promise<T>
 }
 
-export async function getAgriculturalFields(lat: number, lng: number, signal?: AbortSignal): Promise<FieldsResponse> {
-  return apiGet<FieldsResponse>(`/agriculture/fields?lat=${lat}&lng=${lng}`, signal)
+export async function getAgriculturalFields(
+  lat: number,
+  lng: number,
+  gridKm: number,
+  maxSearchKm: number,
+  signal?: AbortSignal,
+): Promise<FieldsResponse> {
+  return apiGet<FieldsResponse>(
+    `/agriculture/fields?lat=${lat}&lng=${lng}&gridKm=${gridKm}&maxSearchKm=${maxSearchKm}`,
+    signal,
+  )
 }

@@ -53,6 +53,10 @@ function BrandMark() {
   )
 }
 
+/** Mirrors server's DEFAULT_GRID_KM/DEFAULT_MAX_SEARCH_KM (server/src/services/agricultural/areaSearch.ts). */
+const DEFAULT_GRID_KM = 3
+const DEFAULT_MAX_SEARCH_KM = 10
+
 function SummarySkeleton({ searchingLong }: { searchingLong: boolean }) {
   return (
     <div className="space-y-3.5" role="status" aria-label="Loading agricultural data">
@@ -80,6 +84,17 @@ function App() {
   // Bumped on "New Search" so MapView can explicitly reset its view — Leaflet's map center/zoom
   // aren't controlled by React after mount, so this can't happen just by clearing `submittedCenter`.
   const [mapResetToken, setMapResetToken] = useState(0)
+  // Live dropdown selections — persist across "New Search" per the existing session-state
+  // convention (only the active result/selection resets, not user preferences like these).
+  const [gridKm, setGridKm] = useState(DEFAULT_GRID_KM)
+  const [maxSearchKm, setMaxSearchKm] = useState(DEFAULT_MAX_SEARCH_KM)
+  // The grid size actually used for the current/last search — captured at the moment analyze()
+  // runs, so changing the dropdown afterward doesn't retroactively reframe an already-displayed
+  // result (see task requirement: settings only apply to the *next* search).
+  const [appliedGridKm, setAppliedGridKm] = useState(DEFAULT_GRID_KM)
+  // Bumped every time a new search actually starts — lets MapView force a GeoJSON remount even
+  // if the click happens to repeat the exact same lat/lng with different grid/max-search values.
+  const [searchToken, setSearchToken] = useState(0)
 
   useEffect(() => {
     if (state.status !== 'loading') return
@@ -96,7 +111,9 @@ function App() {
     setSelectedFeature(null)
     setSearchingLong(false)
     setSelectedCrop(ALL_CROPS)
-    const data = await fetchFields(lat, lng)
+    setAppliedGridKm(gridKm)
+    setSearchToken((token) => token + 1)
+    const data = await fetchFields(lat, lng, gridKm, maxSearchKm)
     if (data && data.coverage.status === 'found_nearby' && data.coverage.nearestFieldCentroid) {
       setLatInput(String(data.coverage.nearestFieldCentroid.lat))
       setLngInput(String(data.coverage.nearestFieldCentroid.lng))
@@ -185,6 +202,10 @@ function App() {
           lng={lngInput}
           onLatChange={setLatInput}
           onLngChange={setLngInput}
+          gridKm={gridKm}
+          onGridKmChange={setGridKm}
+          maxSearchKm={maxSearchKm}
+          onMaxSearchKmChange={setMaxSearchKm}
           onSubmit={handleSubmit}
           isLoading={state.status === 'loading'}
         />
@@ -203,6 +224,8 @@ function App() {
             onMapClick={handleMapClick}
             cropColorMap={cropColorMap}
             resetToken={mapResetToken}
+            gridKm={appliedGridKm}
+            searchToken={searchToken}
           />
         </main>
 

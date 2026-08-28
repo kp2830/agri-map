@@ -22,11 +22,23 @@ interface MapViewProps {
   cropColorMap: Map<string, string>
   /** Bumped by App's "New Search" action to explicitly return the map to its default view. */
   resetToken: number
+  /**
+   * The field-coverage grid side length (km) actually used for the current search — the
+   * user-selected value captured at the moment Analyze/map-click ran, not the live dropdown
+   * state (which may have changed since without re-searching). Drives the geographic context
+   * kept visible around a directly-analyzed point; mirrors the backend's `gridKm`.
+   */
+  gridKm: number
+  /**
+   * Bumped by App every time a new search actually starts (map click or Analyze). Used to
+   * force the GeoJSON layer to remount on a fresh result even if the click happened to land
+   * on the exact same lat/lng as a previous search with different grid/max-search settings —
+   * center/selectedCrop alone can't distinguish that case, since the coordinates would be
+   * identical while the returned data differs.
+   */
+  searchToken: number
 }
 
-/** Side length (km) of the geographic context kept visible around a directly-analyzed point —
- *  mirrors the backend's INITIAL_AREA_SIDE_KM (the displayed area, not an S2 cell). */
-const DISPLAY_AREA_SIDE_KM = 5
 const KM_PER_DEGREE_LAT = 111.32
 
 /** Approximate lat/lng bounding box of the given side length (km), centered on a point — same
@@ -44,14 +56,16 @@ function FitToData({
   center,
   fieldCollection,
   anchorToCenter,
+  gridKm,
 }: {
   center: { lat: number; lng: number }
   fieldCollection: NormalizedFieldCollection | null
   /**
    * True for a direct hit (fields found in the analyzed area) or a genuine not-found result:
-   * frame the fixed ~5km x 5km analyzed area around the click, regardless of how tightly the
-   * actual returned fields cluster inside it — this keeps geographic context visible instead
-   * of zooming in on just the polygons (or, when nothing was found, just the empty point).
+   * frame the fixed `gridKm` x `gridKm` analyzed area around the click, regardless of how
+   * tightly the actual returned fields cluster inside it — this keeps geographic context
+   * visible instead of zooming in on just the polygons (or, when nothing was found, just the
+   * empty point).
    *
    * False for fallback coverage found several km away: fit tightly to the actual returned
    * field bounds instead, without forcing the (potentially km-away, empty) click point into
@@ -59,12 +73,14 @@ function FitToData({
    * clicked location itself contained those fields.
    */
   anchorToCenter: boolean
+  /** The grid side length (km) actually used for this search — see MapViewProps.gridKm. */
+  gridKm: number
 }) {
   const map = useMap()
 
   useEffect(() => {
     if (anchorToCenter) {
-      map.fitBounds(boundsAroundPoint(center.lat, center.lng, DISPLAY_AREA_SIDE_KM), { padding: [16, 16] })
+      map.fitBounds(boundsAroundPoint(center.lat, center.lng, gridKm), { padding: [16, 16] })
       return
     }
 
@@ -76,7 +92,7 @@ function FitToData({
       }
     }
     map.setView([center.lat, center.lng], 15)
-  }, [center.lat, center.lng, fieldCollection, anchorToCenter, map])
+  }, [center.lat, center.lng, fieldCollection, anchorToCenter, gridKm, map])
 
   return null
 }
@@ -130,6 +146,8 @@ export function MapView({
   onMapClick,
   cropColorMap,
   resetToken,
+  gridKm,
+  searchToken,
 }: MapViewProps) {
   // Basemap choice lives here, independent of all agricultural search/crop-filter state in
   // App — switching it never touches fieldCollection, coverage, or the selected feature, and
@@ -158,8 +176,11 @@ export function MapView({
   // layers, for a large result) when the underlying *data* changes — a new search result or
   // a crop-filter change. Selecting/deselecting a field is a per-layer style tweak, applied
   // imperatively below via layersByIdRef, so it's deliberately excluded from this key: doing
-  // otherwise would recreate the entire polygon set on every single field click.
-  const geoJsonDataKey = `${center?.lat}-${center?.lng}-${selectedCrop}`
+  // otherwise would recreate the entire polygon set on every single field click. `searchToken`
+  // (not just center/lat-lng) is included so a repeat click on the same coordinate with
+  // different grid/max-search settings — same lat/lng, different actual result — still forces
+  // a remount instead of silently keeping the previous search's stale polygons on screen.
+  const geoJsonDataKey = `${searchToken}-${center?.lat}-${center?.lng}-${selectedCrop}`
   const layersByIdRef = useRef(new Map<string, Layer>())
   const prevDataKeyRef = useRef(geoJsonDataKey)
   if (prevDataKeyRef.current !== geoJsonDataKey) {
@@ -236,7 +257,7 @@ export function MapView({
         <ResetToDefaultView resetToken={resetToken} />
 
         {center && (
-          <FitToData center={center} fieldCollection={fieldCollection} anchorToCenter={!isNearbyCoverage} />
+          <FitToData center={center} fieldCollection={fieldCollection} anchorToCenter={!isNearbyCoverage} gridKm={gridKm} />
         )}
 
         {center && isNearbyCoverage && coverage?.nearestDistanceKm !== null && coverage?.nearestDistanceKm !== undefined && (
