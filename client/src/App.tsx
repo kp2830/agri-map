@@ -403,7 +403,14 @@ function App() {
 
                 <section className="border-t border-slate-100 pt-5">
                   <h2 className="mb-3 text-sm font-semibold text-slate-900">Field details</h2>
-                  <FieldDetailsPanel feature={selectedFeature} cropColorMap={cropColorMap} />
+                  {/* Keyed by field id so selecting a different field mounts a fresh instance —
+                      resetting its "History" view back to the Current Season History default
+                      rather than carrying forward the previously-selected field's choice. */}
+                  <FieldDetailsPanel
+                    key={selectedFeature ? String(selectedFeature.id) : 'none'}
+                    feature={selectedFeature}
+                    cropColorMap={cropColorMap}
+                  />
                 </section>
               </div>
             )}

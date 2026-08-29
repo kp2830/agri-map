@@ -148,6 +148,60 @@ export function getPrimaryCrop(properties: NormalizedFieldProperties): string | 
   return null
 }
 
+/** The single season that produced the current crop determination — whichever one
+ *  getActiveCropOutcome actually used ('observed'/'fallback' -> its season, 'seasonal' -> the
+ *  matched historical season), or null when there's no crop determination at all ('none'). This
+ *  is "why we're showing this crop," independent of presentation — used to drive the Current
+ *  Season History filter below without re-deriving or duplicating the selection logic. */
+export function getSeasonalReferenceSeason(outcome: ActiveCropOutcome): MonitoringSeason | null {
+  if (outcome.kind === 'observed' || outcome.kind === 'fallback') return outcome.season
+  if (outcome.kind === 'seasonal') return outcome.matchedSeason
+  return null
+}
+
+/** Whether calendar windows [aStart, aEnd] and [bStart, bEnd] (day-of-year ordinals, each
+ *  possibly wrapping the year boundary) share any point on the calendar — i.e. either window
+ *  contains either endpoint of the other. Covers partial overlap and full containment. */
+function windowsOverlap(aStart: number, aEnd: number, bStart: number, bEnd: number): boolean {
+  return (
+    ordinalInWindow(bStart, aStart, aEnd) ||
+    ordinalInWindow(bEnd, aStart, aEnd) ||
+    ordinalInWindow(aStart, bStart, bEnd) ||
+    ordinalInWindow(aEnd, bStart, bEnd)
+  )
+}
+
+/**
+ * The subset of a field's historical monitoring seasons that share the same time-of-year
+ * period as the season behind the current crop determination (see getSeasonalReferenceSeason)
+ * — i.e. "which historical records explain why we're showing this crop." Matched purely by
+ * calendar month/day window overlap (year discarded), the same concept the recency-first
+ * selection itself uses — not by crop name, so this works identically for any crop AMED
+ * returns.
+ *
+ * This is a presentation-only filter: it never mutates `properties.monitoring`, and always
+ * includes the reference season itself (its window trivially overlaps itself), so the record
+ * that actually produced the current crop is always visible in this view. Returns an empty
+ * array only when there's no crop determination to explain in the first place ('none').
+ */
+export function getCurrentSeasonHistory(
+  properties: NormalizedFieldProperties,
+  outcome: ActiveCropOutcome,
+): MonitoringSeason[] {
+  const seasons = properties.monitoring ?? []
+  const reference = getSeasonalReferenceSeason(outcome)
+  if (!reference) return []
+
+  const refStart = dayOfYear(reference.startTimestampSec)
+  const refEnd = dayOfYear(reference.endTimestampSec)
+  if (!Number.isFinite(refStart) || !Number.isFinite(refEnd)) return seasons.filter((season) => season === reference)
+
+  return seasons.filter((season) => {
+    if (!Number.isFinite(season.startTimestampSec) || !Number.isFinite(season.endTimestampSec)) return false
+    return windowsOverlap(refStart, refEnd, dayOfYear(season.startTimestampSec), dayOfYear(season.endTimestampSec))
+  })
+}
+
 /**
  * Assigns the 8 fixed categorical colors to the largest real crops (by mapped
  * area) in a dataset, in rank order. Crops beyond the 8th, plus the null/

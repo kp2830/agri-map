@@ -1,3 +1,4 @@
+import { useId, useMemo, useState } from 'react'
 import type { NormalizedFieldFeature } from '../../types/agricultural'
 import {
   colorForCropLabel,
@@ -7,6 +8,7 @@ import {
   formatPercent,
   formatTimestamp,
   getActiveCropOutcome,
+  getCurrentSeasonHistory,
   getPrimaryCrop,
 } from './cropDisplay'
 
@@ -14,6 +16,11 @@ interface FieldDetailsPanelProps {
   feature: NormalizedFieldFeature | null
   cropColorMap: Map<string, string>
 }
+
+type HistoryView = 'current' | 'complete'
+
+const historySelectClasses =
+  'rounded-md border border-slate-300 bg-white px-2 py-1 text-xs font-medium text-slate-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500'
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
@@ -29,7 +36,21 @@ function SectionHeading({ children }: { children: string }) {
 }
 
 export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelProps) {
-  if (!feature) {
+  // Hooks must run unconditionally on every render, so these come before the `!feature` early
+  // return below. The parent keys this component by field id, so a newly-selected field mounts
+  // a fresh instance and this always starts back at the default, "Current Season History" —
+  // the user never has to re-pick it per field.
+  const [historyView, setHistoryView] = useState<HistoryView>('current')
+  const historyViewId = useId()
+
+  const properties = feature?.properties ?? null
+  const outcome = useMemo(() => (properties ? getActiveCropOutcome(properties) : null), [properties])
+  const currentSeasonHistory = useMemo(
+    () => (properties && outcome ? getCurrentSeasonHistory(properties, outcome) : []),
+    [properties, outcome],
+  )
+
+  if (!feature || !properties || !outcome) {
     return (
       <p className="text-sm text-slate-500">
         Click a field on the map to inspect its ALU classification and, where available, its AMED crop prediction.
@@ -37,24 +58,24 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
     )
   }
 
-  const { properties } = feature
   const seasons = properties.monitoring ?? []
   const sortedSeasons = [...seasons].sort((a, b) => b.startTimestampSec - a.startTimestampSec)
+  const sortedCurrentSeasonHistory = [...currentSeasonHistory].sort((a, b) => b.startTimestampSec - a.startTimestampSec)
+
+  // Which records the "History" dropdown below actually renders — a local, presentation-only
+  // choice that never touches `properties.monitoring` itself or re-derives the crop (see
+  // getCurrentSeasonHistory / getSeasonalReferenceSeason in cropDisplay.ts).
+  const historySeasons = historyView === 'current' ? sortedCurrentSeasonHistory : sortedSeasons
 
   // The single source of truth for "which season's crop to show" — reused for both the label
   // and its own sowing/harvest dates/predictions, so they can never disagree (see
   // getActiveCropOutcome for why this isn't simply "whichever season started most recently"
   // in a way that ignores AMED's reporting lag, and why a 'seasonal' inference is kept
   // distinct from a directly-observed one).
-  const outcome = getActiveCropOutcome(properties)
   const activeSeason = outcome.kind === 'observed' || outcome.kind === 'fallback' ? outcome.season : null
   const primaryCrop = getPrimaryCrop(properties)
   const primaryPrediction = activeSeason?.predictions[0] ?? null
   const alternativePredictions = activeSeason?.predictions.slice(1) ?? []
-  // For a 'seasonal' inference there is no single season being "shown as current" — it's a
-  // pattern across several past seasons — so nothing is excluded and the full history
-  // (including the seasons that fed the inference) stays visible below.
-  const pastSeasons = sortedSeasons.filter((season) => season !== activeSeason)
 
   return (
     <div className="space-y-5">
@@ -126,11 +147,27 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
         </div>
       )}
 
-      {pastSeasons.length > 0 && (
+      {sortedSeasons.length > 0 && (
         <div>
           <SectionHeading>Historical monitoring</SectionHeading>
-          <ul className="mt-1 space-y-2">
-            {pastSeasons.map((season, index) => (
+
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <label htmlFor={historyViewId} className="text-xs font-medium text-slate-500">
+              History
+            </label>
+            <select
+              id={historyViewId}
+              value={historyView}
+              onChange={(event) => setHistoryView(event.target.value as HistoryView)}
+              className={historySelectClasses}
+            >
+              <option value="current">Current Season History</option>
+              <option value="complete">Complete History</option>
+            </select>
+          </div>
+
+          <ul className="mt-2 space-y-2">
+            {historySeasons.map((season, index) => (
               <li key={index} className="flex items-baseline justify-between gap-2 text-sm">
                 <span className="text-slate-500">
                   {formatTimestamp(season.startTimestampSec)} – {formatTimestamp(season.endTimestampSec)}
