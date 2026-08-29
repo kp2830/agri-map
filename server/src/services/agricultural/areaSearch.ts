@@ -2,7 +2,7 @@ import { cellTokenToCellId, cellTokenToLatLng, getCellTokensForSquareArea } from
 import type { NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural.js'
 import { fetchLandscape } from './alu/index.js'
 import { fetchMonitoring } from './amed/index.js'
-import { getOrFetchCell } from './cellCache.js'
+import { getCacheDiagnostics, getOrFetchCell } from './cellCache.js'
 import { joinLandscapeWithMonitoring } from './normalize.js'
 
 /** Thrown when a search is abandoned because the caller's AbortSignal fired (e.g. the
@@ -270,6 +270,7 @@ export async function searchAgriculturalArea(
   signal?: AbortSignal,
 ): Promise<AreaSearchResult> {
   const searchStartedAt = Date.now()
+  const memBefore = process.memoryUsage()
   const selected: LatLng = { lat, lng }
   const expansionStepsSideKm = buildExpansionStepsSideKm(gridKm, maxSearchKm)
   const queriedTokens = new Set<string>()
@@ -344,8 +345,13 @@ export async function searchAgriculturalArea(
   }
 
   function logSummary(status: string): void {
+    const memAfter = process.memoryUsage()
+    const mb = (bytes: number) => Math.round((bytes / (1024 * 1024)) * 10) / 10
+    const cacheStats = getCacheDiagnostics()
     console.log(
-      `[areaSearch] done status=${status} cellsQueried=${queriedTokens.size} attempted=${attempted} cacheHits=${cacheHits} coalesced=${coalescedHits} mergeMs=${mergeMs} nearestMs=${nearestMs} totalMs=${Date.now() - searchStartedAt}`,
+      `[areaSearch] done status=${status} cellsQueried=${queriedTokens.size} attempted=${attempted} cacheHits=${cacheHits} coalesced=${coalescedHits} mergeMs=${mergeMs} nearestMs=${nearestMs} totalMs=${Date.now() - searchStartedAt} ` +
+        `heapUsedBeforeMB=${mb(memBefore.heapUsed)} heapUsedAfterMB=${mb(memAfter.heapUsed)} rssBeforeMB=${mb(memBefore.rss)} rssAfterMB=${mb(memAfter.rss)} ` +
+        `cacheEntries=${cacheStats.entries} cacheBytesMB=${mb(cacheStats.totalBytes)}`,
     )
   }
 
