@@ -44,12 +44,16 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
   // The single source of truth for "which season's crop to show" — reused for both the label
   // and its own sowing/harvest dates/predictions, so they can never disagree (see
   // getActiveCropOutcome for why this isn't simply "whichever season started most recently"
-  // in a way that ignores AMED's reporting lag).
+  // in a way that ignores AMED's reporting lag, and why a 'seasonal' inference is kept
+  // distinct from a directly-observed one).
   const outcome = getActiveCropOutcome(properties)
-  const activeSeason = outcome.kind === 'active' ? outcome.season : null
+  const activeSeason = outcome.kind === 'observed' || outcome.kind === 'fallback' ? outcome.season : null
   const primaryCrop = getPrimaryCrop(properties)
   const primaryPrediction = activeSeason?.predictions[0] ?? null
   const alternativePredictions = activeSeason?.predictions.slice(1) ?? []
+  // For a 'seasonal' inference there is no single season being "shown as current" — it's a
+  // pattern across several past seasons — so nothing is excluded and the full history
+  // (including the seasons that fed the inference) stays visible below.
   const pastSeasons = sortedSeasons.filter((season) => season !== activeSeason)
 
   return (
@@ -81,6 +85,18 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
         <p className="rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-500">
           No crop monitoring data is available for this field.
         </p>
+      ) : outcome.kind === 'seasonal' ? (
+        <div>
+          <SectionHeading>Crop</SectionHeading>
+          <dl className="mt-1 divide-y divide-slate-50">
+            <DetailRow label="Seasonal crop" value={formatCropLabel(primaryCrop)} />
+          </dl>
+          <p className="mt-2 rounded-md bg-slate-50 px-3 py-2 text-xs text-slate-500">
+            Based on a recurring pattern in this field's historical monitoring for this time of
+            year ({outcome.matchingSeasons.length} matching past seasons) — not a crop AMED is
+            currently observing.
+          </p>
+        </div>
       ) : (
         <div>
           <SectionHeading>Crop</SectionHeading>
