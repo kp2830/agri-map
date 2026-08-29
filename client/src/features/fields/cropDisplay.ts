@@ -34,7 +34,7 @@ const NEUTRAL_ALU_COLORS: Record<Exclude<AluFeatureType, 'field'>, string> = {
 
 export type ActiveCropOutcome =
   | { kind: 'observed'; season: MonitoringSeason }
-  | { kind: 'seasonal'; crop: string; matchingSeasons: MonitoringSeason[] }
+  | { kind: 'seasonal'; crop: string; matchedSeason: MonitoringSeason }
   | { kind: 'fallback'; season: MonitoringSeason }
   | { kind: 'none' }
 
@@ -57,25 +57,20 @@ function ordinalInWindow(ordinal: number, startOrdinal: number, endOrdinal: numb
 }
 
 /**
- * Among a field's historical seasons, finds a crop with a strong recurring pattern covering
- * today's calendar position — e.g. "this field has grown Rice every July-November for the
- * last five years" — regardless of which absolute year each occurrence happened in. Compares
- * calendar month/day windows, not array position or absolute recency alone.
+ * Among a field's historical seasons, finds the crop grown during the NEWEST historical
+ * occurrence of today's calendar period — e.g. "what was this field growing around this same
+ * time of year, most recently?" Compares calendar month/day windows (year discarded) to decide
+ * whether a season covers today's position, but uses the season's actual (year-bearing) start
+ * timestamp purely to rank which matching occurrence is most recent.
  *
- * Requires at least 2 historical occurrences overlapping today's calendar day (a single match
- * isn't "recurring"), and requires the dominant crop among those to be a strict majority
- * (>50%) — so a 2-for-2 or 2-of-3 agreement counts as strong, but an even split or fields with
- * a different crop every occurrence (no reliable pattern) correctly return null rather than
- * guessing. Ties in occurrence count are broken by whichever crop's most recent matching
- * occurrence is more recent, per "give priority to the most recent historical year."
+ * A single matching season is sufficient — this is recency-first selection, not a vote. When
+ * multiple seasons match, the newest one wins outright regardless of what any other year grew;
+ * there is no requirement that a crop recur or be any kind of majority among matches.
  *
- * Returns null (no confident pattern) rather than fabricating a crop when evidence is thin or
- * conflicting — the caller falls back to existing behavior in that case.
+ * Returns null only when no historical season's calendar window covers today at all — the
+ * caller falls back to existing most-recent-available behavior in that case.
  */
-function inferSeasonalCrop(
-  seasons: MonitoringSeason[],
-  nowSec: number,
-): { crop: string; matchingSeasons: MonitoringSeason[] } | null {
+function inferSeasonalCrop(seasons: MonitoringSeason[], nowSec: number): { crop: string; matchedSeason: MonitoringSeason } | null {
   const todayOrdinal = dayOfYear(nowSec)
 
   const matching = seasons.filter((season) => {
@@ -84,33 +79,10 @@ function inferSeasonalCrop(
     return ordinalInWindow(todayOrdinal, dayOfYear(season.startTimestampSec), dayOfYear(season.endTimestampSec))
   })
 
-  if (matching.length < 2) return null
+  if (matching.length === 0) return null
 
-  const seasonsByCrop = new Map<string, MonitoringSeason[]>()
-  for (const season of matching) {
-    const crop = season.predictions[0].crop
-    const list = seasonsByCrop.get(crop)
-    if (list) list.push(season)
-    else seasonsByCrop.set(crop, [season])
-  }
-
-  const mostRecentStart = (group: MonitoringSeason[]) => Math.max(...group.map((season) => season.startTimestampSec))
-
-  let bestCrop: string | null = null
-  let bestGroup: MonitoringSeason[] = []
-  for (const [crop, group] of seasonsByCrop) {
-    const isBetter =
-      bestCrop === null ||
-      group.length > bestGroup.length ||
-      (group.length === bestGroup.length && mostRecentStart(group) > mostRecentStart(bestGroup))
-    if (isBetter) {
-      bestCrop = crop
-      bestGroup = group
-    }
-  }
-
-  if (bestCrop === null || bestGroup.length / matching.length <= 0.5) return null
-  return { crop: bestCrop, matchingSeasons: bestGroup }
+  const newest = matching.reduce((latest, season) => (season.startTimestampSec > latest.startTimestampSec ? season : latest))
+  return { crop: newest.predictions[0].crop, matchedSeason: newest }
 }
 
 /**
@@ -118,11 +90,12 @@ function inferSeasonalCrop(
  *
  * 1. 'observed' — a monitoring season's [start, end] window genuinely covers `nowSec`. The
  *    strongest possible signal AMED could give; used directly.
- * 2. 'seasonal' — no season is currently active (the normal case in practice — see below),
- *    but the field's own history shows a strong recurring crop for this calendar period (see
- *    inferSeasonalCrop). This is an inference from the field's own pattern, not a direct AMED
- *    observation for today, and callers must present it as such (e.g. "Seasonal crop", not
- *    "Current crop") rather than implying AMED observed it happening right now.
+ * 2. 'seasonal' — no season is currently active (the normal case in practice — see below), but
+ *    a past season's calendar month/day window covers today's calendar position (see
+ *    inferSeasonalCrop) — i.e. "what was this field growing around this time of year, most
+ *    recently?" This is an inference from the field's own history, not a direct AMED
+ *    observation for today, and callers must present it as such (distinguishing it from a
+ *    directly-observed crop) rather than implying AMED observed it happening right now.
  * 3. 'fallback' — no active season and no reliable recurring pattern: use the most recently
  *    *started* season, exactly as this app behaved before any date-aware detection existed.
  *    Its own end date having passed is not treated as evidence of anything.
@@ -158,7 +131,7 @@ export function getActiveCropOutcome(
   }
 
   const seasonal = inferSeasonalCrop(seasons, nowSec)
-  if (seasonal) return { kind: 'seasonal', crop: seasonal.crop, matchingSeasons: seasonal.matchingSeasons }
+  if (seasonal) return { kind: 'seasonal', crop: seasonal.crop, matchedSeason: seasonal.matchedSeason }
 
   const season = seasons.reduce((latest, season) => (season.startTimestampSec > latest.startTimestampSec ? season : latest))
   return { kind: 'fallback', season }

@@ -89,11 +89,14 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
         <div>
           <SectionHeading>Crop</SectionHeading>
           <dl className="mt-1 divide-y divide-slate-50">
-            <DetailRow label="Seasonal crop" value={formatCropLabel(primaryCrop)} />
+            <DetailRow label="Current crop" value={formatCropLabel(primaryCrop)} />
+            <DetailRow label="Seasonal basis" value="Historical seasonal match" />
           </dl>
           <p className="mt-2 rounded-md bg-slate-50 px-3 py-2 text-xs text-slate-500">
-            Based on a recurring pattern in this field's historical monitoring for this time of
-            year ({outcome.matchingSeasons.length} matching past seasons) — not a crop AMED is
+            AMED has no monitoring window covering today. This crop is carried forward from this
+            field's most recent historical season that covered this same time of year (
+            {formatTimestamp(outcome.matchedSeason.startTimestampSec)} –{' '}
+            {formatTimestamp(outcome.matchedSeason.endTimestampSec)}) — not a crop AMED is
             currently observing.
           </p>
         </div>
