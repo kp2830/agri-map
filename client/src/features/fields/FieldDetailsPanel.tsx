@@ -6,7 +6,9 @@ import {
   formatCropLabel,
   formatPercent,
   formatTimestamp,
+  getActiveCropOutcome,
   getPrimaryCrop,
+  HARVESTED_FALLOW,
 } from './cropDisplay'
 
 interface FieldDetailsPanelProps {
@@ -39,10 +41,20 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
   const { properties } = feature
   const seasons = properties.monitoring ?? []
   const sortedSeasons = [...seasons].sort((a, b) => b.startTimestampSec - a.startTimestampSec)
-  const [currentSeason, ...pastSeasons] = sortedSeasons
-  const primaryCrop = currentSeason ? getPrimaryCrop(properties) : null
-  const primaryPrediction = currentSeason?.predictions[0] ?? null
-  const alternativePredictions = currentSeason?.predictions.slice(1) ?? []
+
+  // What's actually growing today — not just whichever season started most recently, since
+  // that season may have already been harvested with nothing newer in the data (see
+  // getActiveCropOutcome). Only an outcome of 'active' has a season currently being grown;
+  // 'harvested' still carries its last real season so history keeps showing it below.
+  const outcome = getActiveCropOutcome(properties)
+  const activeSeason = outcome.kind === 'active' ? outcome.season : null
+  const primaryCrop = getPrimaryCrop(properties)
+  const primaryPrediction = activeSeason?.predictions[0] ?? null
+  const alternativePredictions = activeSeason?.predictions.slice(1) ?? []
+  // The harvested-but-superseded season (if any) is deliberately NOT excluded here — once a
+  // season is no longer active, it belongs entirely to history, including the one that just
+  // ended (e.g. "Historical: Wheat" from the example in the task).
+  const pastSeasons = sortedSeasons.filter((season) => season !== activeSeason)
 
   return (
     <div className="space-y-5">
@@ -69,18 +81,25 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
         <p className="rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-500">
           Crop monitoring only applies to field-type features.
         </p>
-      ) : !currentSeason ? (
+      ) : outcome.kind === 'none' ? (
         <p className="rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-500">
           No crop monitoring data is available for this field.
         </p>
+      ) : outcome.kind === 'harvested' ? (
+        <div>
+          <SectionHeading>Crop</SectionHeading>
+          <dl className="mt-1 divide-y divide-slate-50">
+            <DetailRow label="Current crop" value={formatCropLabel(HARVESTED_FALLOW)} />
+          </dl>
+        </div>
       ) : (
         <div>
           <SectionHeading>Crop</SectionHeading>
           <dl className="mt-1 divide-y divide-slate-50">
             <DetailRow label="Current crop" value={formatCropLabel(primaryCrop)} />
             {primaryPrediction && <DetailRow label="Crop confidence" value={formatPercent(primaryPrediction.confidence)} />}
-            <DetailRow label="Sowing" value={formatTimestamp(currentSeason.startTimestampSec)} />
-            <DetailRow label="Harvest" value={formatTimestamp(currentSeason.endTimestampSec)} />
+            <DetailRow label="Sowing" value={formatTimestamp(outcome.season.startTimestampSec)} />
+            <DetailRow label="Harvest" value={formatTimestamp(outcome.season.endTimestampSec)} />
           </dl>
 
           {alternativePredictions.length > 0 && (

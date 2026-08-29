@@ -57,6 +57,74 @@ function BrandMark() {
 const DEFAULT_GRID_KM = 3
 const DEFAULT_MAX_SEARCH_KM = 10
 
+/**
+ * Shown after a map click, before any agricultural API call is made — an accidental click
+ * must cost zero ALU/AMED requests. Deliberately a normal in-app panel (not window.confirm),
+ * consistent with the rest of AgriMap's visual language. Clicking Analyze on the existing
+ * manual lat/lng form never goes through this — the confirmation is specific to map clicks.
+ */
+function ConfirmAnalysisModal({
+  lat,
+  lng,
+  onCancel,
+  onConfirm,
+}: {
+  lat: number
+  lng: number
+  onCancel: () => void
+  onConfirm: () => void
+}) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') onCancel()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onCancel])
+
+  return (
+    <div
+      className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-900/40 px-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-analysis-title"
+    >
+      <div className="w-full max-w-sm rounded-lg border border-slate-200 bg-white p-5 shadow-xl">
+        <h2 id="confirm-analysis-title" className="text-sm font-semibold text-slate-900">
+          Analyze this location?
+        </h2>
+        <dl className="mt-3 space-y-1 text-sm">
+          <div className="flex items-baseline justify-between">
+            <dt className="text-slate-500">Latitude</dt>
+            <dd className="font-medium text-slate-800">{lat.toFixed(4)}</dd>
+          </div>
+          <div className="flex items-baseline justify-between">
+            <dt className="text-slate-500">Longitude</dt>
+            <dd className="font-medium text-slate-800">{lng.toFixed(4)}</dd>
+          </div>
+        </dl>
+        <p className="mt-3 text-xs text-slate-500">This will search agricultural field data around this location.</p>
+        <div className="mt-4 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            className="rounded-md bg-emerald-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          >
+            Analyze
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function SummarySkeleton({ searchingLong }: { searchingLong: boolean }) {
   return (
     <div className="space-y-3.5" role="status" aria-label="Loading agricultural data">
@@ -95,6 +163,11 @@ function App() {
   // Bumped every time a new search actually starts — lets MapView force a GeoJSON remount even
   // if the click happens to repeat the exact same lat/lng with different grid/max-search values.
   const [searchToken, setSearchToken] = useState(0)
+  // A map click that hasn't been confirmed yet — set immediately on click, but nothing is
+  // searched until the user explicitly presses Analyze in the confirmation panel. Clicking a
+  // different spot while this is open simply overwrites it with the newest location; no API
+  // call has happened either way.
+  const [pendingClick, setPendingClick] = useState<{ lat: number; lng: number } | null>(null)
 
   useEffect(() => {
     if (state.status !== 'loading') return
@@ -121,14 +194,32 @@ function App() {
   }
 
   function handleSubmit(lat: number, lng: number) {
+    setPendingClick(null)
     void analyze(lat, lng)
   }
 
+  // A map click never searches directly — it only captures the coordinate and shows a
+  // confirmation panel. Zero agricultural API requests happen until the user presses Analyze
+  // there. This intentionally runs the same whether or not a search is already in progress:
+  // a click during an active search still requires confirmation rather than silently starting
+  // a second one, and confirming it then supersedes the old search via the existing
+  // request-id/AbortController machinery in useAgriculturalFields (unchanged).
   function handleMapClick(lat: number, lng: number) {
     markPerf('click')
     setLatInput(String(lat))
     setLngInput(String(lng))
+    setPendingClick({ lat, lng })
+  }
+
+  function handleConfirmPendingClick() {
+    if (!pendingClick) return
+    const { lat, lng } = pendingClick
+    setPendingClick(null)
     void analyze(lat, lng)
+  }
+
+  function handleCancelPendingClick() {
+    setPendingClick(null)
   }
 
   // Selecting a field is purely local state — no network request. The coordinate inputs
@@ -156,6 +247,7 @@ function App() {
     setLatInput(String(defaultMapCenter.lat))
     setLngInput(String(defaultMapCenter.lng))
     setMapResetToken((token) => token + 1)
+    setPendingClick(null)
   }
 
   const fieldCollection = state.status === 'success' ? state.data.fieldCollection : null
@@ -187,6 +279,7 @@ function App() {
   }
 
   return (
+    <>
     <div className="flex h-screen min-h-0 flex-col bg-slate-50">
       <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
         <div className="flex items-center gap-2.5">
@@ -318,6 +411,16 @@ function App() {
         </aside>
       </div>
     </div>
+
+    {pendingClick && (
+      <ConfirmAnalysisModal
+        lat={pendingClick.lat}
+        lng={pendingClick.lng}
+        onCancel={handleCancelPendingClick}
+        onConfirm={handleConfirmPendingClick}
+      />
+    )}
+    </>
   )
 }
 
