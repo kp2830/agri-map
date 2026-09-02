@@ -1,0 +1,196 @@
+{
+  "experiment_a": {
+    "name": "EXPERIMENT A: 25 founder positives vs 205 existing Indian negatives (2021 Deccan)",
+    "n_rows": 230,
+    "n_positive": 25,
+    "n_class0": 205,
+    "precision": 0.7586206896551724,
+    "recall": 0.88,
+    "f1": 0.8148148148148148,
+    "roc_auc": 0.9849756097560975,
+    "pr_auc": 0.8669418036808612,
+    "confusion_matrix": [
+      [
+        198,
+        7
+      ],
+      [
+        3,
+        22
+      ]
+    ],
+    "fold_roc_aucs": [
+      0.9951219512195122,
+      0.9658536585365853,
+      0.9951219512195122,
+      0.975609756097561,
+      1.0
+    ],
+    "fold_roc_auc_mean": 0.9863414634146341,
+    "probability_distribution": {
+      "positive": {
+        "min": 0.10123303151861765,
+        "max": 0.9768164960219196,
+        "mean": 0.7712704561933339,
+        "median": 0.8719270593002966
+      },
+      "class0": {
+        "min": 0.0,
+        "max": 0.9478423779408917,
+        "mean": 0.04730373714409377,
+        "median": 0.005359477124183006
+      }
+    },
+    "feature_importances": [
+      {
+        "feature": "ndvi_apr_june_change",
+        "importance": 0.26113286717696715
+      },
+      {
+        "feature": "ndvi_apr",
+        "importance": 0.16015998110149438
+      },
+      {
+        "feature": "ndre_apr",
+        "importance": 0.09742104814806106
+      },
+      {
+        "feature": "ndyi_apr",
+        "importance": 0.09675022522547007
+      },
+      {
+        "feature": "ndvi_june",
+        "importance": 0.08227577502888767
+      },
+      {
+        "feature": "ndwi_apr",
+        "importance": 0.0810924146034531
+      },
+      {
+        "feature": "ndvi_may",
+        "importance": 0.046506591751528915
+      },
+      {
+        "feature": "ndwi_june",
+        "importance": 0.043956149925795086
+      },
+      {
+        "feature": "ndre_june",
+        "importance": 0.040444602499474215
+      },
+      {
+        "feature": "ndyi_june",
+        "importance": 0.03232693368520727
+      },
+      {
+        "feature": "ndre_may",
+        "importance": 0.025573538908233245
+      },
+      {
+        "feature": "ndwi_may",
+        "importance": 0.025519465403231644
+      },
+      {
+        "feature": "ndyi_may",
+        "importance": 0.00684040654219625
+      }
+    ]
+  },
+  "experiment_b": {
+    "name": "EXPERIMENT B: 25 founder positives vs 211 same-region/same-season Tier D background (NOT confirmed negatives)",
+    "n_rows": 236,
+    "n_positive": 25,
+    "n_class0": 211,
+    "precision": 0.92,
+    "recall": 0.92,
+    "f1": 0.92,
+    "roc_auc": 0.9984834123222749,
+    "pr_auc": 0.988888888888889,
+    "confusion_matrix": [
+      [
+        209,
+        2
+      ],
+      [
+        2,
+        23
+      ]
+    ],
+    "fold_roc_aucs": [
+      1.0,
+      1.0,
+      0.9904761904761905,
+      1.0,
+      1.0
+    ],
+    "fold_roc_auc_mean": 0.9980952380952381,
+    "probability_distribution": {
+      "positive": {
+        "min": 0.26243924871894986,
+        "max": 0.9990480880535431,
+        "mean": 0.8888888980406202,
+        "median": 0.9422106428925908
+      },
+      "class0": {
+        "min": 0.0,
+        "max": 0.6753516677662534,
+        "mean": 0.02083283260944238,
+        "median": 0.0
+      }
+    },
+    "feature_importances": [
+      {
+        "feature": "ndvi_apr_june_change",
+        "importance": 0.211136133407468
+      },
+      {
+        "feature": "ndvi_apr",
+        "importance": 0.20954160053350535
+      },
+      {
+        "feature": "ndwi_apr",
+        "importance": 0.16361362499294235
+      },
+      {
+        "feature": "ndre_apr",
+        "importance": 0.14380521237988228
+      },
+      {
+        "feature": "ndyi_apr",
+        "importance": 0.08240057289568026
+      },
+      {
+        "feature": "ndvi_may",
+        "importance": 0.046166654600947314
+      },
+      {
+        "feature": "ndre_may",
+        "importance": 0.03484668349151038
+      },
+      {
+        "feature": "ndwi_may",
+        "importance": 0.029653332689938184
+      },
+      {
+        "feature": "ndvi_june",
+        "importance": 0.028904215937748508
+      },
+      {
+        "feature": "ndwi_june",
+        "importance": 0.016559590457978956
+      },
+      {
+        "feature": "ndre_june",
+        "importance": 0.013357185657900044
+      },
+      {
+        "feature": "ndyi_june",
+        "importance": 0.012942130129857739
+      },
+      {
+        "feature": "ndyi_may",
+        "importance": 0.007073062824640547
+      }
+    ]
+  }
+}

@@ -1,0 +1,695 @@
+[
+  {
+    "field_id": "7J9R7RPQ+JGVC",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.1846,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.286582224999997,
+    "lng": 76.838700275,
+    "job_id": "j-2609020852334dceb29798ccd944f7ef",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:52:33Z",
+    "costs": 10,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 3918
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 356
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 18.383999824523926
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.7767562866210938
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 18063360
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 18063360
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 49494943695
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3801088
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7J9VWGM3+W54G",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.3545,
+    "season": "kharif",
+    "year": 2023,
+    "lat": 17.934708939130434,
+    "lng": 77.50289631739129,
+    "job_id": "j-2609020852494c4c89c15cc92572f99f",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:52:49Z",
+    "costs": 9,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 3318
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 474
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 21.91831684112549
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.618804931640625
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 15667200
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 15667200
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 21358368640
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 7733248
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7J9QPW67+4JPH",
+    "region": "Maharashtra",
+    "district": "Solapur",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.4933,
+    "season": "kharif",
+    "year": 2022,
+    "lat": 17.71035600769231,
+    "lng": 75.91408846153846,
+    "job_id": "j-2609020853024223bdf7cf6b63d5930b",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:53:02Z",
+    "costs": 10,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 4068
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 706
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 18.601252555847168
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.041797637939453
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 18800640
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 18800640
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 26952260283
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3801088
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7J9QPW49+9GVX",
+    "region": "Maharashtra",
+    "district": "Solapur",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.6091,
+    "season": "rabi",
+    "year": 2023,
+    "lat": 17.705968939999998,
+    "lng": 75.91884216,
+    "job_id": "j-26090208531743eb8a106d9059634583",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:53:17Z",
+    "costs": 8,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 2532
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 832
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 18.602771759033203
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.1420936584472656
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 11980800
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 11980800
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 22819201099
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3801088
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7J9VWFCH+RGV9",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.7379,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.92204243333333,
+    "lng": 77.47883074444444,
+    "job_id": "j-2609020853304eadac3d3eb3d399af0f",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:53:30Z",
+    "costs": 9,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 3684
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 1036
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 21.915249824523926
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.285503387451172
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 16957440
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 16957440
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 21220787588
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 7733248
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7JCRCHH4+383J",
+    "region": "Maharashtra",
+    "district": "Latur",
+    "crop_label": "SORGHUM",
+    "amed_confidence": 0.3312,
+    "season": "rabi",
+    "year": 2024,
+    "lat": 18.427625827272728,
+    "lng": 76.55584679999998,
+    "job_id": "j-2609020853444c968be98f8374a038ae",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:53:44Z",
+    "costs": 10,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 4008
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 1233
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 19.25899028778076
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.2446212768554688
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 18616320
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 18616320
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 40001550557
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3801088
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7J9R7VRF+J2P5",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "SORGHUM",
+    "amed_confidence": 0.4176,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.291513348,
+    "lng": 76.87262618800001,
+    "job_id": "j-2609020853574ec28024b013e4adf41f",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:53:57Z",
+    "costs": 12,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 5016
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 1455
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 18.383999824523926
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 2.9715347290039062
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 23040000
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 23040000
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 49791541073
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3801088
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7J9R9VF4+8XH2",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "SORGHUM",
+    "amed_confidence": 0.634,
+    "season": "rabi",
+    "year": 2024,
+    "lat": 17.373379228571427,
+    "lng": 76.85746025714285,
+    "job_id": "j-260902085409422a883157024dff9c0c",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:54:09Z",
+    "costs": 8,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 2574
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 1760
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 18.383968353271484
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 2.8238525390625
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 12718080
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 12718080
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 45123190780
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3801088
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7J9VWFXW+294C",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "RICE",
+    "amed_confidence": 0.2285,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.947437412499998,
+    "lng": 77.49589166875002,
+    "job_id": "j-2609020854214859934dc5c07e8b6a9b",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "finished",
+    "created": "2026-09-02T08:54:21Z",
+    "costs": 8,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 2322
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 1790
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 21.91831684112549
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.2169723510742188
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 11059200
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 11059200
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 19829975351
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 7733248
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "field_id": "7J6VPJ4P+J2QH",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "RICE",
+    "amed_confidence": 0.5761,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 14.706540781818184,
+    "lng": 77.63515092727272,
+    "job_id": "j-2609020854344a31bd87c2952ebb12cb",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "running",
+    "created": "2026-09-02T08:54:34Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J8VPXJF+XQVJ",
+    "region": "Telangana",
+    "district": "Mahbubnagar",
+    "crop_label": "RICE",
+    "amed_confidence": 0.6286,
+    "season": "rabi",
+    "year": 2026,
+    "lat": 16.73250485,
+    "lng": 77.97445316999999,
+    "job_id": "j-2609020854524926b5bb7a218b4824ad",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "running",
+    "created": "2026-09-02T08:54:52Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J6VPJCR+4X3X",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "RICE",
+    "amed_confidence": 0.6386,
+    "season": "rabi",
+    "year": 2026,
+    "lat": 14.720288954545454,
+    "lng": 77.64244140909092,
+    "job_id": "j-2609020855094bccb76eaa9ad3ae4a06",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:55:09Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J9VXH64+H742",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "COTTON",
+    "amed_confidence": 0.3042,
+    "season": "kharif",
+    "year": 2022,
+    "lat": 17.96171407065217,
+    "lng": 77.55568888804346,
+    "job_id": "j-26090208553243ecb0822d053dd947c9",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:55:32Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J9VXH44+8PF5",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "COTTON",
+    "amed_confidence": 0.4413,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.955784992000005,
+    "lng": 77.556864736,
+    "job_id": "j-2609020855504bf9a065bf1ddc3f7495",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:55:50Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J9R7RPG+QV4W",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "COTTON",
+    "amed_confidence": 0.6599,
+    "season": "kharif",
+    "year": 2023,
+    "lat": 17.286953315789475,
+    "lng": 76.82727011578947,
+    "job_id": "j-2609020856114b6cadd097f325c47413",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:56:11Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J9QMV2F+4Q8Q",
+    "region": "Maharashtra",
+    "district": "Solapur",
+    "crop_label": "CORN",
+    "amed_confidence": 0.3209,
+    "season": "rabi",
+    "year": 2026,
+    "lat": 17.650285033333333,
+    "lng": 75.87443708333333,
+    "job_id": "j-2609020856474c3cbef060d870543870",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:56:47Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J6VMH27+9J73",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "GROUNDNUT",
+    "amed_confidence": 0.2307,
+    "season": "kharif",
+    "year": 2021,
+    "lat": 14.6508111875,
+    "lng": 77.56404463749999,
+    "job_id": "j-2609020857024ca8a7e8b8b5a2873295",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:57:02Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J6VPJ5R+4442",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "GROUNDNUT",
+    "amed_confidence": 0.5287,
+    "season": "kharif",
+    "year": 2021,
+    "lat": 14.707772512499998,
+    "lng": 77.64032162499998,
+    "job_id": "j-2609020857184db3bf2b2103f471cb50",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:57:18Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J9R9RC3+MQR5",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "SOYBEANS",
+    "amed_confidence": 0.5511,
+    "season": "kharif",
+    "year": 2022,
+    "lat": 17.371710745454546,
+    "lng": 76.80441601818181,
+    "job_id": "j-2609020857324e87a29fcc9c348294b4",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:57:32Z",
+    "costs": null,
+    "usage": null
+  },
+  {
+    "field_id": "7J6VPJ59+32FH",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "CHILLI",
+    "amed_confidence": 0.3425,
+    "season": "kharif",
+    "year": 2021,
+    "lat": 14.707629214285713,
+    "lng": 77.61756698571428,
+    "job_id": "j-26090208574740359534602ed7cf6ea4",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "status": "queued",
+    "created": "2026-09-02T08:57:47Z",
+    "costs": null,
+    "usage": null
+  }
+]

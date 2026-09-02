@@ -1,0 +1,392 @@
+[
+  {
+    "field_id": "7JXRWRRX+PVWG",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.628985256968457,
+      "ndvi_may": 0.5908855043075703,
+      "ndvi_june": 0.12725175806769615,
+      "score": 0.7364
+    },
+    "amed_crop": "CORN",
+    "amed_confidence": 0.41,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R2RV4+VQMM",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.5986670665147285,
+      "ndvi_may": 0.30461033322508374,
+      "ndvi_june": 0.14682760203956927,
+      "score": 0.6397
+    },
+    "amed_crop": "RICE",
+    "amed_confidence": 0.6372,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R4Q2G+P5FV",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.7637184491524328,
+      "ndvi_may": 0.6626312627624242,
+      "ndvi_june": 0.11782501823006153,
+      "score": 0.8707
+    },
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.5245,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "7JXRVXHH+FX89",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.48935216975708795,
+      "ndvi_may": 0.45496967070632516,
+      "ndvi_june": 0.22825545859005716,
+      "score": 0.4881
+    },
+    "amed_crop": "CORN",
+    "amed_confidence": 0.3313,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "7JXRWVQ2+7JV5",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.36520582346600444,
+      "ndvi_may": 0.2848150053460684,
+      "ndvi_june": 0.09128490556308644,
+      "score": 0.5129
+    },
+    "amed_crop": "RICE",
+    "amed_confidence": 0.2499,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R2QRC+32F4",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.6714816507365969,
+      "ndvi_may": 0.5394125334421794,
+      "ndvi_june": 0.08167620986286138,
+      "score": 0.8175
+    },
+    "amed_crop": "RICE",
+    "amed_confidence": 0.396,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R3V26+36F7",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.7201740933316095,
+      "ndvi_may": 0.673542414960407,
+      "ndvi_june": 0.07630107602814123,
+      "score": 0.8975
+    },
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.5831,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5R64+XQ7R",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.6285909753706719,
+      "ndvi_may": 0.5529620094845692,
+      "ndvi_june": 0.2387963326958319,
+      "score": 0.5892
+    },
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.2177,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5X7H+7576",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.6170924543230623,
+      "ndvi_may": 0.38961091865268016,
+      "ndvi_june": 0.19350099287651204,
+      "score": 0.597
+    },
+    "amed_crop": "SUGARCANE",
+    "amed_confidence": 0.1491,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2V527G+8XQG",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.46580145756403607,
+      "ndvi_may": 0.26638373732566833,
+      "ndvi_june": 0.15165045857429504,
+      "score": 0.4976
+    },
+    "amed_crop": null,
+    "amed_confidence": null,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R6V7W+38VP",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.6217331391277697,
+      "ndvi_may": 0.5239302548911458,
+      "ndvi_june": 0.27028677432621967,
+      "score": 0.5462
+    },
+    "amed_crop": null,
+    "amed_confidence": null,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2V628G+RC84",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.6221588888893956,
+      "ndvi_may": 0.45305172499755164,
+      "ndvi_june": 0.16538920933785647,
+      "score": 0.6323
+    },
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.4322,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "7JXRXWP3+883P",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.46433676903446514,
+      "ndvi_may": 0.3694785042355458,
+      "ndvi_june": 0.13551896210345957,
+      "score": 0.5438
+    },
+    "amed_crop": null,
+    "amed_confidence": null,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R2RW6+RJ7F",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.7187027335166931,
+      "ndvi_may": 0.5542574763298035,
+      "ndvi_june": 0.22172102828820547,
+      "score": 0.6891
+    },
+    "amed_crop": null,
+    "amed_confidence": null,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R2VXW+GMPC",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.7254201173782349,
+      "ndvi_may": 0.7095536947250366,
+      "ndvi_june": 0.2567025199532509,
+      "score": 0.6777
+    },
+    "amed_crop": null,
+    "amed_confidence": null,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R3W22+GJG3",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.7448146658993904,
+      "ndvi_may": 0.7225821800175167,
+      "ndvi_june": 0.3353757446720486,
+      "score": 0.6591
+    },
+    "amed_crop": "CORN",
+    "amed_confidence": 0.8056,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": true,
+    "decision": "FOUNDER_SIGNAL_AMED_CONFLICT"
+  },
+  {
+    "field_id": "8J2R3X3M+R5X9",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.7348184652981304,
+      "ndvi_may": 0.6992863415252595,
+      "ndvi_june": 0.25773166072747067,
+      "score": 0.6743
+    },
+    "amed_crop": "RICE",
+    "amed_confidence": 0.6416,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R4W4W+FQFV",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.6437213709860137,
+      "ndvi_may": 0.5530634540500062,
+      "ndvi_june": 0.2053713971617246,
+      "score": 0.6268
+    },
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.4603,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R4X6M+G36J",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.6219166951144443,
+      "ndvi_may": 0.4921566707246444,
+      "ndvi_june": 0.15517868271426244,
+      "score": 0.6761
+    },
+    "amed_crop": "RICE",
+    "amed_confidence": 0.4354,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R4X7J+R678",
+    "tier": "B",
+    "founder_features": {
+      "ndvi_apr": 0.8217728840453284,
+      "ndvi_may": 0.6603923404500598,
+      "ndvi_june": 0.25491487331705037,
+      "score": 0.7196
+    },
+    "amed_crop": "RICE",
+    "amed_confidence": 0.2422,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5Q69+FJW8",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.8070290375638892,
+      "ndvi_may": 0.6820234027173784,
+      "ndvi_june": 0.1556551961435212,
+      "score": 0.8444
+    },
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.4464,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5R63+6QJ3",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.7108229200045267,
+      "ndvi_may": 0.5746384561061859,
+      "ndvi_june": 0.19519615670045218,
+      "score": 0.7054
+    },
+    "amed_crop": null,
+    "amed_confidence": null,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5R57+J4MM",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.7542912410365211,
+      "ndvi_may": 0.5702073943614959,
+      "ndvi_june": 0.13097568874557813,
+      "score": 0.8351
+    },
+    "amed_crop": "RICE",
+    "amed_confidence": 0.3867,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5W62+R5MJ",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.7105808953444163,
+      "ndvi_may": 0.6346133003632228,
+      "ndvi_june": 0.19560457952320578,
+      "score": 0.7248
+    },
+    "amed_crop": "CORN",
+    "amed_confidence": 0.2525,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5W72+RH32",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.763007236297593,
+      "ndvi_may": 0.34489777827982443,
+      "ndvi_june": 0.13219677415382497,
+      "score": 0.7896
+    },
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.7201,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R6W93+3CCR",
+    "tier": "A",
+    "founder_features": {
+      "ndvi_apr": 0.6335071136554081,
+      "ndvi_may": 0.5738507923980554,
+      "ndvi_june": 0.14829179880519705,
+      "score": 0.6867
+    },
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.4684,
+    "amed_is_currently_observed": false,
+    "amed_has_high_confidence_prediction": false,
+    "decision": "KEPT"
+  }
+]

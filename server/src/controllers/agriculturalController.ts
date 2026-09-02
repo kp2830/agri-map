@@ -6,6 +6,11 @@ import {
   DEFAULT_MAX_SEARCH_KM,
   searchAgriculturalArea,
 } from '../services/agricultural/areaSearch.js'
+import { buildAmedHypotheses } from '../services/agricultural/sunflower/amedHypotheses.js'
+import { extractSunflowerFeatures } from '../services/agricultural/sunflower/featureExtraction.js'
+import { scoreSunflowerLikeness } from '../services/agricultural/sunflower/likenessModel.js'
+import { decideSunflowerOverride } from '../services/agricultural/sunflower/overridePolicy.js'
+import type { NormalizedFieldFeature } from '../types/agricultural.js'
 import { AgriculturalUnderstandingApiError } from '../services/google/agriculturalUnderstandingClient.js'
 
 /** Parses an optional allow-listed integer query param. Absent -> `fallback`. Present but not
@@ -77,5 +82,62 @@ export async function getFields(req: Request, res: Response) {
       return
     }
     res.status(502).json({ error: 'Failed to fetch agricultural data' })
+  }
+}
+
+/**
+ * Given ONE real field (its ALU geometry + AMED-normalized properties — the client already has
+ * both from a prior /agriculture/fields response, so this is called only on-demand, e.g. when a
+ * user selects a field whose current AMED result is Unknown/low-confidence, never for every
+ * field in a bulk area response), scores it with the Sunflower likeness model and applies the
+ * conservative override policy.
+ *
+ * Real-time Sentinel-2 extraction happens inside extractSunflowerFeatures — a genuine CDSE
+ * network call, so this endpoint is deliberately per-field and on-demand, not part of the bulk
+ * /fields search. Any failure (missing CDSE credentials, insufficient real observations, network
+ * error) degrades to `available: false` and the caller must retain the existing AMED result —
+ * this endpoint's own decision (`override.overridden`) already encodes that; it never throws for
+ * a "no evidence" case.
+ */
+export async function getSunflowerLikelihood(req: Request, res: Response) {
+  const feature = req.body?.feature as NormalizedFieldFeature | undefined
+  if (!feature || !feature.geometry || !feature.properties) {
+    res.status(400).json({ error: 'body must be { feature: NormalizedFieldFeature } — the same feature object returned by /agriculture/fields' })
+    return
+  }
+
+  const controller = new AbortController()
+  res.on('close', () => {
+    if (!res.writableEnded) controller.abort()
+  })
+
+  try {
+    const { amedTop, amedIsCurrentlyObserved } = buildAmedHypotheses(feature.properties)
+    const sunflowerFeatures = await extractSunflowerFeatures(feature.geometry, feature.properties, controller.signal)
+    if (controller.signal.aborted) return
+
+    const scored = scoreSunflowerLikeness(sunflowerFeatures.spectral)
+    const scoredUnavailable = 'available' in scored
+    const likeness = scoredUnavailable ? null : scored
+    const likenessUnavailableReason = scoredUnavailable ? scored.reason : null
+
+    const override = decideSunflowerOverride({ amedTop, amedIsCurrentlyObserved, likeness })
+
+    res.json({
+      likeness: likeness ? { likeness: likeness.likeness, mahalanobisLikeness: likeness.mahalanobisLikeness, knnLikeness: likeness.knnLikeness, band: likeness.band } : null,
+      likenessUnavailableReason,
+      // Real per-index aggregate values that fed the model (mean/peak — null when not
+      // extracted) — surfaced so a caller (or a debugging session) can see exactly what the
+      // score was computed from, not just the final number.
+      spectral: sunflowerFeatures.spectral,
+      dataQuality: { sentinel2ObservationCount: sunflowerFeatures.spectral.observationCount },
+      override,
+    })
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') return
+    console.error('[sunflower] getSunflowerLikelihood failed:', error instanceof Error ? error.message : error)
+    // Never a 5xx that leaves the frontend stuck — an honest "no evidence" result, matching the
+    // requirement to retain the existing AMED result on any failure.
+    res.json({ likeness: null, likenessUnavailableReason: 'internal_error', dataQuality: { sentinel2ObservationCount: 0 }, override: { overridden: false, reason: 'Sunflower likelihood check failed unexpectedly — existing AMED result retained.' } })
   }
 }

@@ -41,3 +41,42 @@ export interface FieldsResponse {
   fieldCollection: NormalizedFieldCollection
   coverage: CoverageInfo
 }
+
+/** A candidate/likelihood signal only — NEVER verified ground truth. `band` is calibrated
+ *  against real held-out source-domain (Slovak Sunflower) fields, not against any real Indian
+ *  label (none exist). See server/src/services/agricultural/sunflower/likenessModel.ts. */
+export interface SunflowerLikeness {
+  likeness: number
+  mahalanobisLikeness: number
+  knnLikeness: number
+  band: 'conservative' | 'balanced' | 'exploratory' | 'below_exploratory'
+}
+
+export type SunflowerOverrideDecision =
+  | { overridden: true; crop: 'SUNFLOWER'; likeness: number; band: SunflowerLikeness['band']; reason: string }
+  | { overridden: false; reason: string }
+
+export interface SunflowerLikelihoodResponse {
+  likeness: SunflowerLikeness | null
+  likenessUnavailableReason: string | null
+  dataQuality: { sentinel2ObservationCount: number }
+  override: SunflowerOverrideDecision
+}
+
+/**
+ * Sunflower RF v0 — a SEPARATE, India-native, weakly-supervised model from the EuroCrops-trained
+ * likeness model above (server/src/services/agricultural/sunflowerRf/). A model score/likelihood,
+ * never verified ground truth — training positives are weak labels from a temporal heuristic
+ * (see training/sunflower/kurukshetra_karnal_sunflower_weak_label_report.md), not field-survey-
+ * confirmed Sunflower. Never display this as "confirmed" or as a calibrated statistical accuracy.
+ */
+export type SunflowerRfResponse =
+  | {
+      available: true
+      probability: number
+      probabilityPercent: number
+      modelVersion: string
+      source: 'sunflower_random_forest'
+      labelType: 'weakly_supervised_model'
+    }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }

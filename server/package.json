@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && npm run build:copy-assets",
+    "build:copy-assets": "mkdir -p dist/services/agricultural/worldcereal dist/services/agricultural/sunflowerRf/model dist/services/agricultural/sunflower/model && cp src/services/agricultural/worldcereal/processGraphTemplate.json dist/services/agricultural/worldcereal/ && cp src/services/agricultural/sunflowerRf/model/sunflower_rf_v0.json dist/services/agricultural/sunflowerRf/model/ && cp src/services/agricultural/sunflower/model/sunflowerLikenessModel.v1.json dist/services/agricultural/sunflower/model/",
     "start": "node dist/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

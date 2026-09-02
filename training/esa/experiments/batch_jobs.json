@@ -1,0 +1,52 @@
+[
+  {
+    "crop": "RICE",
+    "field_id": "7J8VPXW7+V2PG",
+    "amed_confidence": 0.6516,
+    "lat": 16.747195383333334,
+    "lng": 77.96256572499998,
+    "job_id": "j-2609010906324092a9087a990c6e8481",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30"
+  },
+  {
+    "crop": "CORN",
+    "field_id": "7J6VPJ6J+JQ2C",
+    "amed_confidence": 0.8009,
+    "lat": 14.711459785714284,
+    "lng": 77.63187197142857,
+    "job_id": "j-26090109065043b78eb55a9898016336",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30"
+  },
+  {
+    "crop": "SUGARCANE",
+    "field_id": "7J9VWG6W+78G9",
+    "amed_confidence": 0.7416,
+    "lat": 17.910652100000004,
+    "lng": 77.54582085000001,
+    "job_id": "j-2609010907274a49a23998312cd31535",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30"
+  },
+  {
+    "crop": "GROUNDNUT",
+    "field_id": "7J6VMMX2+PMRC",
+    "amed_confidence": 0.9242,
+    "lat": 14.699291990476192,
+    "lng": 77.65170628571428,
+    "job_id": "j-2609010907444ae8af34ebd69c66ec69",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30"
+  },
+  {
+    "crop": "SOYBEANS",
+    "field_id": "7J9QJVWG+V9F7",
+    "amed_confidence": 0.9109,
+    "lat": 17.6471769375,
+    "lng": 75.87599008749999,
+    "job_id": "j-26090109075946169c5b23e742cae87b",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30"
+  }
+]

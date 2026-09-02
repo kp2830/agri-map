@@ -1,0 +1,616 @@
+{
+  "Mittikellur/Lingasugur/Raichur": {
+    "candidate": {
+      "name": "Mittikellur/Lingasugur/Raichur",
+      "lat": 16.051,
+      "lng": 76.5312
+    },
+    "coverage": {
+      "status": "found_in_area",
+      "searchAreaSideKm": 3,
+      "nearestDistanceKm": 0.03709760243059017,
+      "nearestFieldCentroid": {
+        "lng": 76.53116472499998,
+        "lat": 16.050668100000003
+      },
+      "maxSearchRadiusKm": 30
+    },
+    "totalFieldTypeFeatures": 1296,
+    "nearestFieldId": "7J8R3G2J+7FP6",
+    "nearestFieldDistanceM": 37.09760243059017,
+    "nearestFieldAreaSqM": 1178.7281,
+    "nearestFieldAmedHypotheses": {
+      "amedTop": {
+        "crop": "CORN",
+        "confidence": 0.479
+      },
+      "amedCompeting": [
+        {
+          "crop": "BAJRA",
+          "confidence": 0.0835
+        }
+      ],
+      "amedIsCurrentlyObserved": false
+    },
+    "nearestFieldGeometryType": "MultiPolygon",
+    "nearestFieldGeometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.5312005,
+              16.0504577
+            ],
+            [
+              76.5312294,
+              16.050566
+            ],
+            [
+              76.5313814,
+              16.050890199999998
+            ],
+            [
+              76.5312138,
+              16.0509818
+            ],
+            [
+              76.5311858,
+              16.050981999999998
+            ],
+            [
+              76.5311376,
+              16.050792599999998
+            ],
+            [
+              76.5311187,
+              16.050756600000003
+            ],
+            [
+              76.5310811,
+              16.050729699999998
+            ],
+            [
+              76.53102319999999,
+              16.0504951
+            ],
+            [
+              76.5310324,
+              16.050477
+            ],
+            [
+              76.5311723,
+              16.0504308
+            ],
+            [
+              76.5312005,
+              16.0504577
+            ]
+          ]
+        ]
+      ]
+    },
+    "nearestFieldProperties": {
+      "aluType": "field",
+      "areaSqM": 1178.7281,
+      "classConfidence": 0.9137,
+      "captureTimestampSec": 1614326400,
+      "monitoring": [
+        {
+          "startTimestampSec": 1625463280,
+          "endTimestampSec": 1640583273,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.3545
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1377
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.1112
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1653543277,
+          "endTimestampSec": 1659591277,
+          "predictions": [
+            {
+              "crop": "COTTON",
+              "confidence": 0.453
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.1918
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.0826
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1661751274,
+          "endTimestampSec": 1669527274,
+          "predictions": [
+            {
+              "crop": "COTTON",
+              "confidence": 0.3346
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.1877
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1033
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719639280,
+          "endTimestampSec": 1733031262,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2733
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1441
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.1303
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1756791276,
+          "endTimestampSec": 1764135276,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.479
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1365
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0835
+            }
+          ]
+        }
+      ]
+    },
+    "top3": [
+      {
+        "id": "7J8R3G2J+7FP6",
+        "distanceM": 37.09760243059017,
+        "areaSqM": 1178.7281
+      },
+      {
+        "id": "7J8R3G2J+JHCQ",
+        "distanceM": 49.53597374895436,
+        "areaSqM": 12796.397
+      },
+      {
+        "id": "7J8R3G2J+7H32",
+        "distanceM": 53.252670293111315,
+        "areaSqM": 856.0706
+      }
+    ]
+  },
+  "Kuttapalli": {
+    "candidate": {
+      "name": "Kuttapalli",
+      "lat": 17.038803,
+      "lng": 77.419292
+    },
+    "coverage": {
+      "status": "found_in_area",
+      "searchAreaSideKm": 3,
+      "nearestDistanceKm": 0.07632684209064945,
+      "nearestFieldCentroid": {
+        "lng": 77.42000614,
+        "lat": 17.038873499999998
+      },
+      "maxSearchRadiusKm": 30
+    },
+    "totalFieldTypeFeatures": 6969,
+    "nearestFieldId": "7J9V2CQ9+HX5P",
+    "nearestFieldDistanceM": 76.32684209064946,
+    "nearestFieldAreaSqM": 410.5209,
+    "nearestFieldAmedHypotheses": {
+      "amedTop": null,
+      "amedCompeting": [],
+      "amedIsCurrentlyObserved": false
+    },
+    "nearestFieldGeometryType": "MultiPolygon",
+    "nearestFieldGeometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              77.4200803,
+              17.0387985
+            ],
+            [
+              77.4200826,
+              17.0389792
+            ],
+            [
+              77.4198856,
+              17.038990599999998
+            ],
+            [
+              77.4199019,
+              17.038800699999996
+            ],
+            [
+              77.4200803,
+              17.0387985
+            ]
+          ]
+        ]
+      ]
+    },
+    "nearestFieldProperties": {
+      "aluType": "field",
+      "areaSqM": 410.5209,
+      "classConfidence": 0.9457,
+      "captureTimestampSec": 1643529600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1643529600,
+          "endTimestampSec": 1643529600,
+          "predictions": [
+            {
+              "crop": "NO_PREDICTION",
+              "confidence": 0
+            }
+          ]
+        }
+      ]
+    },
+    "top3": [
+      {
+        "id": "7J9V2CQ9+HX5P",
+        "distanceM": 76.32684209064946,
+        "areaSqM": 410.5209
+      },
+      {
+        "id": "7J9V2CQC+F267",
+        "distanceM": 78.76869334700922,
+        "areaSqM": 657.1342
+      },
+      {
+        "id": "7J9V2CQ9+9X7J",
+        "distanceM": 78.8741783576875,
+        "areaSqM": 369.92
+      }
+    ]
+  },
+  "Karnataka-3": {
+    "candidate": {
+      "name": "Karnataka-3",
+      "lat": 15.387318,
+      "lng": 75.868861
+    },
+    "coverage": {
+      "status": "found_in_area",
+      "searchAreaSideKm": 3,
+      "nearestDistanceKm": 0.054712587004797045,
+      "nearestFieldCentroid": {
+        "lng": 75.86935358,
+        "lat": 15.387189339999997
+      },
+      "maxSearchRadiusKm": 30
+    },
+    "totalFieldTypeFeatures": 1099,
+    "nearestFieldId": "7J7Q9VP9+VPG4",
+    "nearestFieldDistanceM": 54.712587004797044,
+    "nearestFieldAreaSqM": 419.2248,
+    "nearestFieldAmedHypotheses": {
+      "amedTop": null,
+      "amedCompeting": [],
+      "amedIsCurrentlyObserved": false
+    },
+    "nearestFieldGeometryType": "MultiPolygon",
+    "nearestFieldGeometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              75.86949539999999,
+              15.387230399999998
+            ],
+            [
+              75.8691506,
+              15.3872317
+            ],
+            [
+              75.8691503,
+              15.387159400000002
+            ],
+            [
+              75.8694762,
+              15.387094800000003
+            ],
+            [
+              75.86949539999999,
+              15.387230399999998
+            ]
+          ]
+        ]
+      ]
+    },
+    "nearestFieldProperties": {
+      "aluType": "field",
+      "areaSqM": 419.2248,
+      "classConfidence": 0.9151,
+      "captureTimestampSec": 1667808000,
+      "monitoring": [
+        {
+          "startTimestampSec": 1667808000,
+          "endTimestampSec": 1667808000,
+          "predictions": [
+            {
+              "crop": "NO_PREDICTION",
+              "confidence": 0
+            }
+          ]
+        }
+      ]
+    },
+    "top3": [
+      {
+        "id": "7J7Q9VP9+VPG4",
+        "distanceM": 54.712587004797044,
+        "areaSqM": 419.2248
+      },
+      {
+        "id": "7J7Q9VP9+W9VC",
+        "distanceM": 71.38965240216785,
+        "areaSqM": 1766.2677
+      },
+      {
+        "id": "7J7Q9VP9+RQ58",
+        "distanceM": 81.70781007452771,
+        "areaSqM": 798.2843
+      }
+    ]
+  },
+  "Karnataka-4": {
+    "candidate": {
+      "name": "Karnataka-4",
+      "lat": 13.438239,
+      "lng": 77.319143
+    },
+    "coverage": {
+      "status": "found_in_area",
+      "searchAreaSideKm": 3,
+      "nearestDistanceKm": 0.026439388670773226,
+      "nearestFieldCentroid": {
+        "lng": 77.31895035833332,
+        "lat": 13.438385391666666
+      },
+      "maxSearchRadiusKm": 30
+    },
+    "totalFieldTypeFeatures": 9682,
+    "nearestFieldId": "7J5VC8Q9+CJ66",
+    "nearestFieldDistanceM": 26.439388670773223,
+    "nearestFieldAreaSqM": 3873.5948,
+    "nearestFieldAmedHypotheses": {
+      "amedTop": {
+        "crop": "CORN",
+        "confidence": 0.4036
+      },
+      "amedCompeting": [
+        {
+          "crop": "CHILLI",
+          "confidence": 0.1003
+        }
+      ],
+      "amedIsCurrentlyObserved": false
+    },
+    "nearestFieldGeometryType": "MultiPolygon",
+    "nearestFieldGeometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              77.31887329999999,
+              13.4380495
+            ],
+            [
+              77.3190503,
+              13.4382196
+            ],
+            [
+              77.3191997,
+              13.4383989
+            ],
+            [
+              77.3192282,
+              13.438479999999998
+            ],
+            [
+              77.31926949999999,
+              13.4389314
+            ],
+            [
+              77.31895589999999,
+              13.4389614
+            ],
+            [
+              77.318882,
+              13.438952999999998
+            ],
+            [
+              77.3188222,
+              13.438501800000001
+            ],
+            [
+              77.3187446,
+              13.4381049
+            ],
+            [
+              77.31874359999999,
+              13.4380055
+            ],
+            [
+              77.3187617,
+              13.437969200000001
+            ],
+            [
+              77.31887329999999,
+              13.4380495
+            ]
+          ]
+        ]
+      ]
+    },
+    "nearestFieldProperties": {
+      "aluType": "field",
+      "areaSqM": 3873.5948,
+      "classConfidence": 0.9704,
+      "captureTimestampSec": 1738569600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1629091524,
+          "endTimestampSec": 1641187520,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.7756
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0431
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.042
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1658467520,
+          "endTimestampSec": 1670131508,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.749
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0451
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0409
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1678771519,
+          "endTimestampSec": 1687843524,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.5136
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.1965
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0673
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1694755520,
+          "endTimestampSec": 1703827518,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.4398
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.1653
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0895
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1721971519,
+          "endTimestampSec": 1735363520,
+          "predictions": [
+            {
+              "crop": "CHILLI",
+              "confidence": 0.5183
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2791
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.0703
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1753075520,
+          "endTimestampSec": 1761715518,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.4036
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.3007
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.1003
+            }
+          ]
+        }
+      ]
+    },
+    "top3": [
+      {
+        "id": "7J5VC8Q9+CJ66",
+        "distanceM": 26.439388670773223,
+        "areaSqM": 3873.5948
+      },
+      {
+        "id": "7J5VC8Q9+6PGV",
+        "distanceM": 26.46545568000673,
+        "areaSqM": 1516.0374
+      },
+      {
+        "id": "7J5VC8Q9+7RGX",
+        "distanceM": 51.514621277855326,
+        "areaSqM": 1644.9225
+      }
+    ]
+  }
+}

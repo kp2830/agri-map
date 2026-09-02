@@ -1,0 +1,480 @@
+{
+  "Nargund-Gadag-iNat-265387815": {
+    "candidate": {
+      "name": "Nargund-Gadag-iNat-265387815",
+      "lat": 15.6744383333,
+      "lng": 75.3440033333,
+      "observedOn": "2025-02-27"
+    },
+    "coverage": {
+      "status": "found_in_area",
+      "searchAreaSideKm": 3,
+      "nearestDistanceKm": 0.06471334357660283,
+      "nearestFieldCentroid": {
+        "lng": 75.34424168000001,
+        "lat": 15.674973159999999
+      },
+      "maxSearchRadiusKm": 30
+    },
+    "nearestFieldId": "7J7QM8FV+XJV9",
+    "nearestFieldDistanceM": 64.71334357660282,
+    "nearestFieldAreaSqM": 2891.821,
+    "nearestFieldGeometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              75.3443623,
+              15.675097699999998
+            ],
+            [
+              75.3436251,
+              15.675126
+            ],
+            [
+              75.3436153,
+              15.6748367
+            ],
+            [
+              75.3442125,
+              15.6748358
+            ],
+            [
+              75.3442965,
+              15.6748537
+            ],
+            [
+              75.3443245,
+              15.6748266
+            ],
+            [
+              75.3443992,
+              15.6748717
+            ],
+            [
+              75.3445862,
+              15.6750522
+            ],
+            [
+              75.3446329,
+              15.675133499999998
+            ],
+            [
+              75.3443623,
+              15.675097699999998
+            ]
+          ]
+        ]
+      ]
+    },
+    "nearestFieldProperties": {
+      "aluType": "field",
+      "areaSqM": 2891.821,
+      "classConfidence": 0.9514,
+      "captureTimestampSec": 1641542400,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605591271,
+          "endTimestampSec": 1612503271,
+          "predictions": [
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.2731
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2644
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.1189
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1635399276,
+          "endTimestampSec": 1644039277,
+          "predictions": [
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.4315
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1828
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.085
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1653975280,
+          "endTimestampSec": 1659591280,
+          "predictions": [
+            {
+              "crop": "COTTON",
+              "confidence": 0.469
+            },
+            {
+              "crop": "SOYBEANS",
+              "confidence": 0.2847
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0585
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1662615277,
+          "endTimestampSec": 1679463280,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.4191
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.2255
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.1917
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1698903276,
+          "endTimestampSec": 1706679276,
+          "predictions": [
+            {
+              "crop": "COTTON",
+              "confidence": 0.1984
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1915
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.1891
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1724391276,
+          "endTimestampSec": 1733031270,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.4604
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2742
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0818
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1733895276,
+          "endTimestampSec": 1740807277,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.7702
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0425
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0375
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1761111275,
+          "endTimestampSec": 1771911280,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.4548
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.223
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0859
+            }
+          ]
+        }
+      ]
+    },
+    "nearestFieldAmedHypotheses": {
+      "amedTop": {
+        "crop": "CORN",
+        "confidence": 0.4548
+      },
+      "amedCompeting": [
+        {
+          "crop": "SORGHUM",
+          "confidence": 0.223
+        },
+        {
+          "crop": "CHILLI",
+          "confidence": 0.0859
+        }
+      ],
+      "amedIsCurrentlyObserved": false
+    }
+  },
+  "BadamiRoad-Bagalkote-iNat-265387867": {
+    "candidate": {
+      "name": "BadamiRoad-Bagalkote-iNat-265387867",
+      "lat": 15.905805,
+      "lng": 75.521605,
+      "observedOn": "2025-02-27"
+    },
+    "coverage": {
+      "status": "found_in_area",
+      "searchAreaSideKm": 3,
+      "nearestDistanceKm": 0.0289216394594751,
+      "nearestFieldCentroid": {
+        "lng": 75.52138908181819,
+        "lat": 15.905648372727274
+      },
+      "maxSearchRadiusKm": 30
+    },
+    "nearestFieldId": "7J7QWG4C+6GPF",
+    "nearestFieldDistanceM": 28.9216394594751,
+    "nearestFieldAreaSqM": 1516.3525,
+    "nearestFieldGeometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              75.5216039,
+              15.9056174
+            ],
+            [
+              75.52158519999999,
+              15.905635600000002
+            ],
+            [
+              75.52149179999999,
+              15.905644799999997
+            ],
+            [
+              75.5213705,
+              15.905681300000001
+            ],
+            [
+              75.5213145,
+              15.905717600000001
+            ],
+            [
+              75.5213146,
+              15.9057357
+            ],
+            [
+              75.5212586,
+              15.905762899999997
+            ],
+            [
+              75.5211185,
+              15.905790399999997
+            ],
+            [
+              75.5210525,
+              15.9055284
+            ],
+            [
+              75.5215659,
+              15.905400600000004
+            ],
+            [
+              75.5216039,
+              15.9056174
+            ]
+          ]
+        ]
+      ]
+    },
+    "nearestFieldProperties": {
+      "aluType": "field",
+      "areaSqM": 1516.3525,
+      "classConfidence": 0.9469,
+      "captureTimestampSec": 1577952000,
+      "monitoring": [
+        {
+          "startTimestampSec": 1612071273,
+          "endTimestampSec": 1622439279,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7125
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0577
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0382
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1622439280,
+          "endTimestampSec": 1635399280,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.721
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0564
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0397
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1643175273,
+          "endTimestampSec": 1659591280,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7193
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.055
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0356
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1661751282,
+          "endTimestampSec": 1666935282,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7092
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0567
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0436
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1672119280,
+          "endTimestampSec": 1706679276,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7182
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0564
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0374
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1733895276,
+          "endTimestampSec": 1743831275,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.333
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.3038
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1554
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1755495277,
+          "endTimestampSec": 1764135279,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.6023
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1168
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0727
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1768455301,
+          "endTimestampSec": 1786772090,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.5202
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2255
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0565
+            }
+          ]
+        }
+      ]
+    },
+    "nearestFieldAmedHypotheses": {
+      "amedTop": {
+        "crop": "SUGARCANE",
+        "confidence": 0.5202
+      },
+      "amedCompeting": [
+        {
+          "crop": "CHILLI",
+          "confidence": 0.0565
+        }
+      ],
+      "amedIsCurrentlyObserved": false
+    }
+  }
+}

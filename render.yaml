@@ -1,0 +1,44 @@
+services:
+  # Express API — real build/start commands from server/package.json, not invented.
+  - type: web
+    name: agrimap-server
+    runtime: node
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      # Google Agricultural Understanding API (ALU + AMED) — required for the core
+      # /agriculture/fields flow. Set the real key value in the Render dashboard.
+      - key: AGRICULTURAL_UNDERSTANDING_API_KEY
+        sync: false
+      # Sentinel-2/CDSE Statistical API — powers the Sunflower likeness model AND
+      # Sunflower RF v0 (server/src/services/agricultural/sunflowerRf/). Free CDSE account,
+      # Sentinel Hub OAuth client — see training/CDSE_SETUP.md.
+      - key: CDSE_CLIENT_ID
+        sync: false
+      - key: CDSE_CLIENT_SECRET
+        sync: false
+      # Off by default. Only set to "true" if you want the isolated WorldCereal research
+      # routes (/research/worldcereal/*) reachable — real openEO/CDSE jobs, 5-12 min each,
+      # separate credit quota from the Statistical API above. Not required for Sunflower RF v0.
+      - key: ENABLE_WORLDCEREAL_RESEARCH
+        value: "false"
+    # PORT is set automatically by Render; server/src/index.ts already reads process.env.PORT.
+
+  # Vite static build — real build command from client/package.json.
+  - type: web
+    name: agrimap-client
+    runtime: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      # Must point at the deployed agrimap-server URL above (e.g. https://agrimap-server.onrender.com).
+      - key: VITE_API_BASE_URL
+        sync: false
+      - key: VITE_MAP_DEFAULT_LAT
+        value: "22.9734"
+      - key: VITE_MAP_DEFAULT_LNG
+        value: "78.6569"
+      - key: VITE_MAP_DEFAULT_ZOOM
+        value: "5"

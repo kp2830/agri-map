@@ -1,0 +1,179 @@
+{
+  "unknownExample": {
+    "id": "7J3RQJGR+GQ4H",
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3814.9616,
+      "classConfidence": 0.9623,
+      "captureTimestampSec": 1737014400,
+      "monitoring": [
+        {
+          "startTimestampSec": 1737014400,
+          "endTimestampSec": 1737014400,
+          "predictions": [
+            {
+              "crop": "NO_PREDICTION",
+              "confidence": 0
+            }
+          ]
+        }
+      ]
+    },
+    "hyp": {
+      "amedTop": null,
+      "amedCompeting": [],
+      "amedIsCurrentlyObserved": false
+    }
+  },
+  "lowConfidenceExample": {
+    "id": "7J3RQJCW+F4WP",
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 1406.5142,
+      "classConfidence": 0.9514,
+      "captureTimestampSec": 1678435200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1602135326,
+          "endTimestampSec": 1609479326,
+          "predictions": [
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.4464
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2339
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1088
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1633239330,
+          "endTimestampSec": 1641015330,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2993
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.2389
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.1465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1664343331,
+          "endTimestampSec": 1672551334,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.514
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.1438
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1121
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687671333,
+          "endTimestampSec": 1693719333,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.5416
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.1011
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.0907
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1717479337,
+          "endTimestampSec": 1735795537,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.5124
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.1383
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1218
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1758519333,
+          "endTimestampSec": 1764567333,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.5008
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.2469
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0515
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1777959355,
+          "endTimestampSec": 1784007355,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.3272
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.3057
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.173
+            }
+          ]
+        }
+      ]
+    },
+    "hyp": {
+      "amedTop": {
+        "crop": "COTTON",
+        "confidence": 0.3057
+      },
+      "amedCompeting": [
+        {
+          "crop": "GROUNDNUT",
+          "confidence": 0.173
+        }
+      ],
+      "amedIsCurrentlyObserved": false
+    }
+  },
+  "highConfidenceExample": null
+}

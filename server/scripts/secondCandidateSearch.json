@@ -1,0 +1,384 @@
+{
+  "Sindgi-Bijapur-iNat-56823200": {
+    "candidate": {
+      "name": "Sindgi-Bijapur-iNat-56823200",
+      "lat": 16.9535950944,
+      "lng": 75.9900542815,
+      "positionalAccuracyM": 5,
+      "observedOn": "2020-08-18"
+    },
+    "coverage": {
+      "status": "found_in_area",
+      "searchAreaSideKm": 3,
+      "nearestDistanceKm": 0.040283907776449926,
+      "nearestFieldCentroid": {
+        "lng": 75.98995015833333,
+        "lat": 16.953943416666664
+      },
+      "maxSearchRadiusKm": 30
+    },
+    "nearestFieldId": "7J8QXX3Q+HXVX",
+    "nearestFieldDistanceM": 40.28390777644992,
+    "nearestFieldAreaSqM": 4411.5279,
+    "nearestFieldGeometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              75.9899897,
+              16.953567399999997
+            ],
+            [
+              75.9900743,
+              16.9535941
+            ],
+            [
+              75.99012239999999,
+              16.9538108
+            ],
+            [
+              75.990152,
+              16.954072699999998
+            ],
+            [
+              75.9901905,
+              16.9542624
+            ],
+            [
+              75.99020089999999,
+              16.954452099999997
+            ],
+            [
+              75.9898441,
+              16.9544629
+            ],
+            [
+              75.98978679999999,
+              16.9542914
+            ],
+            [
+              75.9897196,
+              16.954002499999998
+            ],
+            [
+              75.9896711,
+              16.953704499999997
+            ],
+            [
+              75.9896608,
+              16.953532799999998
+            ],
+            [
+              75.9899897,
+              16.953567399999997
+            ]
+          ]
+        ]
+      ]
+    },
+    "nearestFieldProperties": {
+      "aluType": "field",
+      "areaSqM": 4411.5279,
+      "classConfidence": 0.976,
+      "captureTimestampSec": 1619593200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1627191266,
+          "endTimestampSec": 1635399262,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.5713
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.1675
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.084
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1660023264,
+          "endTimestampSec": 1672119261,
+          "predictions": [
+            {
+              "crop": "COTTON",
+              "confidence": 0.6051
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0712
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0711
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1673415262,
+          "endTimestampSec": 1679463262,
+          "predictions": [
+            {
+              "crop": "GRAM",
+              "confidence": 0.2873
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1952
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.1745
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1693719258,
+          "endTimestampSec": 1701063258,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.426
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.2005
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0647
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1720503261,
+          "endTimestampSec": 1730439258,
+          "predictions": [
+            {
+              "crop": "SOYBEANS",
+              "confidence": 0.5448
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1519
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0992
+            }
+          ]
+        }
+      ]
+    },
+    "nearestFieldAmedHypotheses": {
+      "amedTop": {
+        "crop": "SOYBEANS",
+        "confidence": 0.5448
+      },
+      "amedCompeting": [
+        {
+          "crop": "CORN",
+          "confidence": 0.1519
+        },
+        {
+          "crop": "BAJRA",
+          "confidence": 0.0992
+        }
+      ],
+      "amedIsCurrentlyObserved": false
+    },
+    "fieldsWithinGpsAccuracy": 0,
+    "totalFieldsInArea": 3240
+  },
+  "ShelarFarm-Pangare-iNat-327356159": {
+    "candidate": {
+      "name": "ShelarFarm-Pangare-iNat-327356159",
+      "lat": 18.276,
+      "lng": 74.0612085,
+      "positionalAccuracyM": 226,
+      "observedOn": "2025-10-28"
+    },
+    "coverage": {
+      "status": "found_in_area",
+      "searchAreaSideKm": 3,
+      "nearestDistanceKm": 0.019084224365531335,
+      "nearestFieldCentroid": {
+        "lng": 74.06102834666666,
+        "lat": 18.276013886666664
+      },
+      "maxSearchRadiusKm": 30
+    },
+    "nearestFieldId": "7JCP73G6+C9JF",
+    "nearestFieldDistanceM": 19.084224365531334,
+    "nearestFieldAreaSqM": 3255.0869,
+    "nearestFieldGeometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              74.0615002,
+              18.2758794
+            ],
+            [
+              74.06140529999999,
+              18.275924199999995
+            ],
+            [
+              74.06142369999999,
+              18.2760327
+            ],
+            [
+              74.0612814,
+              18.276104299999997
+            ],
+            [
+              74.0604097,
+              18.276362099999997
+            ],
+            [
+              74.06038130000002,
+              18.276362
+            ],
+            [
+              74.06028789999999,
+              18.2761446
+            ],
+            [
+              74.0602974,
+              18.276126599999998
+            ],
+            [
+              74.0604489,
+              18.2761092
+            ],
+            [
+              74.0610269,
+              18.275922299999998
+            ],
+            [
+              74.06112159999999,
+              18.275904699999998
+            ],
+            [
+              74.061406,
+              18.275797600000004
+            ],
+            [
+              74.0614344,
+              18.2757978
+            ],
+            [
+              74.06150029999999,
+              18.2758614
+            ],
+            [
+              74.0615002,
+              18.2758794
+            ]
+          ]
+        ]
+      ]
+    },
+    "nearestFieldProperties": {
+      "aluType": "field",
+      "areaSqM": 3255.0869,
+      "classConfidence": 0.9568,
+      "captureTimestampSec": 1684306800,
+      "monitoring": [
+        {
+          "startTimestampSec": 1606283023,
+          "endTimestampSec": 1612331023,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.3498
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1605
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.1058
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638251032,
+          "endTimestampSec": 1648187030,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.3867
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1634
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1296
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731563028,
+          "endTimestampSec": 1738475028,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5867
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0794
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0571
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1767419031,
+          "endTimestampSec": 1774331031,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.6165
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.0793
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.056
+            }
+          ]
+        }
+      ]
+    },
+    "nearestFieldAmedHypotheses": {
+      "amedTop": {
+        "crop": "WHEAT",
+        "confidence": 0.0793
+      },
+      "amedCompeting": [
+        {
+          "crop": "GRAM",
+          "confidence": 0.056
+        }
+      ],
+      "amedIsCurrentlyObserved": false
+    },
+    "fieldsWithinGpsAccuracy": 47,
+    "totalFieldsInArea": 1890
+  }
+}

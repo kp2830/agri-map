@@ -6,10 +6,46 @@ node_modules/
 dist/
 build/
 
+# Collected training data (large, machine-generated from live API calls — never committed)
+server/data/
+
+# Python training pipeline: virtual env, generated datasets, and trained model artifacts —
+# all machine-generated/large, never committed. The pipeline CODE (training/sunflower/*.py) is
+# tracked normally.
+training/.venv/
+training/data/
+training/models/
+__pycache__/
+*.pyc
+
+# ESA WorldCereal experiment: self-contained local Python 3.11 interpreter (not system-installed,
+# see training/esa/README.md), its own venv, and downloaded result rasters/job artifacts —
+# machine-generated/large, never committed. training/esa/*.py, README.md, results.json are
+# tracked normally.
+training/esa/python/
+training/esa/.venv/
+training/esa/experiments/results/
+training/esa/experiments/last_job_id.txt
+
+# Kurukshetra-Karnal sunflower discovery: raw ALU field-pool dumps (all real fields returned by
+# a batch of S2 cell queries, before any selection/scoring) — large (tens of MB), machine-
+# generated, regeneratable from the discovery scripts. The derived, curated outputs (selected
+# field lists, weak-label datasets, RF results/reports) stay tracked normally.
+training/sunflower/kurukshetra_karnal_alu_discovery_pass1.json
+training/sunflower/haryana_new_fields_pool.json
+
+# WorldCereal research integration: cached job results / downloaded rasters (server/src/services/
+# agricultural/worldcereal/, gated by ENABLE_WORLDCEREAL_RESEARCH) — machine-generated, never committed.
+server/.worldcereal-research-cache/
+
+# Sunflower RF v0 prediction cache (server/src/services/agricultural/sunflowerRf/) — machine-generated, never committed.
+server/.sunflower-rf-cache/
+
 # Environment variables
 .env
 .env.local
 .env.*.local
+.env.save
 
 # Logs
 npm-debug.log*

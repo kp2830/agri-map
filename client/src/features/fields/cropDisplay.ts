@@ -137,6 +137,28 @@ export function getActiveCropOutcome(
   return { kind: 'fallback', season }
 }
 
+/** Default "high confidence" cutoff — mirrors
+ *  server/src/services/agricultural/sunflower/overridePolicy.ts's
+ *  DEFAULT_SUNFLOWER_OVERRIDE_CONFIG.amedStrongConfidenceThreshold exactly (same 0.8 value; kept
+ *  in sync manually — no shared client/server code path, per CLAUDE.md). Used ONLY to decide
+ *  whether it's worth calling the real-time Sunflower likelihood endpoint at all — the actual
+ *  override decision always happens server-side in overridePolicy.ts, never here. */
+export const AMED_STRONG_CONFIDENCE_THRESHOLD = 0.8
+
+/**
+ * Whether this field's current AMED result is Unknown or low-confidence enough to be worth a
+ * real-time Sunflower likelihood check. A 'seasonal' (inferred-from-history, not a direct
+ * observation) or 'none' outcome is always eligible; an 'observed'/'fallback' outcome is
+ * eligible only when its own prediction confidence is below the threshold. A high-confidence
+ * 'observed'/'fallback' result is never eligible — matches "preserve the existing AMED
+ * classification for high-confidence known crops."
+ */
+export function isEligibleForSunflowerCheck(outcome: ActiveCropOutcome, threshold: number = AMED_STRONG_CONFIDENCE_THRESHOLD): boolean {
+  if (outcome.kind === 'none' || outcome.kind === 'seasonal') return true
+  const confidence = outcome.season.predictions[0]?.confidence
+  return confidence === undefined || confidence < threshold
+}
+
 /** The crop to show for this field: the determined outcome's crop, or null if AMED never had
  *  monitoring data for it at all. Used everywhere a flat crop identity is needed — crop
  *  filtering, crop distribution, and map coloring — so an inferred seasonal crop (e.g. Rice)

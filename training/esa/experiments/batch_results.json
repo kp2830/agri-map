@@ -1,0 +1,252 @@
+[
+  {
+    "crop": "RICE",
+    "field_id": "7J8VPXW7+V2PG",
+    "amed_confidence": 0.6516,
+    "lat": 16.747195383333334,
+    "lng": 77.96256572499998,
+    "job_id": "j-2609010906324092a9087a990c6e8481",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "final_status": "finished",
+    "costs": 8,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 2238
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 346
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 18.293350219726562
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.3226890563964844
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 10690560
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 10690560
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 28702989024
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3932160
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "crop": "CORN",
+    "field_id": "7J6VPJ6J+JQ2C",
+    "amed_confidence": 0.8009,
+    "lat": 14.711459785714284,
+    "lng": 77.63187197142857,
+    "job_id": "j-26090109065043b78eb55a9898016336",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "final_status": "finished",
+    "costs": 8,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 2424
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 346
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 17.6355562210083
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 2.9701004028320312
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 11427840
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 11427840
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 29258023136
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3932160
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "crop": "SUGARCANE",
+    "field_id": "7J9VWG6W+78G9",
+    "amed_confidence": 0.7416,
+    "lat": 17.910652100000004,
+    "lng": 77.54582085000001,
+    "job_id": "j-2609010907274a49a23998312cd31535",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "final_status": "finished",
+    "costs": 10,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 3768
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 611
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 21.91673755645752
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.1210174560546875
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 17326080
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 17326080
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 22202194958
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 7733248
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "crop": "SOYBEANS",
+    "field_id": "7J9QJVWG+V9F7",
+    "amed_confidence": 0.9109,
+    "lat": 17.6471769375,
+    "lng": 75.87599008749999,
+    "job_id": "j-26090109075946169c5b23e742cae87b",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "final_status": "finished",
+    "costs": 9,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 2988
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 915
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 18.602749824523926
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 3.4916915893554688
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 13824000
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 13824000
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 25645380216
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3801088
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  },
+  {
+    "crop": "GROUNDNUT",
+    "field_id": "7J6VMMX2+PMRC",
+    "amed_confidence": 0.9242,
+    "lat": 14.699291990476192,
+    "lng": 77.65170628571428,
+    "job_id": "j-2609010907444ae8af34ebd69c66ec69",
+    "season_start": "2024-12-01",
+    "season_end": "2025-11-30",
+    "final_status": "finished",
+    "costs": 8,
+    "usage": {
+      "cpu": {
+        "unit": "cpu-seconds",
+        "value": 2376
+      },
+      "duration": {
+        "unit": "seconds",
+        "value": 923
+      },
+      "input_pixel": {
+        "unit": "mega-pixel",
+        "value": 17.637100219726562
+      },
+      "max_executor_memory": {
+        "unit": "gb",
+        "value": 2.8065261840820312
+      },
+      "memory": {
+        "unit": "mb-seconds",
+        "value": 11612160
+      },
+      "memory_requested": {
+        "unit": "mb-seconds",
+        "value": 11612160
+      },
+      "network_received": {
+        "unit": "b",
+        "value": 28637274874
+      },
+      "orfeo_backscatter_input_pixels": {
+        "unit": "count",
+        "value": 3932160
+      },
+      "sar_backscatter_soft_errors": {
+        "unit": "fraction",
+        "value": 0
+      }
+    }
+  }
+]

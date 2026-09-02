@@ -1,0 +1,222 @@
+[
+  {
+    "field_id": "7J9R7RPQ+JGVC",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.1846,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.286582224999997,
+    "lng": 76.838700275
+  },
+  {
+    "field_id": "7J9VWGM3+W54G",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.3545,
+    "season": "kharif",
+    "year": 2023,
+    "lat": 17.934708939130434,
+    "lng": 77.50289631739129
+  },
+  {
+    "field_id": "7J9QPW67+4JPH",
+    "region": "Maharashtra",
+    "district": "Solapur",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.4933,
+    "season": "kharif",
+    "year": 2022,
+    "lat": 17.71035600769231,
+    "lng": 75.91408846153846
+  },
+  {
+    "field_id": "7J9QPW49+9GVX",
+    "region": "Maharashtra",
+    "district": "Solapur",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.6091,
+    "season": "rabi",
+    "year": 2023,
+    "lat": 17.705968939999998,
+    "lng": 75.91884216
+  },
+  {
+    "field_id": "7J9VWFCH+RGV9",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "SUGARCANE",
+    "amed_confidence": 0.7379,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.92204243333333,
+    "lng": 77.47883074444444
+  },
+  {
+    "field_id": "7JCRCHH4+383J",
+    "region": "Maharashtra",
+    "district": "Latur",
+    "crop_label": "SORGHUM",
+    "amed_confidence": 0.3312,
+    "season": "rabi",
+    "year": 2024,
+    "lat": 18.427625827272728,
+    "lng": 76.55584679999998
+  },
+  {
+    "field_id": "7J9R7VRF+J2P5",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "SORGHUM",
+    "amed_confidence": 0.4176,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.291513348,
+    "lng": 76.87262618800001
+  },
+  {
+    "field_id": "7J9R9VF4+8XH2",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "SORGHUM",
+    "amed_confidence": 0.634,
+    "season": "rabi",
+    "year": 2024,
+    "lat": 17.373379228571427,
+    "lng": 76.85746025714285
+  },
+  {
+    "field_id": "7J9VWFXW+294C",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "RICE",
+    "amed_confidence": 0.2285,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.947437412499998,
+    "lng": 77.49589166875002
+  },
+  {
+    "field_id": "7J6VPJ4P+J2QH",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "RICE",
+    "amed_confidence": 0.5761,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 14.706540781818184,
+    "lng": 77.63515092727272
+  },
+  {
+    "field_id": "7J8VPXJF+XQVJ",
+    "region": "Telangana",
+    "district": "Mahbubnagar",
+    "crop_label": "RICE",
+    "amed_confidence": 0.6286,
+    "season": "rabi",
+    "year": 2026,
+    "lat": 16.73250485,
+    "lng": 77.97445316999999
+  },
+  {
+    "field_id": "7J6VPJCR+4X3X",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "RICE",
+    "amed_confidence": 0.6386,
+    "season": "rabi",
+    "year": 2026,
+    "lat": 14.720288954545454,
+    "lng": 77.64244140909092
+  },
+  {
+    "field_id": "7J9VXH64+H742",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "COTTON",
+    "amed_confidence": 0.3042,
+    "season": "kharif",
+    "year": 2022,
+    "lat": 17.96171407065217,
+    "lng": 77.55568888804346
+  },
+  {
+    "field_id": "7J9VXH44+8PF5",
+    "region": "Karnataka",
+    "district": "Bidar",
+    "crop_label": "COTTON",
+    "amed_confidence": 0.4413,
+    "season": "kharif",
+    "year": 2025,
+    "lat": 17.955784992000005,
+    "lng": 77.556864736
+  },
+  {
+    "field_id": "7J9R7RPG+QV4W",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "COTTON",
+    "amed_confidence": 0.6599,
+    "season": "kharif",
+    "year": 2023,
+    "lat": 17.286953315789475,
+    "lng": 76.82727011578947
+  },
+  {
+    "field_id": "7J9QMV2F+4Q8Q",
+    "region": "Maharashtra",
+    "district": "Solapur",
+    "crop_label": "CORN",
+    "amed_confidence": 0.3209,
+    "season": "rabi",
+    "year": 2026,
+    "lat": 17.650285033333333,
+    "lng": 75.87443708333333
+  },
+  {
+    "field_id": "7J6VMH27+9J73",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "GROUNDNUT",
+    "amed_confidence": 0.2307,
+    "season": "kharif",
+    "year": 2021,
+    "lat": 14.6508111875,
+    "lng": 77.56404463749999
+  },
+  {
+    "field_id": "7J6VPJ5R+4442",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "GROUNDNUT",
+    "amed_confidence": 0.5287,
+    "season": "kharif",
+    "year": 2021,
+    "lat": 14.707772512499998,
+    "lng": 77.64032162499998
+  },
+  {
+    "field_id": "7J9R9RC3+MQR5",
+    "region": "Karnataka",
+    "district": "Kalaburagi",
+    "crop_label": "SOYBEANS",
+    "amed_confidence": 0.5511,
+    "season": "kharif",
+    "year": 2022,
+    "lat": 17.371710745454546,
+    "lng": 76.80441601818181
+  },
+  {
+    "field_id": "7J6VPJ59+32FH",
+    "region": "Andhra Pradesh",
+    "district": "Anantapur",
+    "crop_label": "CHILLI",
+    "amed_confidence": 0.3425,
+    "season": "kharif",
+    "year": 2021,
+    "lat": 14.707629214285713,
+    "lng": 77.61756698571428
+  }
+]

@@ -1,0 +1,111 @@
+{
+  "experiment": "ESA WorldCereal CROPTYPE inference vs. our production sunflower-likeness score, same real field",
+  "field": {
+    "name": "Gadag-dated (iNaturalist observation 265387815)",
+    "lat": 15.6744383,
+    "lng": 75.3440033,
+    "amed_field_id": "7J7QM8FV+XJV9"
+  },
+  "esa_worldcereal": {
+    "package_version": "2.8.0",
+    "model_artifact": "WorldCereal-PRESTO-GLO_LC10CT24_LINEAR_FROMSSL_HARDNEGV3_NEWEXTV1-month-augment-balance=TruePerBin-SpatialBinH3L1-effective-ema0.5-clamp=0.1-4.0-Full-ckpt=regional_mean_f1-run=202608211601.zip",
+    "product_type": "croptype",
+    "season_window": {
+      "start": "2024-12-01",
+      "end": "2025-11-30",
+      "source": "worldcereal.seasons.get_season_dates_for_extent (real crop-calendar reference, not manually chosen)"
+    },
+    "job_attempts": [
+      {
+        "job_id": "j-260901081739478984a1374257498bdb",
+        "status": "error",
+        "real_credits": 4,
+        "failure_reason": "ModuleNotFoundError: No module named 'prometheo' on CDSE Spark executors -- missing job_options=DEFAULT_INFERENCE_JOB_OPTIONS"
+      },
+      {
+        "job_id": "j-2609010823584288b59cacc4fa3f4a2e",
+        "status": "finished",
+        "real_credits": 9,
+        "usage": {
+          "cpu_seconds": 3216,
+          "duration_seconds": 298,
+          "input_megapixels": 17.51
+        }
+      }
+    ],
+    "total_real_credits_spent": 13,
+    "result_window_11x11px": {
+      "rice_pixels": 84,
+      "no_crop_pixels": 19,
+      "maize_pixels": 1,
+      "total_valid_pixels": 104,
+      "sunflower_probability_pct": {
+        "min": 0,
+        "max": 3,
+        "mean": 0.9
+      }
+    },
+    "nearest_cropland_pixel": {
+      "classification": "rice",
+      "overall_probability_pct": 40,
+      "top5_class_probabilities_pct": {
+        "rice": 40,
+        "no_crop": 36,
+        "maize": 10,
+        "sorghum": 2,
+        "millet": 2
+      }
+    }
+  },
+  "our_production_model": {
+    "field": "Gadag-dated",
+    "likeness_pct": 4.0,
+    "india_background_percentile": 88.8,
+    "band": "below production threshold (7%)"
+  },
+  "comparison": "Two independent models (different architectures, different training data) both decline to support sunflower at this real location, and both independently lean toward the rice/cereal family -- convergent evidence the rice/sunflower ambiguity here is a real property of the location's spectral signature, not an artifact specific to our own Slovak-trained representation.",
+  "resource_accounting": {
+    "cdse_statistical_api_pu_spent_this_round": 0,
+    "cdse_statistical_api_pu_cumulative": 969.0,
+    "openeo_processing_credits_spent_this_round": 43,
+    "production_files_changed": 0,
+    "threshold_changed": false,
+    "committed_or_pushed": false,
+    "openeo_processing_credits_cumulative": 56
+  },
+  "batch_test_5_fields": {
+    "total_real_credits": 43,
+    "fields": [
+      {
+        "crop_amed_label": "RICE",
+        "field_id": "7J8VPXW7+V2PG",
+        "amed_confidence": 0.6516,
+        "openeo_credits": 8
+      },
+      {
+        "crop_amed_label": "CORN",
+        "field_id": "7J6VPJ6J+JQ2C",
+        "amed_confidence": 0.8009,
+        "openeo_credits": 8
+      },
+      {
+        "crop_amed_label": "SUGARCANE",
+        "field_id": "7J9VWG6W+78G9",
+        "amed_confidence": 0.7416,
+        "openeo_credits": 10
+      },
+      {
+        "crop_amed_label": "SOYBEANS",
+        "field_id": "7J9QJVWG+V9F7",
+        "amed_confidence": 0.9109,
+        "openeo_credits": 9
+      },
+      {
+        "crop_amed_label": "GROUNDNUT",
+        "field_id": "7J6VMMX2+PMRC",
+        "amed_confidence": 0.9242,
+        "openeo_credits": 8
+      }
+    ]
+  }
+}

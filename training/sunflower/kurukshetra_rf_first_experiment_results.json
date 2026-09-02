@@ -1,0 +1,201 @@
+{
+  "dataset": {
+    "n_total": 231,
+    "n_positive": 26,
+    "n_negative": 205
+  },
+  "features": [
+    "ndvi_apr",
+    "ndvi_may",
+    "ndvi_june",
+    "ndvi_apr_june_change",
+    "ndre_apr",
+    "ndre_may",
+    "ndre_june",
+    "ndwi_apr",
+    "ndwi_may",
+    "ndwi_june",
+    "ndyi_apr",
+    "ndyi_may",
+    "ndyi_june"
+  ],
+  "fold_metrics": [
+    {
+      "fold": 1,
+      "n_test": 47,
+      "n_pos_test": 6,
+      "precision": 0.7142857142857143,
+      "recall": 0.8333333333333334,
+      "f1": 0.7692307692307693,
+      "roc_auc": 0.983739837398374
+    },
+    {
+      "fold": 2,
+      "n_test": 46,
+      "n_pos_test": 5,
+      "precision": 0.45454545454545453,
+      "recall": 1.0,
+      "f1": 0.625,
+      "roc_auc": 1.0
+    },
+    {
+      "fold": 3,
+      "n_test": 46,
+      "n_pos_test": 5,
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "roc_auc": 0.9951219512195122
+    },
+    {
+      "fold": 4,
+      "n_test": 46,
+      "n_pos_test": 5,
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1": 0.9090909090909091,
+      "roc_auc": 0.9804878048780488
+    },
+    {
+      "fold": 5,
+      "n_test": 46,
+      "n_pos_test": 5,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8888888888888888,
+      "roc_auc": 1.0
+    }
+  ],
+  "cv_aggregate": {
+    "precision": 0.7096774193548387,
+    "recall": 0.8461538461538461,
+    "f1": 0.7719298245614035,
+    "roc_auc": 0.9844277673545966,
+    "average_precision": 0.8680164427231154,
+    "confusion_matrix": [
+      [
+        196,
+        9
+      ],
+      [
+        4,
+        22
+      ]
+    ]
+  },
+  "roc_auc_fold_spread": {
+    "mean": 0.991869918699187,
+    "min": 0.9804878048780488,
+    "max": 1.0
+  },
+  "feature_importances": [
+    {
+      "feature": "ndvi_apr_june_change",
+      "importance": 0.2613308272810573
+    },
+    {
+      "feature": "ndvi_apr",
+      "importance": 0.15488511733747787
+    },
+    {
+      "feature": "ndre_apr",
+      "importance": 0.09902594114171873
+    },
+    {
+      "feature": "ndyi_apr",
+      "importance": 0.09784663568133849
+    },
+    {
+      "feature": "ndwi_apr",
+      "importance": 0.08704417993959666
+    },
+    {
+      "feature": "ndvi_june",
+      "importance": 0.060068467835806064
+    },
+    {
+      "feature": "ndwi_june",
+      "importance": 0.04903651631766424
+    },
+    {
+      "feature": "ndvi_may",
+      "importance": 0.048111730934248816
+    },
+    {
+      "feature": "ndre_june",
+      "importance": 0.04198347508554409
+    },
+    {
+      "feature": "ndre_may",
+      "importance": 0.03375219047579258
+    },
+    {
+      "feature": "ndyi_june",
+      "importance": 0.03150189189014006
+    },
+    {
+      "feature": "ndwi_may",
+      "importance": 0.029397930509145354
+    },
+    {
+      "feature": "ndyi_may",
+      "importance": 0.006015095570469701
+    }
+  ],
+  "false_negatives": [
+    [
+      "7JXRVXHH+FX89",
+      0.32431485275857014
+    ],
+    [
+      "7JXRWVQ2+7JV5",
+      0.13538836337950813
+    ],
+    [
+      "8J2V527G+8XQG",
+      0.3765163532669183
+    ],
+    [
+      "7JXRXWP3+883P",
+      0.3785451841411676
+    ]
+  ],
+  "false_positives_top10": [
+    [
+      "7J6VMH43+V668",
+      0.9608374716042647
+    ],
+    [
+      "7J6VPHGH+WP7P",
+      0.8285463105128914
+    ],
+    [
+      "7J6VPH8X+XG5P",
+      0.6803970145484575
+    ],
+    [
+      "7J9VVG85+PP9M",
+      0.6598032825386299
+    ],
+    [
+      "7J6VPM22+GFQH",
+      0.6241363360597292
+    ],
+    [
+      "7J8WQ292+M9GP",
+      0.6152359015090191
+    ],
+    [
+      "7J6VPJJQ+572H",
+      0.5964982008987423
+    ],
+    [
+      "7J8VPXMG+J78F",
+      0.5315814030487297
+    ],
+    [
+      "7J6VPHCV+C534",
+      0.5282655985669532
+    ]
+  ]
+}

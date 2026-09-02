@@ -1,0 +1,7538 @@
+[
+  {
+    "type": "Feature",
+    "id": "7JXRVQCG+JVGR",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.77752579999999,
+              29.871308499999994
+            ],
+            [
+              76.7775249,
+              29.8718409
+            ],
+            [
+              76.7771525,
+              29.871854900000002
+            ],
+            [
+              76.77688289999999,
+              29.871831500000003
+            ],
+            [
+              76.77684479999999,
+              29.871434999999998
+            ],
+            [
+              76.7768529,
+              29.871308499999994
+            ],
+            [
+              76.77752579999999,
+              29.871308499999994
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3828.7059,
+      "classConfidence": 0.9935,
+      "captureTimestampSec": 1602140400,
+      "monitoring": [
+        {
+          "startTimestampSec": 1608442833,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7308
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0532
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0338
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624858842,
+          "endTimestampSec": 1635226839,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.5148
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0885
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0582
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1636090836,
+          "endTimestampSec": 1653370838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.5898
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0616
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.0516
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655962834,
+          "endTimestampSec": 1664602836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6386
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0763
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0472
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1685338845,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.5709
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.0755
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0579
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1693114849,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6388
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0755
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1701322839,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.2649
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.152
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1213
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6424
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.074
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731562833,
+          "endTimestampSec": 1745818840,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.3587
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.2735
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0795
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751434838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6398
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.076
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1763098839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7259
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0556
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0339
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e3e34"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRVRM6+9H6R",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.81171160000001,
+              29.882879600000003
+            ],
+            [
+              76.81174109999999,
+              29.8833664
+            ],
+            [
+              76.8117414,
+              29.8839528
+            ],
+            [
+              76.8110272,
+              29.883962600000004
+            ],
+            [
+              76.8110078,
+              29.8828892
+            ],
+            [
+              76.81171160000001,
+              29.882879600000003
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 8253.3926,
+      "classConfidence": 0.9966,
+      "captureTimestampSec": 1556866800,
+      "monitoring": [
+        {
+          "startTimestampSec": 1606282829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.745
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0546
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0339
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624426842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6432
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0458
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1639546836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.736
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0549
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0359
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1656394834,
+          "endTimestampSec": 1664602836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6403
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0746
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1670218841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7352
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0555
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0338
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1689658844,
+          "endTimestampSec": 1698730835,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.575
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0856
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0533
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1699594834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7351
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0583
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0359
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719466842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6442
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0737
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0461
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1733290833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7448
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0525
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0325
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1750570840,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6427
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0459
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1762666839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7343
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0507
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0347
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e3fec"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRVVHW+GCCC",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8963618,
+              29.879082399999998
+            ],
+            [
+              76.895658,
+              29.87909249999999
+            ],
+            [
+              76.8956374,
+              29.878551499999997
+            ],
+            [
+              76.89634110000001,
+              29.8785324
+            ],
+            [
+              76.8963618,
+              29.879082399999998
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 4119.1439,
+      "classConfidence": 0.9962,
+      "captureTimestampSec": 1602140400,
+      "monitoring": [
+        {
+          "startTimestampSec": 1604554829,
+          "endTimestampSec": 1614922833,
+          "predictions": [
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.5615
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1402
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0576
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1620106842,
+          "endTimestampSec": 1624858842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.4799
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.1179
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0617
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1627450839,
+          "endTimestampSec": 1635226839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3356
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1454
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.145
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.6666
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.087
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0454
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1657690836,
+          "endTimestampSec": 1664602836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6365
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0761
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7336
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0556
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0335
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1689226844,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6426
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0743
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1700458834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.6783
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0634
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0419
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6398
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0743
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0475
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1733290837,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7099
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0568
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0434
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751434838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6428
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0745
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0457
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1763098839,
+          "endTimestampSec": 1772170840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7346
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0561
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0348
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e41e4"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRVVM2+5W8F",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.85262949999999,
+              29.882365399999998
+            ],
+            [
+              76.85265849999999,
+              29.882816100000007
+            ],
+            [
+              76.8526495,
+              29.8834478
+            ],
+            [
+              76.85200789999999,
+              29.8834658
+            ],
+            [
+              76.8519774,
+              29.88237459999999
+            ],
+            [
+              76.85262949999999,
+              29.882365399999998
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 7660.4183,
+      "classConfidence": 0.9949,
+      "captureTimestampSec": 1654153200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1604986829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7468
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.055
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0336
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1623994842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6428
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0459
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7406
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0555
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0346
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655962834,
+          "endTimestampSec": 1664602836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6411
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.075
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0468
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1667626833,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7244
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0533
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0347
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6426
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0737
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1699594834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7353
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.057
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0347
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719034842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6443
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.074
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0459
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1730698833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7406
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0559
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0343
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751434838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6421
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0745
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0471
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1761802837,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7412
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0543
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0345
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e403c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRVWMV+97Q5",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.9435872,
+              29.8831318
+            ],
+            [
+              76.94361099999999,
+              29.8832938
+            ],
+            [
+              76.94362,
+              29.883753799999994
+            ],
+            [
+              76.9428954,
+              29.883764499999998
+            ],
+            [
+              76.94288329999999,
+              29.8836744
+            ],
+            [
+              76.9428937,
+              29.883142
+            ],
+            [
+              76.9435872,
+              29.8831318
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 4822.2312,
+      "classConfidence": 0.992,
+      "captureTimestampSec": 1621753200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605418829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7656
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0504
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0327
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624858842,
+          "endTimestampSec": 1635658839,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6438
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0741
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0456
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1639978836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7368
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0575
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0348
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1656394834,
+          "endTimestampSec": 1664602836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6375
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0764
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7294
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0559
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0322
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1689226844,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6415
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0744
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1700026834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7347
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0575
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0359
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1720762838,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6425
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0744
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.046
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1733290837,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7463
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.054
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0337
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6399
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0743
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1764826839,
+          "endTimestampSec": 1774330836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7024
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0538
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0349
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e4274"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRVXCP+2C5C",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.9864322,
+              29.8697454
+            ],
+            [
+              76.9864324,
+              29.8702777
+            ],
+            [
+              76.9857595,
+              29.8702788
+            ],
+            [
+              76.9857593,
+              29.869746499999994
+            ],
+            [
+              76.9864322,
+              29.8697454
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3840.0266,
+      "classConfidence": 0.9948,
+      "captureTimestampSec": 1602140400,
+      "monitoring": [
+        {
+          "startTimestampSec": 1608010833,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7404
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0532
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0345
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1625290842,
+          "endTimestampSec": 1635658839,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.641
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0744
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7362
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0569
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0353
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1657258834,
+          "endTimestampSec": 1667194841,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6031
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0793
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0496
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1668058837,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7287
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0572
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0344
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6397
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0738
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1699594834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.6537
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0622
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0448
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1717306842,
+          "endTimestampSec": 1725082842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6415
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0741
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1728538834,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7483
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0545
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0331
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1749706840,
+          "endTimestampSec": 1756618840,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6402
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0751
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1762666839,
+          "endTimestampSec": 1772170840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7395
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0544
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0354
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1780378837,
+          "endTimestampSec": 1785130837,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6408
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0752
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0458
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e6824"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRWQHC+GVM6",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.772793,
+              29.928521099999998
+            ],
+            [
+              76.77282459999999,
+              29.929134200000004
+            ],
+            [
+              76.77151959999999,
+              29.929142699999996
+            ],
+            [
+              76.7714986,
+              29.9285385
+            ],
+            [
+              76.772793,
+              29.928521099999998
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 8480.8675,
+      "classConfidence": 0.9916,
+      "captureTimestampSec": 1660978800,
+      "monitoring": [
+        {
+          "startTimestampSec": 1602826831,
+          "endTimestampSec": 1609738831,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.3943
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.2006
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.1694
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1614058841,
+          "endTimestampSec": 1622266843,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.7796
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0392
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0284
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624426842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6349
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0761
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0472
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1635658836,
+          "endTimestampSec": 1640842836,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.4378
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.1745
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655530834,
+          "endTimestampSec": 1664170836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6362
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0759
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0474
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1685338845,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.3555
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.3229
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.058
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498844,
+          "endTimestampSec": 1695274844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.638
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.075
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1705642840,
+          "endTimestampSec": 1713850840,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.3879
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.2734
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0621
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1721194838,
+          "endTimestampSec": 1727674838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6128
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0681
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0634
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1730698833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.4269
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.0941
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0825
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751002840,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6407
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0755
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.046
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1760938837,
+          "endTimestampSec": 1766986837,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.4312
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1777
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.1447
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1767850836,
+          "endTimestampSec": 1774330836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5858
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0673
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0647
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e3edc"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRWRP3+J6FJ",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8035517,
+              29.936819399999997
+            ],
+            [
+              76.803034,
+              29.936835499999994
+            ],
+            [
+              76.80250550000001,
+              29.9368247
+            ],
+            [
+              76.8024964,
+              29.9363196
+            ],
+            [
+              76.8027347,
+              29.936325399999998
+            ],
+            [
+              76.8031278,
+              29.936292899999994
+            ],
+            [
+              76.8035524,
+              29.9362871
+            ],
+            [
+              76.8035517,
+              29.936819399999997
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 5906.0616,
+      "classConfidence": 0.993,
+      "captureTimestampSec": 1637740800,
+      "monitoring": [
+        {
+          "startTimestampSec": 1606714829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7457
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0507
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0314
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1625290842,
+          "endTimestampSec": 1635226839,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.4104
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1215
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0917
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7407
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0527
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0366
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7138
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0555
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0378
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1692682849,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6184
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0704
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0488
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1698730835,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5847
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1612
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0535
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719466842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6449
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0739
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1734154837,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7209
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0624
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0356
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751002840,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6422
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0743
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0459
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1763530839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7488
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0525
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0339
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e3f44"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRWRRX+PVWG",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.84995599999999,
+              29.941057199999996
+            ],
+            [
+              76.84998750000001,
+              29.942202599999998
+            ],
+            [
+              76.8500136,
+              29.942490999999997
+            ],
+            [
+              76.8500061,
+              29.9426445
+            ],
+            [
+              76.8494364,
+              29.9426525
+            ],
+            [
+              76.8494174,
+              29.9410648
+            ],
+            [
+              76.84995599999999,
+              29.941057199999996
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 9420.8848,
+      "classConfidence": 0.9918,
+      "captureTimestampSec": 1654153200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1602394831,
+          "endTimestampSec": 1609306831,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5166
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0795
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0713
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1610602833,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5709
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0774
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0711
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624426842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6386
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0758
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1635226836,
+          "endTimestampSec": 1640842836,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.4106
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.241
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0571
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1641274835,
+          "endTimestampSec": 1650778834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.4838
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1601
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0697
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1657258836,
+          "endTimestampSec": 1664602836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6395
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0739
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0466
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.4874
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1014
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0609
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687930844,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6379
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0734
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0471
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1704778840,
+          "endTimestampSec": 1713850840,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.5122
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1399
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0655
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719466842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.642
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0746
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731994833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7188
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0569
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0331
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751434838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6421
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1761802837,
+          "endTimestampSec": 1769578839,
+          "predictions": [
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.6839
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.0687
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1771738839,
+          "endTimestampSec": 1779946838,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.41
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1442
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.1044
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e40c4"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRWVPW+9Q5M",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8969772,
+              29.935597899999994
+            ],
+            [
+              76.89722600000002,
+              29.9356033
+            ],
+            [
+              76.89724729999999,
+              29.936180399999998
+            ],
+            [
+              76.89672929999999,
+              29.936178899999998
+            ],
+            [
+              76.8967187,
+              29.9356196
+            ],
+            [
+              76.8969772,
+              29.935597899999994
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3158.5248,
+      "classConfidence": 0.9937,
+      "captureTimestampSec": 1654153200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605850829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7442
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0533
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0327
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624426842,
+          "endTimestampSec": 1630042842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6403
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0752
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7401
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0549
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0343
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1659418841,
+          "endTimestampSec": 1667194841,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.3995
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1346
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0985
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7193
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0577
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0361
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687930849,
+          "endTimestampSec": 1693114849,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6411
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0742
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1699594834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5913
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0752
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0536
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.642
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0752
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731562833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7368
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0544
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0332
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6418
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0751
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1763962839,
+          "endTimestampSec": 1772170840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.733
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0537
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0352
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e416c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRWWPV+H9P3",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.9437678,
+              29.936684299999992
+            ],
+            [
+              76.9431467,
+              29.936702499999996
+            ],
+            [
+              76.943129,
+              29.9363238
+            ],
+            [
+              76.94312699999999,
+              29.9362246
+            ],
+            [
+              76.9437482,
+              29.936206399999996
+            ],
+            [
+              76.9437678,
+              29.936684299999992
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3189.9287,
+      "classConfidence": 0.994,
+      "captureTimestampSec": 1684911600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1606714829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.736
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0541
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.035
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1620106842,
+          "endTimestampSec": 1624858842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.4628
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.1314
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0585
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1637818836,
+          "endTimestampSec": 1645594836,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.2941
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1427
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.123
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1647754838,
+          "endTimestampSec": 1653802838,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.7944
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0467
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0317
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655530834,
+          "endTimestampSec": 1664602836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6316
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0738
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0495
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1667194837,
+          "endTimestampSec": 1685338845,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.3544
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.2611
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.0595
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1693114849,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6319
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0753
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0478
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1709530841,
+          "endTimestampSec": 1716874841,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.8043
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0371
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0255
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1725082842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6329
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0485
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1735450837,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.4767
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1622
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0721
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751002840,
+          "endTimestampSec": 1756618840,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.64
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0743
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0471
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1760506837,
+          "endTimestampSec": 1771738840,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.2335
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.1636
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.0977
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1772602838,
+          "endTimestampSec": 1779946838,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.7942
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0385
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0343
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e43bc"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRWXJP+7946",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.9867587,
+              29.930548800000008
+            ],
+            [
+              76.98598170000001,
+              29.9305424
+            ],
+            [
+              76.98606509999999,
+              29.9305682
+            ],
+            [
+              76.9860721,
+              29.93092
+            ],
+            [
+              76.9860951,
+              29.931036900000002
+            ],
+            [
+              76.9860994,
+              29.9312534
+            ],
+            [
+              76.9854783,
+              29.931271799999998
+            ],
+            [
+              76.9854745,
+              29.931082399999998
+            ],
+            [
+              76.9854506,
+              29.9309203
+            ],
+            [
+              76.9854468,
+              29.930207699999997
+            ],
+            [
+              76.9867618,
+              29.9301878
+            ],
+            [
+              76.9867587,
+              29.930548800000008
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 9652.5151,
+      "classConfidence": 0.9909,
+      "captureTimestampSec": 1649833200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1604554829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7429
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0533
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0338
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624858842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6396
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0758
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7412
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.054
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.035
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655962834,
+          "endTimestampSec": 1661578834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6391
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0751
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1668058833,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7308
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0567
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0328
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6408
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0744
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1705210840,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.2049
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1877
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1657
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1720762838,
+          "endTimestampSec": 1727674838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6382
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0736
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1735018837,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.3106
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1912
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.095
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751002840,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6417
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0752
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0458
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1760506837,
+          "endTimestampSec": 1766554837,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5486
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1664
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0633
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1766986836,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3068
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.268
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0762
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e431c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRXQPG+9P3H",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.7768847,
+              29.985605300000007
+            ],
+            [
+              76.7771752,
+              29.9856195
+            ],
+            [
+              76.7771803,
+              29.9859081
+            ],
+            [
+              76.77716410000001,
+              29.986160899999998
+            ],
+            [
+              76.7764596,
+              29.9861795
+            ],
+            [
+              76.7764392,
+              29.98561129999999
+            ],
+            [
+              76.7768847,
+              29.985605300000007
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 4354.7603,
+      "classConfidence": 0.9941,
+      "captureTimestampSec": 1661929200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1604554829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7518
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0528
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0332
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1625290842,
+          "endTimestampSec": 1630042842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6427
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0753
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0458
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7363
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0554
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0365
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1656826834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.639
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0747
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0466
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7302
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0565
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0333
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1689226844,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6427
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0734
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1699594834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.735
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0561
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0345
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898838,
+          "endTimestampSec": 1727674838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6431
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0745
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.046
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731130833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7378
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0571
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0343
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6437
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0747
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1762666839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7437
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.052
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0342
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e3904"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRXRV4+2PG7",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8066578,
+              29.9922827
+            ],
+            [
+              76.8068447,
+              29.9922981
+            ],
+            [
+              76.8071659,
+              29.992293700000005
+            ],
+            [
+              76.8071755,
+              29.9928259
+            ],
+            [
+              76.80649129999999,
+              29.9928173
+            ],
+            [
+              76.8064715,
+              29.9922942
+            ],
+            [
+              76.8066578,
+              29.9922827
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3905.6166,
+      "classConfidence": 0.9935,
+      "captureTimestampSec": 1678521600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1606282829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7476
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0543
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0329
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1625290842,
+          "endTimestampSec": 1630042842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6399
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0754
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0461
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7354
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0548
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0363
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1657258834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6406
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0741
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0466
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7356
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0557
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0342
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1690954844,
+          "endTimestampSec": 1699162835,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6457
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0724
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.046
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1701322834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7303
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0573
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0365
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1720762838,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.642
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0741
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0466
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731562833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7416
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0556
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0343
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6431
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0745
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1764394839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.6888
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0758
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0533
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e388c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRXVMX+X39H",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8980851,
+              29.9846354
+            ],
+            [
+              76.8981056,
+              29.98516740000001
+            ],
+            [
+              76.89739089999999,
+              29.985186799999997
+            ],
+            [
+              76.897391,
+              29.984645399999998
+            ],
+            [
+              76.8980851,
+              29.9846354
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 4050.4806,
+      "classConfidence": 0.9914,
+      "captureTimestampSec": 1661929200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1606282829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7363
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0554
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0318
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1625722843,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6425
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0761
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1639546836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7356
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0551
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.036
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1657258834,
+          "endTimestampSec": 1667194841,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3532
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.2466
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0699
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1670650841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7259
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0564
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0336
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687930844,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6412
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0741
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1700458834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3938
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1304
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0877
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6437
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0736
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1733722833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7284
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0562
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0343
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6423
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0745
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0457
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1763962839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7272
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0518
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0349
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e4694"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRXWVX+MFHQ",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.9490493,
+              29.9939322
+            ],
+            [
+              76.94904919999999,
+              29.994455499999994
+            ],
+            [
+              76.9485309,
+              29.994454199999996
+            ],
+            [
+              76.9484373,
+              29.9944375
+            ],
+            [
+              76.9484378,
+              29.993932299999997
+            ],
+            [
+              76.9490493,
+              29.9939322
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3414.1171,
+      "classConfidence": 0.9953,
+      "captureTimestampSec": 1542787200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605418829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.739
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0535
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.032
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624858842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.641
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0762
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0459
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7385
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.054
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.034
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655530834,
+          "endTimestampSec": 1664170836,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6376
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0744
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0476
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1670218841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7113
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.056
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0367
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687930849,
+          "endTimestampSec": 1693114849,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6423
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0741
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1699594834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.6639
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0689
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0477
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6418
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.074
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0466
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731994833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7436
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0532
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0337
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751434838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6417
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0745
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.047
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1762666839,
+          "endTimestampSec": 1774330836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.731
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0552
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0347
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e4444"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXRXXPJ+VF3F",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.9814957,
+              29.986888800000003
+            ],
+            [
+              76.9814948,
+              29.987367
+            ],
+            [
+              76.98128799999999,
+              29.987388199999998
+            ],
+            [
+              76.9808528,
+              29.987394699999996
+            ],
+            [
+              76.9808426,
+              29.986880599999996
+            ],
+            [
+              76.9814957,
+              29.986888800000003
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3483.0929,
+      "classConfidence": 0.9955,
+      "captureTimestampSec": 1542787200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1604554831,
+          "endTimestampSec": 1609738831,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.4249
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2575
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.079
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1610170833,
+          "endTimestampSec": 1619242841,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.4872
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1497
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0763
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1629178839,
+          "endTimestampSec": 1635658839,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.3898
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.1702
+            },
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.1026
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1639978836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7343
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0567
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0359
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1677562841,
+          "predictions": [
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.6938
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1057
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.041
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1681018850,
+          "endTimestampSec": 1687498850,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.7609
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0363
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0356
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1699162834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.1905
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.1744
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.1731
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6411
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0744
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1733722833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.6935
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0582
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0574
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.641
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0751
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1764394839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7218
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.053
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0356
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e4494"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXVV2GF+5VVR",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              77.0253403,
+              29.875207599999996
+            ],
+            [
+              77.02537219999999,
+              29.8757575
+            ],
+            [
+              77.0239647,
+              29.8757791
+            ],
+            [
+              77.02395380000002,
+              29.875237899999995
+            ],
+            [
+              77.0253403,
+              29.875207599999996
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 8176.2744,
+      "classConfidence": 0.9939,
+      "captureTimestampSec": 1684911600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1608442833,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7336
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.053
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0334
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624426842,
+          "endTimestampSec": 1635658839,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6399
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0762
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0451
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638682836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7422
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0562
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0341
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655098834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.64
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0735
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1667194837,
+          "endTimestampSec": 1677562841,
+          "predictions": [
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.7495
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.041
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0376
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1688794844,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6351
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0747
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1700458834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.6467
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0666
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0498
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1717306842,
+          "endTimestampSec": 1725082842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6408
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0742
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731994833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7389
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0515
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0353
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751434838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.641
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0757
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.046
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1764394839,
+          "endTimestampSec": 1772170840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7307
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0534
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0344
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e67f4"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXVW2MF+2WXW",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              77.0255663,
+              29.9329352
+            ],
+            [
+              77.0253797,
+              29.932929
+            ],
+            [
+              77.02503709999999,
+              29.932889199999995
+            ],
+            [
+              77.0241569,
+              29.932902700000007
+            ],
+            [
+              77.0241358,
+              29.932370799999998
+            ],
+            [
+              77.02496359999999,
+              29.932330999999994
+            ],
+            [
+              77.02555439999999,
+              29.932348999999995
+            ],
+            [
+              77.0255663,
+              29.9329352
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 8448.9604,
+      "classConfidence": 0.9965,
+      "captureTimestampSec": 1545465600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605418829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7422
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0554
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0322
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624426842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6437
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.075
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0453
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7401
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0555
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0346
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1656826834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6407
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.074
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0461
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1668058833,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7261
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0557
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0349
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687930849,
+          "endTimestampSec": 1693114849,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6431
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.074
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1700026834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7085
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0611
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0394
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1725082842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.643
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0742
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731994833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7442
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0535
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0348
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6434
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0734
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1762666839,
+          "endTimestampSec": 1774330836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7398
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0549
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0338
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e5cdc"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "7JXVX2QG+Q7P3",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              77.0260205,
+              29.9890349
+            ],
+            [
+              77.02602739999999,
+              29.989882799999997
+            ],
+            [
+              77.0253847,
+              29.9898747
+            ],
+            [
+              77.0253571,
+              29.989027099999998
+            ],
+            [
+              77.0260205,
+              29.9890349
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 5927.8695,
+      "classConfidence": 0.9923,
+      "captureTimestampSec": 1669449600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1602394831,
+          "endTimestampSec": 1609306831,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5881
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0804
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1610170833,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3881
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.2577
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.069
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624426842,
+          "endTimestampSec": 1630042842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6376
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0759
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1634362836,
+          "endTimestampSec": 1650778834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.3946
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.3025
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0606
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655530834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6373
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1674106839,
+          "endTimestampSec": 1682314842,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.6009
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1062
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0582
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6379
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.075
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0468
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1697434835,
+          "endTimestampSec": 1703914835,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.4513
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0961
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.091
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1706506840,
+          "endTimestampSec": 1714282840,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.4784
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1461
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0629
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898838,
+          "endTimestampSec": 1727674838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6387
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0742
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0472
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1729834834,
+          "endTimestampSec": 1738474833,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.7064
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0638
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0454
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1748842840,
+          "endTimestampSec": 1771738840,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7304
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0554
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0342
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1775194838,
+          "endTimestampSec": 1786426856,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7242
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0577
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0359
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e5b44"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R2QRF+H8HF",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.77377930000002,
+              30.0411531
+            ],
+            [
+              76.7737892,
+              30.0417124
+            ],
+            [
+              76.7729494,
+              30.0417237
+            ],
+            [
+              76.77291869999999,
+              30.041164700000003
+            ],
+            [
+              76.77377930000002,
+              30.0411531
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 5090.1098,
+      "classConfidence": 0.991,
+      "captureTimestampSec": 1661929200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605850829,
+          "endTimestampSec": 1622266843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.3572
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1103
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.083
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1625290842,
+          "endTimestampSec": 1630042842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6405
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0756
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1640410836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3793
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.1999
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0683
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1659418841,
+          "endTimestampSec": 1667194841,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6334
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1672378839,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7048
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0566
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0402
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1690090844,
+          "endTimestampSec": 1699162835,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6419
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0731
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1704778840,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5781
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0788
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.0647
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6374
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0747
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1734586837,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5256
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.2006
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0481
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6385
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0744
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0471
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1764394839,
+          "endTimestampSec": 1774330836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7252
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0562
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0353
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e377c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R2RV4+VQMM",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.807166,
+              30.044316499999997
+            ],
+            [
+              76.80727,
+              30.044333100000003
+            ],
+            [
+              76.8072741,
+              30.045126999999994
+            ],
+            [
+              76.80656859999999,
+              30.0451096
+            ],
+            [
+              76.8065645,
+              30.044315700000002
+            ],
+            [
+              76.807166,
+              30.044316499999997
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 6047.0883,
+      "classConfidence": 0.9959,
+      "captureTimestampSec": 1654153200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605418829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7171
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0547
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0423
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1623994842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6429
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0742
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1636090836,
+          "endTimestampSec": 1645594836,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.574
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.0837
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.0451
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655962834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6365
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0754
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7313
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0566
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0306
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.642
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0742
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0466
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1699162835,
+          "endTimestampSec": 1703914835,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.2429
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1322
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.125
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1707802840,
+          "endTimestampSec": 1714282840,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.7161
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.0656
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0382
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6399
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0745
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0471
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1730266834,
+          "endTimestampSec": 1738474833,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.7025
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.0779
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0402
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1740202840,
+          "endTimestampSec": 1748410841,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.3254
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.2949
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.0721
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751002838,
+          "endTimestampSec": 1758778838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6358
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0747
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0483
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1760506837,
+          "endTimestampSec": 1766986837,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.4467
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.2805
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.0504
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1770874839,
+          "endTimestampSec": 1777354839,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.3386
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.2543
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.0955
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1780810837,
+          "endTimestampSec": 1786426856,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6372
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0758
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0473
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e37f4"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R2V36+45GJ",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8608292,
+              30.0025351
+            ],
+            [
+              76.8608395,
+              30.003085300000002
+            ],
+            [
+              76.8600621,
+              30.003087299999997
+            ],
+            [
+              76.86004179999999,
+              30.002555300000004
+            ],
+            [
+              76.8608292,
+              30.0025351
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 4535.1475,
+      "classConfidence": 0.9939,
+      "captureTimestampSec": 1654153200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605850829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7622
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0499
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0307
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1625290842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6422
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0747
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0458
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1639546836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7368
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.054
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0355
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1656394834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6383
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0743
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.723
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.058
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0352
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6414
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0739
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0466
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1705210840,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.2434
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1416
+            },
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.0949
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6412
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0738
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1732858833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7375
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0536
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0332
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1752730838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6436
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0746
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1763098839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7345
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0519
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0348
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e470c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R2WW4+GFJ6",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.9063591,
+              30.046055499999994
+            ],
+            [
+              76.9064215,
+              30.0460636
+            ],
+            [
+              76.9067118,
+              30.046059399999994
+            ],
+            [
+              76.9067116,
+              30.046591699999997
+            ],
+            [
+              76.90555049999999,
+              30.0466085
+            ],
+            [
+              76.90552989999999,
+              30.046076499999995
+            ],
+            [
+              76.9063591,
+              30.046055499999994
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 6717.3048,
+      "classConfidence": 0.9943,
+      "captureTimestampSec": 1542787200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1604554829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7579
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0496
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0324
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1623994842,
+          "endTimestampSec": 1630042842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6414
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.076
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7414
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.056
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0352
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1655098834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6374
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0469
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7277
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0558
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0322
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498849,
+          "endTimestampSec": 1693114849,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.642
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0736
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1698298835,
+          "endTimestampSec": 1716874841,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.3432
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.2411
+            },
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.0679
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1720762838,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6418
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0737
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731994833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7319
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0581
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0365
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751434838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6409
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0751
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1762666839,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7389
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0547
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0341
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e461c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R2XXJ+V8VQ",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.98114369999999,
+              30.049469799999997
+            ],
+            [
+              76.981144,
+              30.0500021
+            ],
+            [
+              76.98048059999999,
+              30.0500211
+            ],
+            [
+              76.9804697,
+              30.04947099999999
+            ],
+            [
+              76.98114369999999,
+              30.049469799999997
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3873.9526,
+      "classConfidence": 0.9953,
+      "captureTimestampSec": 1542787200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605850829,
+          "endTimestampSec": 1614490833,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.6709
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1096
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0539
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1617082842,
+          "endTimestampSec": 1624426842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6243
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0727
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0464
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1626154843,
+          "endTimestampSec": 1635226839,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6165
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0717
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0525
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1637818836,
+          "endTimestampSec": 1645594836,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.5485
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.0735
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0525
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1648618838,
+          "endTimestampSec": 1656826838,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.6806
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0621
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0566
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1658122836,
+          "endTimestampSec": 1667194841,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3723
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.132
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0973
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1677562841,
+          "predictions": [
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.5747
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.1945
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0454
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1680154845,
+          "endTimestampSec": 1687498850,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.756
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0412
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0387
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1690522844,
+          "endTimestampSec": 1700890834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6202
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0761
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0492
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1705210840,
+          "endTimestampSec": 1713850840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5324
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0775
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.0682
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1718170842,
+          "endTimestampSec": 1727674838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6401
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0721
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1735018837,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.4898
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0899
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0831
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1750570840,
+          "endTimestampSec": 1771738840,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7381
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0544
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0361
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1773466838,
+          "endTimestampSec": 1786426856,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7299
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.056
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0354
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e4564"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R3V54+H3R3",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8554898,
+              30.0592428
+            ],
+            [
+              76.85479509999999,
+              30.0592526
+            ],
+            [
+              76.8547748,
+              30.058720599999997
+            ],
+            [
+              76.8554797,
+              30.058701600000003
+            ],
+            [
+              76.8554898,
+              30.0592428
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 4021.04,
+      "classConfidence": 0.9959,
+      "captureTimestampSec": 1654153200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605418829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7534
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0514
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0319
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1625722843,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6406
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0751
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0463
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7393
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0557
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0345
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1656826834,
+          "endTimestampSec": 1661578834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6369
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0468
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7378
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0571
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0351
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687498844,
+          "endTimestampSec": 1695274844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6421
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0739
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1700026834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.5909
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.066
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.053
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7313
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.055
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0367
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1744522840,
+          "endTimestampSec": 1766554837,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.3886
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.2954
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0631
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1767418836,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.4597
+            },
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.1605
+            },
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.1183
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e4874"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R3X42+6CJP",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.9513502,
+              30.0553195
+            ],
+            [
+              76.951371,
+              30.05585150000001
+            ],
+            [
+              76.9510705,
+              30.055864999999997
+            ],
+            [
+              76.9506866,
+              30.055852700000003
+            ],
+            [
+              76.9506761,
+              30.055320499999997
+            ],
+            [
+              76.9513502,
+              30.0553195
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3915.596,
+      "classConfidence": 0.9953,
+      "captureTimestampSec": 1638950400,
+      "monitoring": [
+        {
+          "startTimestampSec": 1604554829,
+          "endTimestampSec": 1614922833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7526
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0505
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0315
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624426842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.3526
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.2543
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0905
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1646890838,
+          "endTimestampSec": 1659418838,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.6041
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.1031
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.066
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1659850841,
+          "endTimestampSec": 1677562841,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7022
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0536
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0488
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1680154845,
+          "endTimestampSec": 1703914835,
+          "predictions": [
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.7308
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0545
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.035
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1709962841,
+          "endTimestampSec": 1716874841,
+          "predictions": [
+            {
+              "crop": "CORN",
+              "confidence": 0.5092
+            },
+            {
+              "crop": "SUGARCANE",
+              "confidence": 0.201
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0513
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1725082842,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6273
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0769
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0476
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1728538830,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3246
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1566
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1236
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1751002840,
+          "endTimestampSec": 1756618840,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6412
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0746
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1759210837,
+          "endTimestampSec": 1774762836,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.3269
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.1491
+            },
+            {
+              "crop": "COTTON",
+              "confidence": 0.1062
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1781242856,
+          "endTimestampSec": 1786426856,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6395
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0744
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.047
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e458c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R4Q2G+P5FV",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.77610229999999,
+              30.101553400000004
+            ],
+            [
+              76.77612330000001,
+              30.101562100000002
+            ],
+            [
+              76.7761062,
+              30.10176989999999
+            ],
+            [
+              76.7761119,
+              30.1020856
+            ],
+            [
+              76.774732,
+              30.102095199999994
+            ],
+            [
+              76.7747225,
+              30.101563000000002
+            ],
+            [
+              76.77610229999999,
+              30.101553400000004
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 7880.3563,
+      "classConfidence": 0.993,
+      "captureTimestampSec": 1678521600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1605418829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7594
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0507
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0326
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624858842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6414
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0747
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0465
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1635658836,
+          "endTimestampSec": 1646026836,
+          "predictions": [
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.5947
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0993
+            },
+            {
+              "crop": "WHEAT",
+              "confidence": 0.0715
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1648186838,
+          "endTimestampSec": 1653802838,
+          "predictions": [
+            {
+              "crop": "COTTON",
+              "confidence": 0.5288
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1246
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0544
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1656394834,
+          "endTimestampSec": 1662010834,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6372
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0752
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0475
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7341
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0588
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0338
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1687066849,
+          "endTimestampSec": 1695706844,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6365
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0759
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0472
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1698730835,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.3291
+            },
+            {
+              "crop": "CORN",
+              "confidence": 0.1939
+            },
+            {
+              "crop": "UNKNOWN_CROP",
+              "confidence": 0.0664
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1720762838,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6401
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.075
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0467
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1731994833,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7313
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0601
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0352
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1750138840,
+          "endTimestampSec": 1756618840,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6408
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0751
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.046
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1761370837,
+          "endTimestampSec": 1772170840,
+          "predictions": [
+            {
+              "crop": "MUSTARD",
+              "confidence": 0.74
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0462
+            },
+            {
+              "crop": "SORGHUM",
+              "confidence": 0.0341
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1772602838,
+          "endTimestampSec": 1779946838,
+          "predictions": [
+            {
+              "crop": "COTTON",
+              "confidence": 0.5245
+            },
+            {
+              "crop": "RICE",
+              "confidence": 0.1213
+            },
+            {
+              "crop": "GROUNDNUT",
+              "confidence": 0.0615
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e36f4"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R4R56+MJMJ",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8117177,
+              30.1091508
+            ],
+            [
+              76.81172,
+              30.109277099999993
+            ],
+            [
+              76.8113466,
+              30.1092823
+            ],
+            [
+              76.8113442,
+              30.109156000000006
+            ],
+            [
+              76.8117177,
+              30.1091508
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 504.5834,
+      "classConfidence": 0.9934,
+      "captureTimestampSec": 1678521600,
+      "monitoring": [
+        {
+          "startTimestampSec": 1678521600,
+          "endTimestampSec": 1678521600,
+          "predictions": [
+            {
+              "crop": "NO_PREDICTION",
+              "confidence": 0
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e363c"
+    ]
+  },
+  {
+    "type": "Feature",
+    "id": "8J2R4V43+XQ9P",
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [
+        [
+          [
+            [
+              76.8548378,
+              30.107673699999992
+            ],
+            [
+              76.8541532,
+              30.1076834
+            ],
+            [
+              76.85415379999999,
+              30.107160099999998
+            ],
+            [
+              76.8548071,
+              30.107141900000002
+            ],
+            [
+              76.8548378,
+              30.107673699999992
+            ]
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "aluType": "field",
+      "areaSqM": 3777.7332,
+      "classConfidence": 0.9923,
+      "captureTimestampSec": 1661929200,
+      "monitoring": [
+        {
+          "startTimestampSec": 1607146829,
+          "endTimestampSec": 1617514833,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7408
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0532
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0326
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1624858842,
+          "endTimestampSec": 1632634843,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6404
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0743
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0461
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1638250836,
+          "endTimestampSec": 1648618835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.6682
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0577
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0401
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1669786841,
+          "endTimestampSec": 1679722839,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7393
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0552
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0332
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1691386835,
+          "endTimestampSec": 1698730835,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6387
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0717
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0462
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1700026834,
+          "endTimestampSec": 1711690840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7142
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0607
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0402
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1719898842,
+          "endTimestampSec": 1728106838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.641
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0741
+            },
+            {
+              "crop": "BAJRA",
+              "confidence": 0.0466
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1733290837,
+          "endTimestampSec": 1743658835,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7502
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0528
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0321
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1754458838,
+          "endTimestampSec": 1759210838,
+          "predictions": [
+            {
+              "crop": "RICE",
+              "confidence": 0.6414
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0748
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.046
+            }
+          ]
+        },
+        {
+          "startTimestampSec": 1763962839,
+          "endTimestampSec": 1772170840,
+          "predictions": [
+            {
+              "crop": "WHEAT",
+              "confidence": 0.7282
+            },
+            {
+              "crop": "CHILLI",
+              "confidence": 0.0551
+            },
+            {
+              "crop": "GRAM",
+              "confidence": 0.0351
+            }
+          ]
+        }
+      ]
+    },
+    "sourceCellTokens": [
+      "390e49bc"
+    ]
+  }
+]

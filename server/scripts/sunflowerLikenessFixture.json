@@ -1,0 +1,170 @@
+[
+  {
+    "field_id": "7J6VJJJX+H2VC",
+    "crop_label": "RICE",
+    "raw_spectral": {
+      "ndviMean": 0.3216617102,
+      "ndviPeakValue": 0.4091261923,
+      "ndreMean": 0.2236694632,
+      "ndrePeakValue": 0.3157105371,
+      "ndwiMean": 0.0185280282,
+      "ndwiPeakValue": 0.1410992384,
+      "yellowIndexMean": 0.1341249901,
+      "yellowIndexPeakValue": 0.2004468627,
+      "observationCount": 12
+    },
+    "expected": {
+      "mahalanobisLikeness": 0.0,
+      "knnLikeness": 0.0,
+      "likeness": 0.0,
+      "band": "below_exploratory"
+    }
+  },
+  {
+    "field_id": "7J9QPW67+4JPH",
+    "crop_label": "SUGARCANE",
+    "raw_spectral": {
+      "ndviMean": 0.1561687417,
+      "ndviPeakValue": 0.2961556409,
+      "ndreMean": 0.0917396617,
+      "ndrePeakValue": 0.2336199656,
+      "ndwiMean": -0.0313921873,
+      "ndwiPeakValue": 0.0953485067,
+      "yellowIndexMean": 0.1688513596,
+      "yellowIndexPeakValue": 0.4921782423,
+      "observationCount": 13
+    },
+    "expected": {
+      "mahalanobisLikeness": 0.0,
+      "knnLikeness": 0.0,
+      "likeness": 0.0,
+      "band": "below_exploratory"
+    }
+  },
+  {
+    "field_id": "7J9VWGM3+W54G",
+    "crop_label": "SUGARCANE",
+    "raw_spectral": {
+      "ndviMean": 0.31325538340000003,
+      "ndviPeakValue": 0.6613167393,
+      "ndreMean": 0.1889395032,
+      "ndrePeakValue": 0.40336716580000004,
+      "ndwiMean": 0.0230896145,
+      "ndwiPeakValue": 0.22531751530000002,
+      "yellowIndexMean": 0.1787248791,
+      "yellowIndexPeakValue": 0.4376341322,
+      "observationCount": 17
+    },
+    "expected": {
+      "mahalanobisLikeness": 0.01,
+      "knnLikeness": 0.0,
+      "likeness": 0.005,
+      "band": "below_exploratory"
+    }
+  },
+  {
+    "field_id": "7J9VWH5F+W29H",
+    "crop_label": "SUGARCANE",
+    "raw_spectral": {
+      "ndviMean": 0.263245587,
+      "ndviPeakValue": 0.8803489429,
+      "ndreMean": 0.1496144689,
+      "ndrePeakValue": 0.6590805127,
+      "ndwiMean": 0.0202621412,
+      "ndwiPeakValue": 0.37601015520000003,
+      "yellowIndexMean": 0.2050604285,
+      "yellowIndexPeakValue": 0.4647430663,
+      "observationCount": 15
+    },
+    "expected": {
+      "mahalanobisLikeness": 0.0,
+      "knnLikeness": 0.0,
+      "likeness": 0.0,
+      "band": "below_exploratory"
+    }
+  },
+  {
+    "field_id": "7J9VVG96+3VW2",
+    "crop_label": "RICE",
+    "raw_spectral": {
+      "ndviMean": 0.49507345350000004,
+      "ndviPeakValue": 0.6830068363,
+      "ndreMean": 0.3348278891,
+      "ndrePeakValue": 0.4881855845,
+      "ndwiMean": 0.14525162260000002,
+      "ndwiPeakValue": 0.2287257711,
+      "yellowIndexMean": 0.2487107147,
+      "yellowIndexPeakValue": 0.4235108621,
+      "observationCount": 14
+    },
+    "expected": {
+      "mahalanobisLikeness": 0.02,
+      "knnLikeness": 0.02,
+      "likeness": 0.02,
+      "band": "below_exploratory"
+    }
+  },
+  {
+    "field_id": "7J9R8VJF+9RPJ",
+    "crop_label": "SORGHUM",
+    "raw_spectral": {
+      "ndviMean": 0.2913178101,
+      "ndviPeakValue": 0.662662069,
+      "ndreMean": 0.1626896669,
+      "ndrePeakValue": 0.4244302352,
+      "ndwiMean": -0.0389454,
+      "ndwiPeakValue": 0.2440960785,
+      "yellowIndexMean": 0.3111200645,
+      "yellowIndexPeakValue": 0.8284548203000001,
+      "observationCount": 13
+    },
+    "expected": {
+      "mahalanobisLikeness": 0.0,
+      "knnLikeness": 0.0,
+      "likeness": 0.0,
+      "band": "below_exploratory"
+    }
+  },
+  {
+    "field_id": "7J9R9RC3+MQR5",
+    "crop_label": "SOYBEANS",
+    "raw_spectral": {
+      "ndviMean": 0.2074975741,
+      "ndviPeakValue": 0.5124736354,
+      "ndreMean": 0.10544117,
+      "ndrePeakValue": 0.2909905575,
+      "ndwiMean": -0.033971602000000004,
+      "ndwiPeakValue": 0.1449821517,
+      "yellowIndexMean": 0.2593633041,
+      "yellowIndexPeakValue": 0.49329545350000004,
+      "observationCount": 12
+    },
+    "expected": {
+      "mahalanobisLikeness": 0.0,
+      "knnLikeness": 0.0,
+      "likeness": 0.0,
+      "band": "below_exploratory"
+    }
+  },
+  {
+    "field_id": "7JFP4Q58+6725",
+    "crop_label": "CORN",
+    "raw_spectral": {
+      "ndviMean": 0.6315158722,
+      "ndviPeakValue": 0.7680760026,
+      "ndreMean": 0.4167932996,
+      "ndrePeakValue": 0.5244809315,
+      "ndwiMean": 0.216889093,
+      "ndwiPeakValue": 0.3402375877,
+      "yellowIndexMean": 0.2577934749,
+      "yellowIndexPeakValue": 0.6114712079,
+      "observationCount": 11
+    },
+    "expected": {
+      "mahalanobisLikeness": 0.01,
+      "knnLikeness": 0.01,
+      "likeness": 0.01,
+      "band": "below_exploratory"
+    }
+  }
+]
