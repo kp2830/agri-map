@@ -62,3 +62,14 @@ export async function getSunflowerRf(
 ): Promise<SunflowerRfResponse> {
   return apiPost<SunflowerRfResponse>('/agriculture/sunflower-rf', { feature }, signal)
 }
+
+/** Decodes a real ALU field ID (a standard Open Location Code) to its center lat/lng — powers
+ *  "Search by Field ID". Returns `null` for an invalid/unparseable ID rather than throwing, so
+ *  the caller can show a plain "not a valid field ID" message instead of a generic error. */
+export async function decodeFieldId(fieldId: string, signal?: AbortSignal): Promise<{ lat: number; lng: number } | null> {
+  try {
+    return await apiGet<{ lat: number; lng: number }>(`/geo/plus-code/${encodeURIComponent(fieldId.trim())}`, signal)
+  } catch {
+    return null
+  }
+}

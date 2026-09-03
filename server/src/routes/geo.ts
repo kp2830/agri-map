@@ -1,7 +1,19 @@
 import { Router } from 'express'
 import { cellTokenToLatLng, getCoveringCellTokens, latLngToCellToken } from '../lib/s2/index.js'
+import { decodePlusCode } from '../lib/plusCode/index.js'
 
 export const geoRouter = Router()
+
+/** Decodes a real ALU field ID (a standard Open Location Code) to its center lat/lng — powers
+ *  "Search by Field ID" on the client (see lib/plusCode/index.ts). */
+geoRouter.get('/plus-code/:code', (req, res) => {
+  const decoded = decodePlusCode(req.params.code)
+  if (!decoded) {
+    res.status(400).json({ error: 'not a valid field ID' })
+    return
+  }
+  res.json(decoded)
+})
 
 /** Returns the S2 cell token containing the given lat/lng. */
 geoRouter.get('/cell', (req, res) => {

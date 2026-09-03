@@ -2,11 +2,12 @@ import L from 'leaflet'
 import type { LeafletMouseEvent, Layer, StyleFunction } from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { Circle, CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap, useMapEvents, ZoomControl } from 'react-leaflet'
-import { colorForFeature } from '../fields/cropDisplay'
+import { colorForFeatureWithSunflower } from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
 import { logPerfDelta, markPerf } from '../../lib/perf'
 import type { CoverageInfo, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
+import { useSunflowerFieldColors } from './useSunflowerFieldColors'
 
 interface MapViewProps {
   center: { lat: number; lng: number } | null
@@ -154,22 +155,6 @@ export function MapView({
   // it survives a "New Search" reset since MapView itself isn't unmounted by that action.
   const [basemap, setBasemap] = useState<Basemap>('street')
 
-  const featureStyle: StyleFunction = (feature) => {
-    const normalized = feature as NormalizedFieldFeature | undefined
-    if (!normalized) return {}
-
-    const isSelected = normalized.id === selectedFieldId
-    const color = colorForFeature(normalized.properties, cropColorMap)
-
-    return {
-      color: isSelected ? '#0b0b0b' : color,
-      weight: isSelected ? 3 : 1.25,
-      fillColor: color,
-      fillOpacity: isSelected ? 0.8 : 0.55,
-      className: isSelected ? 'field-selected' : undefined,
-    }
-  }
-
   const isNearbyCoverage = coverage?.status === 'found_nearby'
 
   // The GeoJSON layer only needs to be torn down and rebuilt (thousands of Leaflet path
@@ -187,6 +172,45 @@ export function MapView({
     prevDataKeyRef.current = geoJsonDataKey
     layersByIdRef.current = new Map()
   }
+
+  // Sunflower RF v0 map coloring — keyed on the same geoJsonDataKey the polygon layer itself
+  // remounts on, so a new search/crop-filter change abandons any in-flight checking for the
+  // previous result rather than mixing stale probabilities into a new view. Calls the exact
+  // same sunflower-rf service the field-details panel uses; never a separate calculation.
+  const sunflowerProbabilities = useSunflowerFieldColors(visibleFieldCollection, geoJsonDataKey)
+
+  const featureStyle: StyleFunction = (feature) => {
+    const normalized = feature as NormalizedFieldFeature | undefined
+    if (!normalized) return {}
+
+    const isSelected = normalized.id === selectedFieldId
+    const sunflowerProbabilityPercent = normalized.id === undefined ? null : (sunflowerProbabilities.get(String(normalized.id)) ?? null)
+    const color = colorForFeatureWithSunflower(normalized.properties, cropColorMap, sunflowerProbabilityPercent)
+
+    return {
+      color: isSelected ? '#0b0b0b' : color,
+      weight: isSelected ? 3 : 1.25,
+      fillColor: color,
+      fillOpacity: isSelected ? 0.8 : 0.55,
+      className: isSelected ? 'field-selected' : undefined,
+    }
+  }
+
+  // As each field's Sunflower RF result arrives (sunflowerProbabilities grows one entry at a
+  // time — see useSunflowerFieldColors), imperatively restyle just that field's already-mounted
+  // layer, same setStyle pattern used for selection below — never remounts the whole GeoJSON
+  // layer just because one more field's probability became known.
+  useEffect(() => {
+    for (const fieldId of sunflowerProbabilities.keys()) {
+      const layer = layersByIdRef.current.get(fieldId) as (Layer & Partial<L.Path>) | undefined
+      if (!layer || typeof layer.setStyle !== 'function') continue
+      const feature = (layer as unknown as { feature?: NormalizedFieldFeature }).feature
+      if (feature) layer.setStyle(featureStyle(feature))
+    }
+    // featureStyle is a fresh closure each render but only depends on selectedFieldId/cropColorMap/
+    // sunflowerProbabilities, which are already this effect's real dependencies.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sunflowerProbabilities])
 
   // Imperatively restyles just the previously- and newly-selected layers (at most two) via
   // Leaflet's own setStyle, instead of remounting the whole GeoJSON layer for a selection

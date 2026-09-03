@@ -7,7 +7,9 @@ import { ALL_CROPS, filterFieldsByCrop, getAvailableCrops, type CropFilterValue 
 import { summarizeCropShares } from './features/fields/cropSummary'
 import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
+import { FieldIdSearch } from './features/fields/FieldIdSearch'
 import { useAgriculturalFields } from './features/fields/useAgriculturalFields'
+import { decodeFieldId } from './lib/api'
 import { defaultMapCenter } from './lib/config'
 import { markPerf } from './lib/perf'
 import { MapView } from './features/map/MapView'
@@ -168,6 +170,7 @@ function App() {
   // different spot while this is open simply overwrites it with the newest location; no API
   // call has happened either way.
   const [pendingClick, setPendingClick] = useState<{ lat: number; lng: number } | null>(null)
+  const [fieldIdSearchStatus, setFieldIdSearchStatus] = useState<'idle' | 'searching' | 'not_found' | 'invalid'>('idle')
 
   useEffect(() => {
     if (state.status !== 'loading') return
@@ -236,6 +239,38 @@ function App() {
     }
   }
 
+  // "Search by Field ID": a real field ID IS a standard Open Location Code, so this decodes it
+  // (server-side — see lib/plusCode/index.ts) and reuses the EXACT SAME location-based search
+  // fetchFields already does for a map click/Analyze — no separate field-lookup system. If the
+  // decoded search actually returns a field with that exact ID, select it (pans/zooms + opens
+  // the details panel via the existing selection machinery); otherwise a plain "not found".
+  async function handleFieldIdSearch(fieldId: string) {
+    setFieldIdSearchStatus('searching')
+    const decoded = await decodeFieldId(fieldId)
+    if (!decoded) {
+      setFieldIdSearchStatus('invalid')
+      return
+    }
+
+    setSubmittedCenter({ lat: decoded.lat, lng: decoded.lng })
+    setSelectedFeature(null)
+    setSearchingLong(false)
+    setSelectedCrop(ALL_CROPS)
+    setAppliedGridKm(gridKm)
+    setSearchToken((token) => token + 1)
+    setLatInput(String(decoded.lat))
+    setLngInput(String(decoded.lng))
+
+    const data = await fetchFields(decoded.lat, decoded.lng, gridKm, maxSearchKm)
+    const match = data?.fieldCollection.features.find((feature) => String(feature.id).toUpperCase() === fieldId.toUpperCase())
+    if (match) {
+      handleSelectField(match)
+      setFieldIdSearchStatus('idle')
+    } else {
+      setFieldIdSearchStatus('not_found')
+    }
+  }
+
   // Leaves the current result and returns to a fresh search state without a browser refresh.
   // Deliberately does not touch the basemap choice — that lives independently in MapView.
   function handleNewSearch() {
@@ -248,6 +283,7 @@ function App() {
     setLngInput(String(defaultMapCenter.lng))
     setMapResetToken((token) => token + 1)
     setPendingClick(null)
+    setFieldIdSearchStatus('idle')
   }
 
   const fieldCollection = state.status === 'success' ? state.data.fieldCollection : null
@@ -301,6 +337,12 @@ function App() {
           onMaxSearchKmChange={setMaxSearchKm}
           onSubmit={handleSubmit}
           isLoading={state.status === 'loading'}
+        />
+
+        <FieldIdSearch
+          onSearch={handleFieldIdSearch}
+          status={fieldIdSearchStatus}
+          disabled={state.status === 'loading' || fieldIdSearchStatus === 'searching'}
         />
       </header>
 

@@ -14,12 +14,24 @@ import type { SunflowerRfResult } from './types.js'
 
 export { AMED_STRONG_CONFIDENCE_THRESHOLD }
 
+/**
+ * Crops where AMED and Sunflower are real-world confusable enough (both tall, broad-leaved
+ * summer row crops with a similar visual/spectral footprint at points in their cycle) that a
+ * high-confidence AMED Corn/Maize call is still worth cross-checking against the Sunflower RF
+ * -- unlike every other crop, where a strong AMED result is treated as settled. Does not change
+ * the 0.8 threshold itself, does not apply to any other crop, and never touches what AMED
+ * displays -- this only decides whether the RF also runs alongside it.
+ */
+const ALWAYS_RUN_FOR_CROPS = new Set(['CORN', 'MAIZE'])
+
 /** Pure gate logic, exported separately so the controller (and tests) can check eligibility
- *  without touching the cache/CDSE/inference machinery. Matches the spec exactly: AMED
- *  confidence >= 0.80 -> strong -> RF not run. AMED null (Unknown/no usable prediction) or
- *  < 0.80 -> eligible. */
+ *  without touching the cache/CDSE/inference machinery. AMED null (Unknown/no usable
+ *  prediction) -> eligible. AMED Corn/Maize -> ALWAYS eligible, regardless of confidence.
+ *  Every other crop: eligible only below the 0.80 strong-confidence threshold (unchanged). */
 export function isEligibleForSunflowerRf(amedTop: AmedHypothesis | null): boolean {
-  return !amedTop || amedTop.confidence < AMED_STRONG_CONFIDENCE_THRESHOLD
+  if (!amedTop) return true
+  if (ALWAYS_RUN_FOR_CROPS.has(amedTop.crop.toUpperCase())) return true
+  return amedTop.confidence < AMED_STRONG_CONFIDENCE_THRESHOLD
 }
 
 const inFlight = new Map<string, Promise<SunflowerRfResult>>()

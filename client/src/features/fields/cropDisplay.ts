@@ -19,6 +19,19 @@ const CATEGORICAL_CROP_COLORS = [
 
 /** Real crops beyond the 8 fixed slots fold into this shared "other" color rather than a generated hue. */
 const OTHER_CROP_COLOR = '#52514e'
+/**
+ * Sunflower RF v0 map coloring — a bright agricultural gold, deliberately distinct from every
+ * CATEGORICAL_CROP_COLORS hue (including the existing amber-yellow crop color) so it reads as
+ * its own signal, not "just another crop." Applied only when a field's Sunflower RF probability
+ * exceeds 50% (see colorForFeatureWithSunflower) — never replaces the AMED crop data itself,
+ * only the polygon's rendered color.
+ */
+export const SUNFLOWER_LIKELY_FILL_COLOR = '#ffc107'
+export const SUNFLOWER_LIKELY_STROKE_COLOR = '#8a5a00'
+/** Fields must clear this RF probability (%) to render gold on the map — matches the product
+ *  requirement exactly; not the same number as AMED_STRONG_CONFIDENCE_THRESHOLD above, which
+ *  gates whether the model runs at all, not how its result is colored. */
+export const SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT = 50
 /** AMED returned no monitoring data at all for this field. */
 const NO_PREDICTION_COLOR = '#c3c2b7'
 /** AMED explicitly returned the UNKNOWN_CROP sentinel. */
@@ -145,18 +158,27 @@ export function getActiveCropOutcome(
  *  override decision always happens server-side in overridePolicy.ts, never here. */
 export const AMED_STRONG_CONFIDENCE_THRESHOLD = 0.8
 
+/** Crops where AMED and Sunflower are real-world confusable enough that even a high-confidence
+ *  AMED call is still worth cross-checking against the Sunflower RF — mirrors
+ *  server/src/services/agricultural/sunflowerRf/service.ts's ALWAYS_RUN_FOR_CROPS exactly (kept
+ *  in sync manually, same as AMED_STRONG_CONFIDENCE_THRESHOLD above). Doesn't change the 0.8
+ *  threshold for any other crop, and never affects what AMED displays. */
+const SUNFLOWER_ALWAYS_RUN_CROPS = new Set(['CORN', 'MAIZE'])
+
 /**
  * Whether this field's current AMED result is Unknown or low-confidence enough to be worth a
  * real-time Sunflower likelihood check. A 'seasonal' (inferred-from-history, not a direct
- * observation) or 'none' outcome is always eligible; an 'observed'/'fallback' outcome is
- * eligible only when its own prediction confidence is below the threshold. A high-confidence
- * 'observed'/'fallback' result is never eligible — matches "preserve the existing AMED
- * classification for high-confidence known crops."
+ * observation) or 'none' outcome is always eligible; Corn/Maize is always eligible regardless of
+ * confidence; every other 'observed'/'fallback' outcome is eligible only when its own prediction
+ * confidence is below the threshold. A high-confidence 'observed'/'fallback' result for any
+ * other crop is never eligible — matches "preserve the existing AMED classification for
+ * high-confidence known crops."
  */
 export function isEligibleForSunflowerCheck(outcome: ActiveCropOutcome, threshold: number = AMED_STRONG_CONFIDENCE_THRESHOLD): boolean {
   if (outcome.kind === 'none' || outcome.kind === 'seasonal') return true
-  const confidence = outcome.season.predictions[0]?.confidence
-  return confidence === undefined || confidence < threshold
+  const prediction = outcome.season.predictions[0]
+  if (prediction && SUNFLOWER_ALWAYS_RUN_CROPS.has(prediction.crop.toUpperCase())) return true
+  return prediction === undefined || prediction.confidence < threshold
 }
 
 /** The crop to show for this field: the determined outcome's crop, or null if AMED never had
@@ -255,6 +277,26 @@ export function colorForFeature(properties: NormalizedFieldProperties, colorMap:
   }
 
   return colorForCropLabel(getPrimaryCrop(properties), colorMap)
+}
+
+/**
+ * Same as colorForFeature, but renders a field gold when its Sunflower RF v0 probability
+ * (already computed by the existing sunflower-rf service/endpoint — never recomputed here)
+ * exceeds SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT. `sunflowerProbabilityPercent` is `null`/
+ * `undefined` for a field that hasn't been checked yet (still uses its normal AMED color) or
+ * that isn't eligible for a Sunflower check at all (see isEligibleForSunflowerCheck) — this
+ * function never decides eligibility itself, only whether to apply the color once a real
+ * probability is already known. AMED's own crop data is never touched; only the rendered color.
+ */
+export function colorForFeatureWithSunflower(
+  properties: NormalizedFieldProperties,
+  colorMap: Map<string, string>,
+  sunflowerProbabilityPercent: number | null | undefined,
+): string {
+  if (properties.aluType === 'field' && sunflowerProbabilityPercent != null && sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT) {
+    return SUNFLOWER_LIKELY_FILL_COLOR
+  }
+  return colorForFeature(properties, colorMap)
 }
 
 export function colorForAluType(aluType: Exclude<AluFeatureType, 'field'>): string {

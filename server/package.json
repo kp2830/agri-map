@@ -15,6 +15,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "open-location-code": "^1.0.3",
     "s2js": "^1.44.0"
   },
   "devDependencies": {
