@@ -86,7 +86,20 @@ export function CropSummaryPanel({ fieldCollection, cropColorMap, selectedCrop, 
     return <p className="text-sm text-slate-500">No field-type ALU features were found in this area.</p>
   }
 
-  const visibleShares = showAll ? shares : shares.slice(0, VISIBLE_ROWS)
+  // Sunflower is pinned into the visible rows whenever it's present, rather than competing on
+  // raw area like a normal AMED category: early in a search (only the first few of the capped
+  // eligible fields checked so far) its area is necessarily tiny next to bulk categories like
+  // Rice, so a pure area-sort buries it behind "Show more crops" — confirmed via live browser
+  // testing (a real 96%+ field was checked and colored gold on the map within seconds, yet
+  // "Sunflower" never appeared in the initially-rendered distribution list because it ranked
+  // 9th by area). The product requirement is for it to be visibly present the moment any field
+  // clears the threshold, not to win an area contest against Rice.
+  const topByArea = shares.slice(0, VISIBLE_ROWS)
+  const visibleShares = showAll
+    ? shares
+    : sunflowerShare && !topByArea.includes(sunflowerShare)
+      ? [...topByArea.slice(0, VISIBLE_ROWS - 1), sunflowerShare]
+      : topByArea
   const hiddenCount = shares.length - visibleShares.length
 
   return (
