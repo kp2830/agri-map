@@ -36,11 +36,25 @@ export function isEligibleForSunflowerRf(amedTop: AmedHypothesis | null): boolea
 
 const inFlight = new Map<string, Promise<SunflowerRfResult>>()
 
-/** Real CDSE + RF work happens only here, and only once per (field, model version, feature
- *  window version) — cached forever after. Concurrent requests for the same never-before-seen
- *  field share one in-flight computation rather than each spending CDSE credits. Never throws:
- *  every failure path resolves to `{available: false, reason: ...}` so a satellite/model failure
- *  can never break the surrounding field-details response. */
+/**
+ * Real CDSE + RF work happens only here, and only once per (field, model version, feature
+ * window version) for a field that actually succeeds — cached forever after. Concurrent
+ * requests for the same never-before-seen field share one in-flight computation rather than
+ * each spending CDSE credits. Never throws: every failure path resolves to
+ * `{available: false, reason: ...}` so a satellite/model failure can never break the
+ * surrounding field-details response.
+ *
+ * A TRANSIENT failure (the outer catch below — a CDSE network error, an expired/rate-limited
+ * token exchange, a timeout) is deliberately NEVER cached, only a genuine one is. Caching a
+ * transient failure forever was a real bug found via live testing: a field that hit a
+ * momentary CDSE hiccup (e.g. several fields checked in quick succession tripping a rate
+ * limit) would return the exact same cached "unavailable" result on every future request for
+ * that field, permanently, even though the field's actual satellite data was fine and a retry
+ * moments later succeeded for that same field locally. Only two outcomes are safe to persist
+ * forever: a genuine successful prediction, and a genuinely missing Sentinel-2 observation for
+ * the requested time windows (the `ordered.some(v => v === null)` case below) — both are
+ * real, stable properties of the field/imagery, not an artifact of one request's bad luck.
+ */
 export async function getSunflowerRfPrediction(fieldId: string, geometry: Polygon | MultiPolygon, signal?: AbortSignal): Promise<SunflowerRfResult> {
   const cacheKey = buildCacheKey(fieldId, SUNFLOWER_RF_MODEL_VERSION, FEATURE_WINDOW_VERSION)
 
@@ -55,6 +69,7 @@ export async function getSunflowerRfPrediction(fieldId: string, geometry: Polygo
     if (recheck) return recheck.result
 
     let result: SunflowerRfResult
+    let cacheable = true
     try {
       const features = await extractSunflowerRfFeatures(geometry, signal)
       const ordered = toOrderedVector(features)
@@ -70,15 +85,19 @@ export async function getSunflowerRfPrediction(fieldId: string, geometry: Polygo
         } catch (error) {
           console.error('[sunflower-rf] prediction failed:', error instanceof Error ? error.message : error)
           result = { available: false, reason: 'PREDICTION_FAILED' }
+          cacheable = false
         }
       }
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') throw error
-      console.error('[sunflower-rf] feature extraction failed:', error instanceof Error ? error.message : error)
+      console.error('[sunflower-rf] feature extraction failed (transient — not cached):', error instanceof Error ? error.message : error)
       result = { available: false, reason: 'SATELLITE_DATA_UNAVAILABLE' }
+      cacheable = false
     }
 
-    await saveRecord({ cacheKey, fieldId, modelVersion: SUNFLOWER_RF_MODEL_VERSION, featureWindowVersion: FEATURE_WINDOW_VERSION, computedAtIso: new Date().toISOString(), result })
+    if (cacheable) {
+      await saveRecord({ cacheKey, fieldId, modelVersion: SUNFLOWER_RF_MODEL_VERSION, featureWindowVersion: FEATURE_WINDOW_VERSION, computedAtIso: new Date().toISOString(), result })
+    }
     return result
   })()
 
