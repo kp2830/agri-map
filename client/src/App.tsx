@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { StatusCard } from './components/StatusCard'
 import { CentroidForm } from './features/fields/CentroidForm'
 import { CropSummaryPanel } from './features/fields/CropSummaryPanel'
-import { buildCropColorMap } from './features/fields/cropDisplay'
+import { buildCropColorMap, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
 import { ALL_CROPS, filterFieldsByCrop, getAvailableCrops, type CropFilterValue } from './features/fields/cropFilter'
-import { summarizeCropShares } from './features/fields/cropSummary'
+import { SUNFLOWER_CROP_KEY, summarizeCropShares } from './features/fields/cropSummary'
 import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
 import { FieldIdSearch } from './features/fields/FieldIdSearch'
@@ -303,13 +303,6 @@ function App() {
   // so picking "Mustard" doesn't shrink the dropdown down to just "Mustard" afterward.
   const cropOptions = useMemo(() => (fieldCollection ? getAvailableCrops(fieldCollection) : []), [fieldCollection])
 
-  // Pure client-side filter over the already-loaded collection — no network request, no
-  // new S2/ALU/AMED lookup. `fieldCollection` itself is never mutated or replaced.
-  const visibleFieldCollection = useMemo(
-    () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop) : null),
-    [fieldCollection, selectedCrop],
-  )
-
   // Sunflower RF v0 — checked against the FULL search result (fieldCollection), not the
   // crop-filtered visibleFieldCollection: switching the crop filter must not throw away
   // already-computed probabilities for fields outside the current filter (the crop-distribution
@@ -317,8 +310,36 @@ function App() {
   // rendered on the map), and must not re-trigger a fresh round of CDSE checks just because the
   // user picked a different crop to view. Fires automatically as soon as real field data
   // arrives — no click on an individual field required (see the hook's own docstring for why
-  // it's keyed on fieldCollection's identity specifically).
+  // it's keyed on fieldCollection's identity specifically). Declared before visibleFieldCollection
+  // below since the "Sunflower" filter selection reads from it.
   const sunflowerProbabilities = useSunflowerFieldColors(fieldCollection, submittedCenter)
+
+  // Whether the "Sunflower" option should even appear in the crop dropdown — only once at
+  // least one field in the current search has actually cleared the threshold, same "don't show
+  // an option nothing matches" rule every other crop option already follows (getAvailableCrops).
+  const hasSunflowerMatch = useMemo(
+    () => [...sunflowerProbabilities.values()].some((percent) => percent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT),
+    [sunflowerProbabilities],
+  )
+
+  // Pure client-side filter over the already-loaded collection — no network request, no new
+  // S2/ALU/AMED lookup. `fieldCollection` itself is never mutated or replaced.
+  //
+  // Split into two memos rather than one, deliberately: the ordinary AMED-crop path
+  // (nonSunflowerVisible) must stay referentially stable while sunflowerProbabilities keeps
+  // growing in the background, or every newly-arrived RF result would force MapView's GeoJSON
+  // layer to remount (thousands of polygons, for a dense search) even when the user isn't even
+  // looking at the Sunflower filter. Only sunflowerVisible — used exclusively while that filter
+  // is actually selected — needs to react to sunflowerProbabilities at all.
+  const nonSunflowerVisible = useMemo(
+    () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop) : null),
+    [fieldCollection, selectedCrop],
+  )
+  const sunflowerVisible = useMemo(
+    () => (fieldCollection && selectedCrop === SUNFLOWER_CROP_KEY ? filterFieldsByCrop(fieldCollection, selectedCrop, sunflowerProbabilities) : null),
+    [fieldCollection, selectedCrop, sunflowerProbabilities],
+  )
+  const visibleFieldCollection = selectedCrop === SUNFLOWER_CROP_KEY ? sunflowerVisible : nonSunflowerVisible
 
   function handleCropChange(crop: CropFilterValue) {
     setSelectedCrop(crop)
@@ -430,7 +451,7 @@ function App() {
                 <section>
                   <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
                     <h2 className="text-sm font-semibold text-slate-900">Crop distribution</h2>
-                    {cropOptions.length > 0 && (
+                    {(cropOptions.length > 0 || hasSunflowerMatch) && (
                       <select
                         aria-label="Filter fields by crop"
                         value={selectedCrop}
@@ -438,6 +459,10 @@ function App() {
                         className="rounded-md border border-slate-300 bg-white px-2 py-1 text-xs font-medium text-slate-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                       >
                         <option value={ALL_CROPS}>All Crops</option>
+                        {/* Pinned right after "All Crops", not sorted alphabetically among AMED
+                            crops below — it's the app's core signal, not an incidental category,
+                            and only appears once a real field has actually cleared the threshold. */}
+                        {hasSunflowerMatch && <option value={SUNFLOWER_CROP_KEY}>Sunflower</option>}
                         {cropOptions.map((option) => (
                           <option key={option.value} value={option.value}>
                             {option.label}

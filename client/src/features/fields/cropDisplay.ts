@@ -5,12 +5,20 @@ import type { CropShare } from './cropSummary'
  * Fixed-order categorical palette (8 hues), validated for CVD-safe adjacency
  * and normal-vision separation. Assigned to real crop names by rank (largest
  * mapped area first), never cycled or hashed — see buildCropColorMap.
+ *
+ * No yellow/gold hue in this palette, deliberately: SUNFLOWER_LIKELY_FILL_COLOR below is the
+ * ONLY color on the map meant to read as "sunflower." An earlier version of this palette
+ * included a yellow slot (#eda100) that could be assigned to any AMED crop by area rank — e.g.
+ * Corn, if it happened to be the 4th-largest crop in a given search — which risked exactly the
+ * ambiguity this app exists to avoid, regardless of how distinct SUNFLOWER_LIKELY_FILL_COLOR
+ * itself looks. Replaced with a brown, matching the product requirement that no crop other than
+ * a real >50% Sunflower RF result can ever render yellow/gold, including Corn/Maize.
  */
 const CATEGORICAL_CROP_COLORS = [
   '#2a78d6', // blue
   '#eb6834', // orange
   '#1baf7a', // aqua
-  '#eda100', // yellow
+  '#8b5a2b', // brown
   '#e87ba4', // magenta
   '#008300', // green
   '#4a3aa7', // violet

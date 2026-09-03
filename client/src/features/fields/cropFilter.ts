@@ -1,5 +1,6 @@
 import type { NormalizedFieldCollection, NormalizedFieldProperties } from '../../types/agricultural'
-import { formatCropLabel, getPrimaryCrop } from './cropDisplay'
+import { formatCropLabel, getPrimaryCrop, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { SUNFLOWER_CROP_KEY } from './cropSummary'
 
 /** Sentinel meaning "no crop filter applied" — every field is shown, exactly as returned. */
 export const ALL_CROPS = 'ALL_CROPS' as const
@@ -46,12 +47,31 @@ export function totalFieldAreaSqM(fieldCollection: NormalizedFieldCollection): n
  * Filters the already-loaded field collection down to the fields matching the selected
  * crop. Purely client-side — no network request, no new S2/ALU/AMED lookup, and the
  * input collection is never mutated. Returns it unchanged when no filter is applied.
+ *
+ * SUNFLOWER_CROP_KEY is a special case: it's not a real AMED crop (cropFilterKey never
+ * produces it), so this matches by `sunflowerProbabilities` instead — the SAME real per-field
+ * RF results driving the map's gold coloring, never a separate calculation. `sunflowerProbabilities`
+ * is optional so every other crop selection stays a pure function of `fieldCollection`/
+ * `selectedCrop` alone, unaffected by Sunflower RF results still arriving in the background.
  */
 export function filterFieldsByCrop(
   fieldCollection: NormalizedFieldCollection,
   selectedCrop: CropFilterValue,
+  sunflowerProbabilities?: Map<string, number>,
+  sunflowerThresholdPercent: number = SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
 ): NormalizedFieldCollection {
   if (selectedCrop === ALL_CROPS) return fieldCollection
+
+  if (selectedCrop === SUNFLOWER_CROP_KEY) {
+    return {
+      type: 'FeatureCollection',
+      features: fieldCollection.features.filter((feature) => {
+        if (feature.properties.aluType !== 'field' || feature.id === undefined) return false
+        const probabilityPercent = sunflowerProbabilities?.get(String(feature.id))
+        return probabilityPercent !== undefined && probabilityPercent > sunflowerThresholdPercent
+      }),
+    }
+  }
 
   return {
     type: 'FeatureCollection',

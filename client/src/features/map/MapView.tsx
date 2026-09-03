@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Circle, CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap, useMapEvents, ZoomControl } from 'react-leaflet'
 import { colorForFeatureWithSunflower, SUNFLOWER_LIKELY_STROKE_COLOR, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
+import { SUNFLOWER_CROP_KEY } from '../fields/cropSummary'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
 import { logPerfDelta, markPerf } from '../../lib/perf'
 import type { CoverageInfo, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
@@ -168,7 +169,21 @@ export function MapView({
   // (not just center/lat-lng) is included so a repeat click on the same coordinate with
   // different grid/max-search settings — same lat/lng, different actual result — still forces
   // a remount instead of silently keeping the previous search's stale polygons on screen.
-  const geoJsonDataKey = `${searchToken}-${center?.lat}-${center?.lng}-${selectedCrop}`
+  //
+  // The Sunflower filter is a special case: react-leaflet's GeoJSON never reacts to a changed
+  // `data` prop on an already-mounted layer (confirmed directly in its source — its update
+  // callback only ever looks at `style`), so a field newly crossing the >50% threshold while
+  // this filter is active would never actually get ADDED to the rendered set without an
+  // explicit remount. `qualifyingSunflowerCount` (not the raw, ever-growing probabilities Map)
+  // drives that remount, and only while this filter is selected — every other crop filter's key
+  // is completely unaffected by Sunflower RF results still arriving in the background, so
+  // switching crops or watching results trickle in never triggers a wasted remount of a
+  // potentially thousands-of-polygons layer.
+  const qualifyingSunflowerCount =
+    selectedCrop === SUNFLOWER_CROP_KEY
+      ? [...sunflowerProbabilities.values()].filter((percent) => percent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT).length
+      : 0
+  const geoJsonDataKey = `${searchToken}-${center?.lat}-${center?.lng}-${selectedCrop}-${qualifyingSunflowerCount}`
   const layersByIdRef = useRef(new Map<string, Layer>())
   const prevDataKeyRef = useRef(geoJsonDataKey)
   if (prevDataKeyRef.current !== geoJsonDataKey) {

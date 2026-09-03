@@ -25,14 +25,18 @@ const VISIBLE_ROWS = 6
 const NON_FIELD_TYPES: Exclude<AluFeatureType, 'field'>[] = ['trees', 'farm_pond', 'other_water', 'dug_well']
 
 /** A single crop is selected: total area/field count for just that crop, from real field data.
- *  No Sunflower row here — this view is scoped to whichever single AMED crop is selected in the
- *  filter dropdown, which never includes Sunflower (it isn't a real AMED crop). */
-function SelectedCropSummary({ fieldCollection, cropColorMap, selectedCrop }: Omit<CropSummaryPanelProps, 'sunflowerProbabilities'>) {
-  const matching = filterFieldsByCrop(fieldCollection, selectedCrop)
+ *  Also handles SUNFLOWER_CROP_KEY (selected via the dropdown's pinned "Sunflower" option) —
+ *  filterFieldsByCrop already knows how to match that against sunflowerProbabilities instead of
+ *  an AMED crop identity, so this needs no special-case filtering logic, only a special-case
+ *  swatch color and label (Sunflower isn't in cropColorMap, which is built only from genuine
+ *  AMED predictions). */
+function SelectedCropSummary({ fieldCollection, cropColorMap, selectedCrop, sunflowerProbabilities }: CropSummaryPanelProps) {
+  const isSunflowerFilter = selectedCrop === SUNFLOWER_CROP_KEY
+  const matching = filterFieldsByCrop(fieldCollection, selectedCrop, sunflowerProbabilities)
   const areaSqM = matching.features.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
   const totalArea = totalFieldAreaSqM(fieldCollection)
   const sharePercent = totalArea > 0 ? (areaSqM / totalArea) * 100 : null
-  const color = colorForCropLabel(selectedCrop, cropColorMap)
+  const color = isSunflowerFilter ? SUNFLOWER_LIKELY_FILL_COLOR : colorForCropLabel(selectedCrop, cropColorMap)
 
   if (matching.features.length === 0) {
     return <p className="text-sm text-slate-500">No {formatCropLabel(selectedCrop)} fields in this area.</p>
@@ -60,6 +64,12 @@ function SelectedCropSummary({ fieldCollection, cropColorMap, selectedCrop }: Om
           </div>
         )}
       </dl>
+      {isSunflowerFilter && (
+        <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+          Experimental RF signal (&gt;50% likelihood) — not an AMED prediction. A field here may
+          also carry its own AMED crop (e.g. Corn); Sunflower is additive, not a replacement.
+        </p>
+      )}
     </div>
   )
 }
@@ -68,7 +78,14 @@ export function CropSummaryPanel({ fieldCollection, cropColorMap, selectedCrop, 
   const [showAll, setShowAll] = useState(false)
 
   if (selectedCrop !== ALL_CROPS) {
-    return <SelectedCropSummary fieldCollection={fieldCollection} cropColorMap={cropColorMap} selectedCrop={selectedCrop} />
+    return (
+      <SelectedCropSummary
+        fieldCollection={fieldCollection}
+        cropColorMap={cropColorMap}
+        selectedCrop={selectedCrop}
+        sunflowerProbabilities={sunflowerProbabilities}
+      />
+    )
   }
 
   const amedShares = summarizeCropShares(fieldCollection)
