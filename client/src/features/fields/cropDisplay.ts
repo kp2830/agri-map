@@ -20,14 +20,19 @@ const CATEGORICAL_CROP_COLORS = [
 /** Real crops beyond the 8 fixed slots fold into this shared "other" color rather than a generated hue. */
 const OTHER_CROP_COLOR = '#52514e'
 /**
- * Sunflower RF v0 map coloring — a bright agricultural gold, deliberately distinct from every
- * CATEGORICAL_CROP_COLORS hue (including the existing amber-yellow crop color) so it reads as
- * its own signal, not "just another crop." Applied only when a field's Sunflower RF probability
- * exceeds 50% (see colorForFeatureWithSunflower) — never replaces the AMED crop data itself,
- * only the polygon's rendered color.
+ * Sunflower RF v0 map coloring. The first choice here (#ffc107) turned out to sit almost
+ * exactly between the existing orange (#eb6834) and amber (#eda100) CATEGORICAL_CROP_COLORS —
+ * a real Corn field could read as "sunflower-golden" at a glance, exactly the ambiguity this
+ * was supposed to avoid. Fixed two ways, not just a hue tweak: (1) a much more saturated,
+ * near-fluorescent true yellow, clearly brighter than either muted existing hue; (2) a distinct
+ * dark-brown stroke AND a visibly thicker outline (see SUNFLOWER_LIKELY_STROKE_WEIGHT in
+ * MapView.tsx) — a real sunflower's dark center against bright petals — so the field reads as
+ * "flagged," not just "a slightly different shade of an existing crop color." Applied only when
+ * probability exceeds 50% (see colorForFeatureWithSunflower) — never replaces the AMED crop
+ * data itself, only the polygon's rendered color.
  */
-export const SUNFLOWER_LIKELY_FILL_COLOR = '#ffc107'
-export const SUNFLOWER_LIKELY_STROKE_COLOR = '#8a5a00'
+export const SUNFLOWER_LIKELY_FILL_COLOR = '#ffe600'
+export const SUNFLOWER_LIKELY_STROKE_COLOR = '#5c3d00'
 /** Fields must clear this RF probability (%) to render gold on the map — matches the product
  *  requirement exactly; not the same number as AMED_STRONG_CONFIDENCE_THRESHOLD above, which
  *  gates whether the model runs at all, not how its result is colored. */

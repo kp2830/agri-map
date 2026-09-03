@@ -13,6 +13,7 @@ import { decodeFieldId } from './lib/api'
 import { defaultMapCenter } from './lib/config'
 import { markPerf } from './lib/perf'
 import { MapView } from './features/map/MapView'
+import { useSunflowerFieldColors } from './features/map/useSunflowerFieldColors'
 import type { CoverageInfo, NormalizedFieldFeature } from './types/agricultural'
 
 function formatDistanceKm(km: number): string {
@@ -309,6 +310,16 @@ function App() {
     [fieldCollection, selectedCrop],
   )
 
+  // Sunflower RF v0 — checked against the FULL search result (fieldCollection), not the
+  // crop-filtered visibleFieldCollection: switching the crop filter must not throw away
+  // already-computed probabilities for fields outside the current filter (the crop-distribution
+  // panel below needs the whole result's Sunflower data regardless of what's currently
+  // rendered on the map), and must not re-trigger a fresh round of CDSE checks just because the
+  // user picked a different crop to view. Fires automatically as soon as real field data
+  // arrives — no click on an individual field required (see the hook's own docstring for why
+  // it's keyed on fieldCollection's identity specifically).
+  const sunflowerProbabilities = useSunflowerFieldColors(fieldCollection, submittedCenter)
+
   function handleCropChange(crop: CropFilterValue) {
     setSelectedCrop(crop)
     setSelectedFeature(null)
@@ -358,6 +369,7 @@ function App() {
             onSelectField={handleSelectField}
             onMapClick={handleMapClick}
             cropColorMap={cropColorMap}
+            sunflowerProbabilities={sunflowerProbabilities}
             resetToken={mapResetToken}
             gridKm={appliedGridKm}
             searchToken={searchToken}
@@ -440,7 +452,12 @@ function App() {
                       the analyzed area
                     </p>
                   )}
-                  <CropSummaryPanel fieldCollection={fieldCollection} cropColorMap={cropColorMap} selectedCrop={selectedCrop} />
+                  <CropSummaryPanel
+                    fieldCollection={fieldCollection}
+                    cropColorMap={cropColorMap}
+                    selectedCrop={selectedCrop}
+                    sunflowerProbabilities={sunflowerProbabilities}
+                  />
                 </section>
 
                 <section className="border-t border-slate-100 pt-5">

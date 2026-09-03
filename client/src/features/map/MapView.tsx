@@ -2,12 +2,11 @@ import L from 'leaflet'
 import type { LeafletMouseEvent, Layer, StyleFunction } from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { Circle, CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap, useMapEvents, ZoomControl } from 'react-leaflet'
-import { colorForFeatureWithSunflower } from '../fields/cropDisplay'
+import { colorForFeatureWithSunflower, SUNFLOWER_LIKELY_STROKE_COLOR, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
 import { logPerfDelta, markPerf } from '../../lib/perf'
 import type { CoverageInfo, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
-import { useSunflowerFieldColors } from './useSunflowerFieldColors'
 
 interface MapViewProps {
   center: { lat: number; lng: number } | null
@@ -21,6 +20,9 @@ interface MapViewProps {
   onSelectField: (feature: NormalizedFieldFeature) => void
   onMapClick: (lat: number, lng: number) => void
   cropColorMap: Map<string, string>
+  /** Real per-field Sunflower RF probabilities (0-100), lifted to App.tsx so this map and the
+   *  crop-distribution panel read the exact same data — see useSunflowerFieldColors. */
+  sunflowerProbabilities: Map<string, number>
   /** Bumped by App's "New Search" action to explicitly return the map to its default view. */
   resetToken: number
   /**
@@ -146,6 +148,7 @@ export function MapView({
   onSelectField,
   onMapClick,
   cropColorMap,
+  sunflowerProbabilities,
   resetToken,
   gridKm,
   searchToken,
@@ -173,23 +176,23 @@ export function MapView({
     layersByIdRef.current = new Map()
   }
 
-  // Sunflower RF v0 map coloring — keyed on the same geoJsonDataKey the polygon layer itself
-  // remounts on, so a new search/crop-filter change abandons any in-flight checking for the
-  // previous result rather than mixing stale probabilities into a new view. Calls the exact
-  // same sunflower-rf service the field-details panel uses; never a separate calculation.
-  const sunflowerProbabilities = useSunflowerFieldColors(visibleFieldCollection, geoJsonDataKey)
-
   const featureStyle: StyleFunction = (feature) => {
     const normalized = feature as NormalizedFieldFeature | undefined
     if (!normalized) return {}
 
     const isSelected = normalized.id === selectedFieldId
     const sunflowerProbabilityPercent = normalized.id === undefined ? null : (sunflowerProbabilities.get(String(normalized.id)) ?? null)
+    const isSunflowerLikely =
+      normalized.properties.aluType === 'field' && sunflowerProbabilityPercent != null && sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT
     const color = colorForFeatureWithSunflower(normalized.properties, cropColorMap, sunflowerProbabilityPercent)
 
+    // Sunflower fields get their own distinct dark-brown stroke and a visibly thicker outline
+    // (not just a different fill hue) — a fill-color-only difference from the existing
+    // categorical crop palette read as ambiguous in practice (a real Corn field's assigned
+    // orange/amber landed close enough to an earlier gold choice to be mistaken for it).
     return {
-      color: isSelected ? '#0b0b0b' : color,
-      weight: isSelected ? 3 : 1.25,
+      color: isSelected ? '#0b0b0b' : isSunflowerLikely ? SUNFLOWER_LIKELY_STROKE_COLOR : color,
+      weight: isSelected ? 3 : isSunflowerLikely ? 2.5 : 1.25,
       fillColor: color,
       fillOpacity: isSelected ? 0.8 : 0.55,
       className: isSelected ? 'field-selected' : undefined,
