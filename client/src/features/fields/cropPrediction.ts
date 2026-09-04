@@ -117,16 +117,10 @@ function circularMonthRange(months: number[]): MonthRange {
  * 3. 'insufficient_data' — neither tier found anything. No crop, confidence, sowing, or harvest
  *    is fabricated in this case; the caller must show an honest empty state.
  *
- * Predicted Crop Confidence = sourceConfidence * consistencyRatio (both terms real, no
- * arbitrary constants):
- *   - sourceConfidence: AMED's own real prediction confidence (0-1) for the matched reference
- *     season's top crop — genuine API evidence.
- *   - consistencyRatio: (# of seasons overlapping this calendar month, across every available
- *     year, that agree with the matched crop) / (# of seasons overlapping this calendar month
- *     at all). A lone matching season with nothing else to compare against scores 1 (no
- *     corroborating OR conflicting evidence — treated as neutral, not penalized); a crop
- *     contested by other years' records at the same time of year scores lower, reflecting real
- *     inconsistency in the historical record.
+ * Predicted Crop Confidence = sourceConfidence — AMED's own real prediction confidence (0-1)
+ * for the matched reference season's top crop, shown directly with no further adjustment.
+ * (An earlier version discounted this by a cross-year consistency ratio; removed per product
+ * decision so the number shown is exactly AMED's own confidence for the matched season.)
  *
  * Sowing/harvest are the real observed month range (via circularMonthRange) across every
  * historical season that agrees with the predicted crop — never an invented agricultural
@@ -179,10 +173,12 @@ export function predictCropOutlook(
   const crop = matchedSeason.predictions[0].crop
   const sourceConfidence = matchedSeason.predictions[0].confidence
 
+  // agreeing seasons are still used below for the sowing/harvest month range — only the
+  // confidence calculation itself no longer discounts by cross-year consistency (see this
+  // function's docstring).
   const overlapping = seasonsOverlappingMonth(seasons, selectedMonth)
   const agreeing = overlapping.filter((season) => season.predictions[0]?.crop === crop)
-  const consistencyRatio = overlapping.length > 0 ? agreeing.length / overlapping.length : 1
-  const confidencePercent = Math.round(100 * Math.max(0, Math.min(1, sourceConfidence * consistencyRatio)))
+  const confidencePercent = Math.round(100 * Math.max(0, Math.min(1, sourceConfidence)))
 
   const sowingMonths = agreeing.map((season) => monthOf(season.startTimestampSec))
   const harvestMonths = agreeing.map((season) => monthOf(season.endTimestampSec))
