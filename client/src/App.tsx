@@ -477,7 +477,7 @@ function App() {
 
                 <section>
                   <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
-                    <h2 className="text-sm font-semibold text-slate-900">Expected crop distribution — {formatMonthName(selectedMonth)}</h2>
+                    <h2 className="text-sm font-semibold text-slate-900">Predicted crop distribution — {formatMonthName(selectedMonth)}</h2>
                     {(cropOptions.length > 0 || hasSunflowerMatch) && (
                       <select
                         aria-label="Filter fields by crop"
@@ -502,7 +502,7 @@ function App() {
                   </div>
                   {selectedCrop === ALL_CROPS && (
                     <p className="mb-3 text-xs text-slate-500">
-                      Based on previous year&rsquo;s corresponding historical crop data · {fieldCollection.features.length}{' '}
+                      Based on historical crop-season patterns · {fieldCollection.features.length}{' '}
                       landscape features in the analyzed area
                     </p>
                   )}

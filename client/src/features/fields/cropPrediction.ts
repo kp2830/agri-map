@@ -236,13 +236,12 @@ export function formatMonthRange(range: MonthRange): string {
   return `${formatMonthName(range.startMonth)} – ${formatMonthName(range.endMonth)}`
 }
 
+/** Deliberately does NOT vary by tier (previous_year_exact vs seasonal_fallback) or mention
+ *  which specific year the evidence came from — the user-facing prediction card must never
+ *  expose a reference year (that distinction stays available internally on the CropOutlook
+ *  object itself, e.g. for the separate Crop History evidence section, just never surfaced
+ *  here). */
 export function formatOutlookBasis(basis: CropOutlookBasis): string {
-  switch (basis) {
-    case 'previous_year_exact':
-      return "Previous year's corresponding historical data"
-    case 'seasonal_fallback':
-      return 'Historical seasonal pattern (nearest matching year on record)'
-    case 'insufficient_data':
-      return 'Insufficient historical data'
-  }
+  if (basis === 'insufficient_data') return 'Insufficient historical data'
+  return 'Based on historical crop-season data'
 }
