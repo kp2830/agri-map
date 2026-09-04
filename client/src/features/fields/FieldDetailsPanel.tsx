@@ -1,6 +1,8 @@
 import { useEffect, useId, useMemo, useState } from 'react'
 import { getSunflowerLikelihood, getSunflowerRf } from '../../lib/api'
+import { SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 import type { NormalizedFieldFeature, SunflowerLikelihoodResponse, SunflowerRfResponse } from '../../types/agricultural'
+import { CropOutlookCard } from './CropOutlookCard'
 import {
   colorForCropLabel,
   formatAluType,
@@ -10,9 +12,9 @@ import {
   formatTimestamp,
   getActiveCropOutcome,
   getCurrentSeasonHistory,
-  getPrimaryCrop,
   isEligibleForSunflowerCheck,
 } from './cropDisplay'
+import { predictCropOutlook } from './cropPrediction'
 
 type SunflowerCheckState =
   | { status: 'idle' | 'checking' }
@@ -27,12 +29,12 @@ type SunflowerRfCheckState =
 interface FieldDetailsPanelProps {
   feature: NormalizedFieldFeature | null
   cropColorMap: Map<string, string>
-  /** Reference timestamp for "what crop would be growing" — real current time by default, or a
-   *  different month's reference date when the header's month selector picks one (see
-   *  monthToReferenceDateSec in cropDisplay.ts). Drives ONLY the displayed crop/season-history
-   *  section below — never the Sunflower eligibility checks, which stay anchored to the real
-   *  current AMED state regardless of which month is being viewed (see realOutcome below). */
-  nowSec: number
+  /** The reference month (1-12) and year for the Crop Outlook prediction — see
+   *  cropPrediction.ts's predictCropOutlook, which primarily uses the corresponding month one
+   *  year earlier as its evidence. Never affects the Sunflower eligibility checks below, which
+   *  stay anchored to the real current AMED state regardless of which month is being viewed. */
+  selectedMonth: number
+  selectedYear: number
 }
 
 type HistoryView = 'current' | 'complete'
@@ -53,7 +55,7 @@ function SectionHeading({ children }: { children: string }) {
   return <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">{children}</h4>
 }
 
-export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetailsPanelProps) {
+export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, selectedYear }: FieldDetailsPanelProps) {
   // Hooks must run unconditionally on every render, so these come before the `!feature` early
   // return below. The parent keys this component by field id, so a newly-selected field mounts
   // a fresh instance and this always starts back at the default, Complete History — the user
@@ -67,26 +69,34 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
   const [sunflowerRfCheck, setSunflowerRfCheck] = useState<SunflowerRfCheckState>({ status: 'idle' })
 
   const properties = feature?.properties ?? null
-  // Drives everything actually displayed below (crop label, season dates, history windowing) —
-  // reflects whichever month the header's selector is currently showing.
-  const outcome = useMemo(() => (properties ? getActiveCropOutcome(properties, nowSec) : null), [properties, nowSec])
-  // Drives ONLY Sunflower eligibility (both checks below) — deliberately always real "now",
-  // regardless of `nowSec`/the selected month. Eligibility is about whether THIS field's real,
-  // current AMED confidence is strong enough to skip a CDSE spend; a hypothetical "what would
-  // June look like" view must never change that real, present-day gate.
-  const realOutcome = useMemo(() => (properties ? getActiveCropOutcome(properties) : null), [properties])
-  const currentSeasonHistory = useMemo(
-    () => (properties && outcome ? getCurrentSeasonHistory(properties, outcome) : []),
-    [properties, outcome],
+
+  // The predictive Crop Outlook shown at the top of this panel — see cropPrediction.ts.
+  const outlook = useMemo(
+    () => (properties ? predictCropOutlook(properties, selectedMonth, selectedYear) : null),
+    [properties, selectedMonth, selectedYear],
   )
+  const currentSeasonHistory = useMemo(
+    () => (properties ? getCurrentSeasonHistory(properties, outlook?.matchedSeason ?? null) : []),
+    [properties, outlook],
+  )
+
+  // Sunflower eligibility is deliberately always real "now", regardless of the selected
+  // month/year above — it's about whether THIS field's real, current AMED confidence is strong
+  // enough to skip a CDSE spend, not about a hypothetical "what would month X look like" view.
+  const realOutcome = useMemo(() => (properties ? getActiveCropOutcome(properties) : null), [properties])
 
   // On-demand real-time Sunflower likelihood check — fired only when this specific field's
   // current AMED result is Unknown/low-confidence (see isEligibleForSunflowerCheck), never for
   // every field in the map's viewport. A newly-selected field cancels any still-in-flight check
   // for the previously-selected one. Any failure leaves `sunflowerCheck` at 'error', which
   // renders nothing extra — the existing AMED display below is completely unaffected.
+  //
+  // Sunflower is temporarily hidden from the frontend (see lib/featureFlags.ts): while the flag
+  // is off, this effect never fires, so no CDSE credits are spent checking a signal nobody can
+  // currently see. Fully intact and ready to resume the instant the flag flips back to true.
   useEffect(() => {
     setSunflowerCheck({ status: 'idle' })
+    if (!SUNFLOWER_UI_ENABLED) return
     if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
     if (!isEligibleForSunflowerCheck(realOutcome)) return
 
@@ -100,7 +110,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
       })
 
     return () => controller.abort()
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; realOutcome is derived from the same properties, deliberately real-time (not nowSec-dependent)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; realOutcome is derived from the same properties, deliberately real-time
   }, [feature])
 
   // Sunflower RF v0 — a SEPARATE model/signal from the likeness check above (see
@@ -110,6 +120,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
   // panel: AMED's own result above renders immediately regardless of this check's state.
   useEffect(() => {
     setSunflowerRfCheck({ status: 'idle' })
+    if (!SUNFLOWER_UI_ENABLED) return
     if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
     if (!isEligibleForSunflowerCheck(realOutcome)) return
 
@@ -123,10 +134,10 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
       })
 
     return () => controller.abort()
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; realOutcome is derived from the same properties, deliberately real-time (not nowSec-dependent)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; realOutcome is derived from the same properties, deliberately real-time
   }, [feature])
 
-  if (!feature || !properties || !outcome) {
+  if (!feature || !properties) {
     return (
       <p className="text-sm text-slate-500">
         Click a field on the map to inspect its ALU classification and, where available, its AMED crop prediction.
@@ -139,26 +150,8 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
   const sortedCurrentSeasonHistory = [...currentSeasonHistory].sort((a, b) => b.startTimestampSec - a.startTimestampSec)
 
   // Which records the "History" dropdown below actually renders — a local, presentation-only
-  // choice that never touches `properties.monitoring` itself or re-derives the crop (see
-  // getCurrentSeasonHistory / getSeasonalReferenceSeason in cropDisplay.ts).
+  // choice that never touches `properties.monitoring` itself or re-derives the crop.
   const historySeasons = historyView === 'current' ? sortedCurrentSeasonHistory : sortedSeasons
-
-  // The single source of truth for "which season's crop to show" — reused for both the label
-  // and its own sowing/harvest dates/predictions, so they can never disagree (see
-  // getActiveCropOutcome for why this isn't simply "whichever season started most recently"
-  // in a way that ignores AMED's reporting lag, and why a 'seasonal' inference is kept
-  // distinct from a directly-observed one).
-  const activeSeason = outcome.kind === 'observed' || outcome.kind === 'fallback' ? outcome.season : null
-  const primaryCrop = getPrimaryCrop(properties, nowSec)
-  const primaryPrediction = activeSeason?.predictions[0] ?? null
-  const alternativePredictions = activeSeason?.predictions.slice(1) ?? []
-
-  // The ONLY place a Sunflower override actually changes what's displayed — everything else in
-  // this component is the existing, untouched AMED rendering. `overridden: true` is only ever
-  // set server-side (overridePolicy.ts) when AMED's own result was NOT high-confidence, so this
-  // can never suppress a confidently-observed known crop.
-  const sunflowerOverride =
-    sunflowerCheck.status === 'done' && sunflowerCheck.response.override.overridden ? sunflowerCheck.response.override : null
 
   return (
     <div className="space-y-5">
@@ -166,7 +159,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
         <div className="mb-2 flex items-center gap-2">
           <span
             className="h-3 w-3 shrink-0 rounded-sm"
-            style={{ backgroundColor: colorForCropLabel(primaryCrop, cropColorMap) }}
+            style={{ backgroundColor: colorForCropLabel(outlook?.crop ?? null, cropColorMap) }}
             aria-hidden
           />
           <h3 className="truncate font-mono text-sm font-semibold text-slate-900">{String(feature.id)}</h3>
@@ -176,7 +169,11 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
         <dl className="mt-1 divide-y divide-slate-50">
           <DetailRow label="Area" value={formatArea(properties.areaSqM)} />
           <DetailRow label="ALU type" value={formatAluType(properties.aluType)} />
-          <DetailRow label="Classification confidence" value={formatPercent(properties.classConfidence)} />
+          {/* Named "ALU Field Confidence", not "crop confidence" — this is ALU's confidence that
+              the polygon is correctly classified as a field/trees/pond/etc., a completely
+              different concept from Predicted Crop Confidence below (which is about what's
+              growing in it), and must never be confused with it. */}
+          <DetailRow label="ALU Field Confidence" value={formatPercent(properties.classConfidence)} />
           <DetailRow label="Imagery capture date" value={formatTimestamp(properties.captureTimestampSec)} />
         </dl>
       </div>
@@ -185,77 +182,22 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
         <p className="rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-500">
           Crop monitoring only applies to field-type features.
         </p>
-      ) : sunflowerOverride ? (
-        <div>
-          <SectionHeading>Crop</SectionHeading>
-          <dl className="mt-1 divide-y divide-slate-50">
-            <DetailRow label="Current crop" value={`${formatCropLabel('SUNFLOWER')} (${formatPercent(sunflowerOverride.likeness)})`} />
-          </dl>
-          <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
-            Model likelihood, not verified ground truth — AMED had{' '}
-            {outcome.kind === 'none' ? 'no prediction' : outcome.kind === 'seasonal' ? 'only a historical seasonal inference' : `a low-confidence (${primaryPrediction ? formatPercent(primaryPrediction.confidence) : 'unknown'}) ${formatCropLabel(primaryCrop)} prediction`}{' '}
-            for this field; this field's Sentinel-2 spectral signature scored {formatPercent(sunflowerOverride.likeness)} similarity
-            to known Sunflower fields ({sunflowerOverride.band} confidence band), which cleared this app's conservative
-            override threshold. No real Indian Sunflower ground truth exists to validate this against.
-          </p>
-        </div>
-      ) : outcome.kind === 'none' ? (
-        <p className="rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-500">
-          No crop monitoring data is available for this field.
-        </p>
-      ) : outcome.kind === 'seasonal' ? (
-        <div>
-          <SectionHeading>Crop</SectionHeading>
-          <dl className="mt-1 divide-y divide-slate-50">
-            <DetailRow label="Current crop" value={formatCropLabel(primaryCrop)} />
-            <DetailRow label="Seasonal basis" value="Historical seasonal match" />
-          </dl>
-          <p className="mt-2 rounded-md bg-slate-50 px-3 py-2 text-xs text-slate-500">
-            AMED has no monitoring window covering today. This crop is carried forward from this
-            field's most recent historical season that covered this same time of year (
-            {formatTimestamp(outcome.matchedSeason.startTimestampSec)} –{' '}
-            {formatTimestamp(outcome.matchedSeason.endTimestampSec)}) — not a crop AMED is
-            currently observing.
-          </p>
-        </div>
       ) : (
-        <div>
-          <SectionHeading>Crop</SectionHeading>
-          <dl className="mt-1 divide-y divide-slate-50">
-            <DetailRow label="Current crop" value={formatCropLabel(primaryCrop)} />
-            {primaryPrediction && <DetailRow label="Crop confidence" value={formatPercent(primaryPrediction.confidence)} />}
-            <DetailRow label="Sowing" value={formatTimestamp(outcome.season.startTimestampSec)} />
-            <DetailRow label="Harvest" value={formatTimestamp(outcome.season.endTimestampSec)} />
-          </dl>
-
-          {alternativePredictions.length > 0 && (
-            <div className="mt-3">
-              <SectionHeading>Alternative predictions</SectionHeading>
-              <ul className="mt-1 space-y-1">
-                {alternativePredictions.map((prediction) => (
-                  <li key={prediction.crop} className="flex items-baseline justify-between text-sm text-slate-600">
-                    <span>{formatCropLabel(prediction.crop)}</span>
-                    <span className="tabular-nums text-slate-400">{formatPercent(prediction.confidence)}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+        outlook && <CropOutlookCard outlook={outlook} cropColorSwatch={colorForCropLabel(outlook.crop, cropColorMap)} />
       )}
 
-      {sunflowerCheck.status === 'checking' && (
+      {SUNFLOWER_UI_ENABLED && sunflowerCheck.status === 'checking' && (
         <p className="text-xs text-slate-400">Checking Sentinel-2 signature for a Sunflower likelihood…</p>
       )}
 
-      {sunflowerRfCheck.status === 'checking' && (
+      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'checking' && (
         <p className="text-xs text-slate-400">Sunflower detector: analyzing satellite history…</p>
       )}
-      {sunflowerRfCheck.status === 'error' && <p className="text-xs text-slate-400">Sunflower detector: unavailable</p>}
-      {sunflowerRfCheck.status === 'done' && !sunflowerRfCheck.response.available && (
+      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'error' && <p className="text-xs text-slate-400">Sunflower detector: unavailable</p>}
+      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'done' && !sunflowerRfCheck.response.available && (
         <p className="text-xs text-slate-400">Sunflower detector: unavailable</p>
       )}
-      {sunflowerRfCheck.status === 'done' && sunflowerRfCheck.response.available && (
+      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'done' && sunflowerRfCheck.response.available && (
         <div className="rounded-md bg-amber-50 px-3 py-2">
           <div className="flex items-baseline justify-between gap-3 text-sm">
             <span className="text-amber-800">Sunflower likelihood</span>
@@ -270,7 +212,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetail
 
       {sortedSeasons.length > 0 && (
         <div>
-          <SectionHeading>Historical monitoring</SectionHeading>
+          <SectionHeading>Crop History</SectionHeading>
 
           <div className="mt-2 flex items-center justify-between gap-2">
             <label htmlFor={historyViewId} className="text-xs font-medium text-slate-500">

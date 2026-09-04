@@ -1,5 +1,6 @@
 import type { NormalizedFieldCollection, NormalizedFieldProperties } from '../../types/agricultural'
-import { formatCropLabel, getPrimaryCrop, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { formatCropLabel, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { getPredictedCrop } from './cropPrediction'
 import { SUNFLOWER_CROP_KEY } from './cropSummary'
 
 /** Sentinel meaning "no crop filter applied" — every field is shown, exactly as returned. */
@@ -8,17 +9,22 @@ export type CropFilterValue = typeof ALL_CROPS | string
 
 /**
  * The crop-filter identity for a field — mirrors the grouping summarizeCropShares already
- * uses. A field with no AMED monitoring data at all (getPrimaryCrop returns null) and one
+ * uses. A field with no AMED monitoring data at all (getPredictedCrop returns null) and one
  * whose monitoring explicitly says NO_PREDICTION render identically ("No prediction
  * available"), so they share one filter bucket instead of two visually-identical options.
  *
- * `nowSec` defaults to real "now" but passes straight through to getPrimaryCrop so the whole
- * filter/distribution view can be recomputed for a different reference month (see
- * monthToReferenceDateSec) without a new ALU/AMED fetch — same already-loaded monitoring data,
- * just re-evaluated against a different date.
+ * `month`/`year` default to the real current month/year but pass straight through to
+ * getPredictedCrop so the whole filter/distribution view can be recomputed for a different
+ * reference month without a new ALU/AMED fetch — same already-loaded monitoring data, just
+ * re-evaluated against a different month (see cropPrediction.ts's predictCropOutlook, which
+ * primarily uses the corresponding month one year earlier as its evidence).
  */
-export function cropFilterKey(properties: NormalizedFieldProperties, nowSec: number = Date.now() / 1000): string {
-  return getPrimaryCrop(properties, nowSec) ?? 'NO_PREDICTION'
+export function cropFilterKey(
+  properties: NormalizedFieldProperties,
+  month: number = new Date().getMonth() + 1,
+  year: number = new Date().getFullYear(),
+): string {
+  return getPredictedCrop(properties, month, year) ?? 'NO_PREDICTION'
 }
 
 export interface CropOption {
@@ -27,12 +33,16 @@ export interface CropOption {
 }
 
 /** Crop filter options actually present among the loaded field-type features, sorted by label. */
-export function getAvailableCrops(fieldCollection: NormalizedFieldCollection, nowSec: number = Date.now() / 1000): CropOption[] {
+export function getAvailableCrops(
+  fieldCollection: NormalizedFieldCollection,
+  month: number = new Date().getMonth() + 1,
+  year: number = new Date().getFullYear(),
+): CropOption[] {
   const labelByValue = new Map<string, string>()
 
   for (const feature of fieldCollection.features) {
     if (feature.properties.aluType !== 'field') continue
-    const value = cropFilterKey(feature.properties, nowSec)
+    const value = cropFilterKey(feature.properties, month, year)
     if (!labelByValue.has(value)) labelByValue.set(value, formatCropLabel(value))
   }
 
@@ -56,17 +66,18 @@ export function totalFieldAreaSqM(fieldCollection: NormalizedFieldCollection): n
  * SUNFLOWER_CROP_KEY is a special case: it's not a real AMED crop (cropFilterKey never
  * produces it), so this matches by `sunflowerProbabilities` instead — the SAME real per-field
  * RF results driving the map's gold coloring, never a separate calculation, and NOT affected
- * by `nowSec` (the Sunflower RF signal is deliberately independent of the selected reference
- * month — see colorForFeatureWithSunflower). `sunflowerProbabilities` is optional so every
- * other crop selection stays a pure function of `fieldCollection`/`selectedCrop`/`nowSec` alone,
- * unaffected by Sunflower RF results still arriving in the background.
+ * by `month`/`year` (the Sunflower RF signal is deliberately independent of the selected
+ * reference month — see colorForFeatureWithSunflower). `sunflowerProbabilities` is optional so
+ * every other crop selection stays a pure function of `fieldCollection`/`selectedCrop`/
+ * `month`/`year` alone, unaffected by Sunflower RF results still arriving in the background.
  */
 export function filterFieldsByCrop(
   fieldCollection: NormalizedFieldCollection,
   selectedCrop: CropFilterValue,
   sunflowerProbabilities?: Map<string, number>,
   sunflowerThresholdPercent: number = SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
-  nowSec: number = Date.now() / 1000,
+  month: number = new Date().getMonth() + 1,
+  year: number = new Date().getFullYear(),
 ): NormalizedFieldCollection {
   if (selectedCrop === ALL_CROPS) return fieldCollection
 
@@ -84,7 +95,7 @@ export function filterFieldsByCrop(
   return {
     type: 'FeatureCollection',
     features: fieldCollection.features.filter(
-      (feature) => feature.properties.aluType === 'field' && cropFilterKey(feature.properties, nowSec) === selectedCrop,
+      (feature) => feature.properties.aluType === 'field' && cropFilterKey(feature.properties, month, year) === selectedCrop,
     ),
   }
 }

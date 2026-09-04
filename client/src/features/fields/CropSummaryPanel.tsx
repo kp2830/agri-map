@@ -3,6 +3,7 @@ import type { AluFeatureType, NormalizedFieldCollection } from '../../types/agri
 import { colorForAluType, colorForCropLabel, formatAluType, formatCropLabel, formatHectares, SUNFLOWER_LIKELY_FILL_COLOR } from './cropDisplay'
 import { ALL_CROPS, filterFieldsByCrop, totalFieldAreaSqM, type CropFilterValue } from './cropFilter'
 import { computeSunflowerShare, summarizeCropShares, SUNFLOWER_CROP_KEY, type CropShare } from './cropSummary'
+import { SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 
 interface CropSummaryPanelProps {
   fieldCollection: NormalizedFieldCollection
@@ -10,13 +11,14 @@ interface CropSummaryPanelProps {
   selectedCrop: CropFilterValue
   /** Same real per-field RF probabilities driving the map's gold coloring (see
    *  useSunflowerFieldColors, now lifted to App.tsx so both the map and this panel read the
-   *  same data) — never recalculated here. */
+   *  same data) — never recalculated here. Always empty while SUNFLOWER_UI_ENABLED is false. */
   sunflowerProbabilities: Map<string, number>
-  /** Reference timestamp for AMED crop grouping — real current time by default, or a different
-   *  month's reference date when the header's month selector picks one (see
-   *  monthToReferenceDateSec). Never affects the Sunflower row/filter, which is driven purely
-   *  by sunflowerProbabilities. */
-  nowSec: number
+  /** The reference month (1-12) and year for AMED crop grouping — see cropPrediction.ts's
+   *  predictCropOutlook, which primarily uses the corresponding month one year earlier as its
+   *  evidence. Never affects the Sunflower row/filter, which is driven purely by
+   *  sunflowerProbabilities. */
+  selectedMonth: number
+  selectedYear: number
 }
 
 /** The color swatch for a share row — Sunflower isn't a real AMED crop label (it's never in
@@ -30,14 +32,14 @@ const VISIBLE_ROWS = 6
 const NON_FIELD_TYPES: Exclude<AluFeatureType, 'field'>[] = ['trees', 'farm_pond', 'other_water', 'dug_well']
 
 /** A single crop is selected: total area/field count for just that crop, from real field data.
- *  Also handles SUNFLOWER_CROP_KEY (selected via the dropdown's pinned "Sunflower" option) —
- *  filterFieldsByCrop already knows how to match that against sunflowerProbabilities instead of
- *  an AMED crop identity, so this needs no special-case filtering logic, only a special-case
- *  swatch color and label (Sunflower isn't in cropColorMap, which is built only from genuine
- *  AMED predictions). */
-function SelectedCropSummary({ fieldCollection, cropColorMap, selectedCrop, sunflowerProbabilities, nowSec }: CropSummaryPanelProps) {
-  const isSunflowerFilter = selectedCrop === SUNFLOWER_CROP_KEY
-  const matching = filterFieldsByCrop(fieldCollection, selectedCrop, sunflowerProbabilities, undefined, nowSec)
+ *  Also handles SUNFLOWER_CROP_KEY (selected via the dropdown's pinned "Sunflower" option, only
+ *  reachable at all while SUNFLOWER_UI_ENABLED is true) — filterFieldsByCrop already knows how
+ *  to match that against sunflowerProbabilities instead of an AMED crop identity, so this needs
+ *  no special-case filtering logic, only a special-case swatch color and label (Sunflower isn't
+ *  in cropColorMap, which is built only from genuine AMED predictions). */
+function SelectedCropSummary({ fieldCollection, cropColorMap, selectedCrop, sunflowerProbabilities, selectedMonth, selectedYear }: CropSummaryPanelProps) {
+  const isSunflowerFilter = SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY
+  const matching = filterFieldsByCrop(fieldCollection, selectedCrop, sunflowerProbabilities, undefined, selectedMonth, selectedYear)
   const areaSqM = matching.features.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
   const totalArea = totalFieldAreaSqM(fieldCollection)
   const sharePercent = totalArea > 0 ? (areaSqM / totalArea) * 100 : null
@@ -79,7 +81,7 @@ function SelectedCropSummary({ fieldCollection, cropColorMap, selectedCrop, sunf
   )
 }
 
-export function CropSummaryPanel({ fieldCollection, cropColorMap, selectedCrop, sunflowerProbabilities, nowSec }: CropSummaryPanelProps) {
+export function CropSummaryPanel({ fieldCollection, cropColorMap, selectedCrop, sunflowerProbabilities, selectedMonth, selectedYear }: CropSummaryPanelProps) {
   const [showAll, setShowAll] = useState(false)
 
   if (selectedCrop !== ALL_CROPS) {
@@ -89,13 +91,17 @@ export function CropSummaryPanel({ fieldCollection, cropColorMap, selectedCrop, 
         cropColorMap={cropColorMap}
         selectedCrop={selectedCrop}
         sunflowerProbabilities={sunflowerProbabilities}
-        nowSec={nowSec}
+        selectedMonth={selectedMonth}
+        selectedYear={selectedYear}
       />
     )
   }
 
-  const amedShares = summarizeCropShares(fieldCollection, nowSec)
-  const sunflowerShare = computeSunflowerShare(fieldCollection, sunflowerProbabilities)
+  const amedShares = summarizeCropShares(fieldCollection, selectedMonth, selectedYear)
+  // Sunflower is temporarily hidden from the frontend (see lib/featureFlags.ts) — computing a
+  // share is skipped outright rather than computed-then-hidden, so it can never leak into
+  // `shares` below. computeSunflowerShare itself, and everything feeding it, is untouched.
+  const sunflowerShare = SUNFLOWER_UI_ENABLED ? computeSunflowerShare(fieldCollection, sunflowerProbabilities) : null
   // Additive, not a replacement for any AMED row — inserted into the same ranked-by-area list
   // so Sunflower reads as a normal category (per the product requirement) while still being
   // visually flagged below as an independent RF signal, not a genuine AMED prediction.

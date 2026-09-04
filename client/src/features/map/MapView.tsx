@@ -2,10 +2,12 @@ import L from 'leaflet'
 import type { LeafletMouseEvent, Layer, StyleFunction } from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { Circle, CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap, useMapEvents, ZoomControl } from 'react-leaflet'
-import { colorForFeatureWithSunflower, SUNFLOWER_LIKELY_STROKE_COLOR, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from '../fields/cropDisplay'
+import { colorForFeature, colorForFeatureWithSunflower, SUNFLOWER_LIKELY_STROKE_COLOR, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
+import { getPredictedCrop } from '../fields/cropPrediction'
 import { SUNFLOWER_CROP_KEY } from '../fields/cropSummary'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
+import { SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 import { logPerfDelta, markPerf } from '../../lib/perf'
 import type { CoverageInfo, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
 
@@ -22,13 +24,16 @@ interface MapViewProps {
   onMapClick: (lat: number, lng: number) => void
   cropColorMap: Map<string, string>
   /** Real per-field Sunflower RF probabilities (0-100), lifted to App.tsx so this map and the
-   *  crop-distribution panel read the exact same data — see useSunflowerFieldColors. */
+   *  crop-distribution panel read the exact same data — see useSunflowerFieldColors. Empty
+   *  while SUNFLOWER_UI_ENABLED is false (the hook that would populate it is a no-op — see
+   *  lib/featureFlags.ts), so every Sunflower-driven code path below naturally does nothing. */
   sunflowerProbabilities: Map<string, number>
-  /** Reference timestamp driving each field's displayed AMED color — real current time by
-   *  default, or a different month's reference date when the header's month selector picks one
-   *  (see monthToReferenceDateSec). Never affects Sunflower's own gold coloring, which is driven
+  /** The reference month (1-12) and year driving each field's displayed AMED color — see
+   *  cropPrediction.ts's predictCropOutlook, which primarily uses the corresponding month one
+   *  year earlier as its evidence. Never affects Sunflower's own gold coloring, which is driven
    *  purely by sunflowerProbabilities regardless of this value. */
-  nowSec: number
+  selectedMonth: number
+  selectedYear: number
   /** Bumped by App's "New Search" action to explicitly return the map to its default view. */
   resetToken: number
   /**
@@ -155,7 +160,8 @@ export function MapView({
   onMapClick,
   cropColorMap,
   sunflowerProbabilities,
-  nowSec,
+  selectedMonth,
+  selectedYear,
   resetToken,
   gridKm,
   searchToken,
@@ -186,7 +192,7 @@ export function MapView({
   // switching crops or watching results trickle in never triggers a wasted remount of a
   // potentially thousands-of-polygons layer.
   const qualifyingSunflowerCount =
-    selectedCrop === SUNFLOWER_CROP_KEY
+    SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY
       ? [...sunflowerProbabilities.values()].filter((percent) => percent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT).length
       : 0
   const geoJsonDataKey = `${searchToken}-${center?.lat}-${center?.lng}-${selectedCrop}-${qualifyingSunflowerCount}`
@@ -202,10 +208,20 @@ export function MapView({
     if (!normalized) return {}
 
     const isSelected = normalized.id === selectedFieldId
-    const sunflowerProbabilityPercent = normalized.id === undefined ? null : (sunflowerProbabilities.get(String(normalized.id)) ?? null)
+    const predictedCrop = getPredictedCrop(normalized.properties, selectedMonth, selectedYear)
+    // Sunflower temporarily hidden from the frontend (see lib/featureFlags.ts): when the flag
+    // is off, skip colorForFeatureWithSunflower entirely and use the plain AMED coloring path —
+    // that function itself is untouched and ready to resume the instant the flag flips back.
+    const sunflowerProbabilityPercent =
+      SUNFLOWER_UI_ENABLED && normalized.id !== undefined ? (sunflowerProbabilities.get(String(normalized.id)) ?? null) : null
     const isSunflowerLikely =
-      normalized.properties.aluType === 'field' && sunflowerProbabilityPercent != null && sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT
-    const color = colorForFeatureWithSunflower(normalized.properties, cropColorMap, sunflowerProbabilityPercent, nowSec)
+      SUNFLOWER_UI_ENABLED &&
+      normalized.properties.aluType === 'field' &&
+      sunflowerProbabilityPercent != null &&
+      sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT
+    const color = SUNFLOWER_UI_ENABLED
+      ? colorForFeatureWithSunflower(normalized.properties, cropColorMap, sunflowerProbabilityPercent, predictedCrop)
+      : colorForFeature(normalized.properties, cropColorMap, predictedCrop)
 
     // Sunflower fields get their own distinct dark-brown stroke and a visibly thicker outline
     // (not just a different fill hue) — a fill-color-only difference from the existing
@@ -220,11 +236,11 @@ export function MapView({
     }
   }
 
-  // Changing the reference month (nowSec) can change every visible field's displayed AMED
-  // color at once (a different season may now be "active" for many fields simultaneously) —
-  // unlike a single field's Sunflower result arriving, this walks every currently-mounted
-  // layer rather than a handful, but still via the same imperative setStyle pattern rather
-  // than a full GeoJSON remount, so switching months stays cheap even for a dense result.
+  // Changing the reference month can change every visible field's predicted AMED color at once
+  // (a different historical reference may now apply for many fields simultaneously) — unlike a
+  // single field's Sunflower result arriving, this walks every currently-mounted layer rather
+  // than a handful, but still via the same imperative setStyle pattern rather than a full
+  // GeoJSON remount, so switching months stays cheap even for a dense result.
   useEffect(() => {
     for (const layer of layersByIdRef.current.values()) {
       const pathLayer = layer as Layer & Partial<L.Path>
@@ -233,9 +249,9 @@ export function MapView({
       if (feature) pathLayer.setStyle(featureStyle(feature))
     }
     // featureStyle is a fresh closure each render but only depends on selectedFieldId/cropColorMap/
-    // sunflowerProbabilities/nowSec, which are already this effect's real dependencies.
+    // sunflowerProbabilities/selectedMonth/selectedYear, which are already this effect's real deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nowSec])
+  }, [selectedMonth, selectedYear])
 
   // As each field's Sunflower RF result arrives (sunflowerProbabilities grows one entry at a
   // time — see useSunflowerFieldColors), imperatively restyle just that field's already-mounted

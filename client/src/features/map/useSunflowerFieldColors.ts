@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getSunflowerRf } from '../../lib/api'
 import { getActiveCropOutcome, isEligibleForSunflowerCheck } from '../fields/cropDisplay'
 import { featureCentroid } from '../fields/fieldGeometry'
+import { SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 import type { NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
 
 /**
@@ -68,6 +69,12 @@ export function useSunflowerFieldColors(
   useEffect(() => {
     cancelledRef.current = false
     setProbabilities(new Map())
+
+    // Sunflower is temporarily hidden from the frontend (see lib/featureFlags.ts) — this hook
+    // becomes a true no-op while the flag is off, never firing a single CDSE request, so no
+    // credits are spent on a signal nobody can currently see. Every line below is otherwise
+    // untouched and ready to resume the instant the flag flips back to true.
+    if (!SUNFLOWER_UI_ENABLED) return
 
     const features = fieldCollection?.features ?? []
     const eligible: NormalizedFieldFeature[] = []

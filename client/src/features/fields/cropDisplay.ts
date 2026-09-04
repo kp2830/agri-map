@@ -70,14 +70,17 @@ export type ActiveCropOutcome =
  *  ordinal as Mar 1 (a one-day ambiguity on a rare date, harmless for this comparison). */
 const CUMULATIVE_DAYS_BEFORE_MONTH = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
 
-function dayOfYear(sec: number): number {
+/** Exported for reuse by cropPrediction.ts (the previous-year/seasonal-fallback prediction
+ *  algorithm needs the same calendar-position math this file already established — never a
+ *  second, competing definition of "day of year"). */
+export function dayOfYear(sec: number): number {
   const date = new Date(sec * 1000)
   return CUMULATIVE_DAYS_BEFORE_MONTH[date.getUTCMonth()] + date.getUTCDate()
 }
 
 /** Whether calendar-day `ordinal` (1-365) falls inside the [startOrdinal, endOrdinal] window,
  *  handling windows that wrap across the year boundary (e.g. a Nov-to-Mar Rabi season). */
-function ordinalInWindow(ordinal: number, startOrdinal: number, endOrdinal: number): boolean {
+export function ordinalInWindow(ordinal: number, startOrdinal: number, endOrdinal: number): boolean {
   if (startOrdinal <= endOrdinal) return ordinal >= startOrdinal && ordinal <= endOrdinal
   return ordinal >= startOrdinal || ordinal <= endOrdinal
 }
@@ -95,8 +98,11 @@ function ordinalInWindow(ordinal: number, startOrdinal: number, endOrdinal: numb
  *
  * Returns null only when no historical season's calendar window covers today at all — the
  * caller falls back to existing most-recent-available behavior in that case.
+ *
+ * Exported for reuse by cropPrediction.ts's seasonal-fallback tier — the SAME "what was
+ * growing around this time of year, most recently" logic, not a reimplementation.
  */
-function inferSeasonalCrop(seasons: MonitoringSeason[], nowSec: number): { crop: string; matchedSeason: MonitoringSeason } | null {
+export function inferSeasonalCrop(seasons: MonitoringSeason[], nowSec: number): { crop: string; matchedSeason: MonitoringSeason } | null {
   const todayOrdinal = dayOfYear(nowSec)
 
   const matching = seasons.filter((season) => {
@@ -241,8 +247,9 @@ export function getSeasonalReferenceSeason(outcome: ActiveCropOutcome): Monitori
 
 /** Whether calendar windows [aStart, aEnd] and [bStart, bEnd] (day-of-year ordinals, each
  *  possibly wrapping the year boundary) share any point on the calendar — i.e. either window
- *  contains either endpoint of the other. Covers partial overlap and full containment. */
-function windowsOverlap(aStart: number, aEnd: number, bStart: number, bEnd: number): boolean {
+ *  contains either endpoint of the other. Covers partial overlap and full containment.
+ *  Exported for reuse by cropPrediction.ts. */
+export function windowsOverlap(aStart: number, aEnd: number, bStart: number, bEnd: number): boolean {
   return (
     ordinalInWindow(bStart, aStart, aEnd) ||
     ordinalInWindow(bEnd, aStart, aEnd) ||
@@ -253,23 +260,26 @@ function windowsOverlap(aStart: number, aEnd: number, bStart: number, bEnd: numb
 
 /**
  * The subset of a field's historical monitoring seasons that share the same time-of-year
- * period as the season behind the current crop determination (see getSeasonalReferenceSeason)
- * — i.e. "which historical records explain why we're showing this crop." Matched purely by
- * calendar month/day window overlap (year discarded), the same concept the recency-first
- * selection itself uses — not by crop name, so this works identically for any crop AMED
- * returns.
+ * period as `reference` — i.e. "which historical records explain why we're showing this crop."
+ * Matched purely by calendar month/day window overlap (year discarded), the same concept the
+ * recency-first selection itself uses — not by crop name, so this works identically for any
+ * crop AMED returns.
+ *
+ * Takes the reference season directly rather than an ActiveCropOutcome (as an earlier version
+ * did) — callers now commonly derive `reference` from cropPrediction.ts's predicted outlook
+ * (historicalSeasonRange's underlying season) rather than getActiveCropOutcome, and this
+ * function has no real need to know which mechanism produced its reference point.
  *
  * This is a presentation-only filter: it never mutates `properties.monitoring`, and always
  * includes the reference season itself (its window trivially overlaps itself), so the record
  * that actually produced the current crop is always visible in this view. Returns an empty
- * array only when there's no crop determination to explain in the first place ('none').
+ * array when there's no reference season to explain in the first place.
  */
 export function getCurrentSeasonHistory(
   properties: NormalizedFieldProperties,
-  outcome: ActiveCropOutcome,
+  reference: MonitoringSeason | null,
 ): MonitoringSeason[] {
   const seasons = properties.monitoring ?? []
-  const reference = getSeasonalReferenceSeason(outcome)
   if (!reference) return []
 
   const refStart = dayOfYear(reference.startTimestampSec)
@@ -307,16 +317,18 @@ export function colorForCropLabel(crop: string | null, colorMap: Map<string, str
   return colorMap.get(crop) ?? OTHER_CROP_COLOR
 }
 
-export function colorForFeature(
-  properties: NormalizedFieldProperties,
-  colorMap: Map<string, string>,
-  nowSec: number = Date.now() / 1000,
-): string {
+/**
+ * `predictedCrop` is supplied by the caller (see cropPrediction.ts's getPredictedCrop) rather
+ * than derived internally — this file can't import cropPrediction.ts itself (cropPrediction.ts
+ * already imports several helpers from here, and a crop-string-in/color-out function has no
+ * real need to know about month-based prediction logic at all).
+ */
+export function colorForFeature(properties: NormalizedFieldProperties, colorMap: Map<string, string>, predictedCrop: string | null): string {
   if (properties.aluType !== 'field') {
     return NEUTRAL_ALU_COLORS[properties.aluType]
   }
 
-  return colorForCropLabel(getPrimaryCrop(properties, nowSec), colorMap)
+  return colorForCropLabel(predictedCrop, colorMap)
 }
 
 /**
@@ -328,21 +340,20 @@ export function colorForFeature(
  * function never decides eligibility itself, only whether to apply the color once a real
  * probability is already known. AMED's own crop data is never touched; only the rendered color.
  *
- * `nowSec` only affects the fallback AMED color (via colorForFeature) — the Sunflower RF
- * check itself is deliberately NOT re-triggered or re-gated by the selected month (see
- * useSunflowerFieldColors): that's a separate, CDSE-cost-sensitive signal, unaffected by
- * "what would be growing in month X" being an AMED-display-only question.
+ * Kept fully intact even while SUNFLOWER_UI_ENABLED is false (see lib/featureFlags.ts) — the
+ * frontend hides Sunflower by simply not calling this function (using colorForFeature
+ * directly instead) at its one call site in MapView.tsx, not by touching this logic.
  */
 export function colorForFeatureWithSunflower(
   properties: NormalizedFieldProperties,
   colorMap: Map<string, string>,
   sunflowerProbabilityPercent: number | null | undefined,
-  nowSec: number = Date.now() / 1000,
+  predictedCrop: string | null,
 ): string {
   if (properties.aluType === 'field' && sunflowerProbabilityPercent != null && sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT) {
     return SUNFLOWER_LIKELY_FILL_COLOR
   }
-  return colorForFeature(properties, colorMap, nowSec)
+  return colorForFeature(properties, colorMap, predictedCrop)
 }
 
 export function colorForAluType(aluType: Exclude<AluFeatureType, 'field'>): string {

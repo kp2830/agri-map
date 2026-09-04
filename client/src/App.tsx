@@ -2,16 +2,18 @@ import { useEffect, useMemo, useState } from 'react'
 import { StatusCard } from './components/StatusCard'
 import { CentroidForm } from './features/fields/CentroidForm'
 import { CropSummaryPanel } from './features/fields/CropSummaryPanel'
-import { buildCropColorMap, monthToReferenceDateSec, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
+import { buildCropColorMap, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
 import { ALL_CROPS, filterFieldsByCrop, getAvailableCrops, type CropFilterValue } from './features/fields/cropFilter'
 import { SUNFLOWER_CROP_KEY, summarizeCropShares } from './features/fields/cropSummary'
 import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
 import { FieldIdSearch } from './features/fields/FieldIdSearch'
+import { formatMonthName } from './features/fields/cropPrediction'
 import { MonthSelector } from './features/fields/MonthSelector'
 import { useAgriculturalFields } from './features/fields/useAgriculturalFields'
 import { decodeFieldId } from './lib/api'
 import { defaultMapCenter } from './lib/config'
+import { SUNFLOWER_UI_ENABLED } from './lib/featureFlags'
 import { markPerf } from './lib/perf'
 import { MapView } from './features/map/MapView'
 import { useSunflowerFieldColors } from './features/map/useSunflowerFieldColors'
@@ -178,11 +180,10 @@ function App() {
   // Deliberately NOT reset by "New Search": it's a viewing preference (like gridKm/maxSearchKm
   // above), not part of the active search result, so it persists across searches the same way.
   const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1)
-  // The actual reference timestamp fed into every AMED crop-determination call this session —
-  // see monthToReferenceDateSec for why day 15 of the selected month, fed through the SAME
-  // getActiveCropOutcome logic already used for "now", is sufficient to answer "what would be
-  // growing in month X" with no separate prediction system.
-  const nowSec = useMemo(() => monthToReferenceDateSec(selectedMonth), [selectedMonth])
+  // Not user-selectable (only the month is, per product scope) — always the real current year.
+  // predictCropOutlook always looks at selectedYear - 1 as its primary evidence, so this alone
+  // is enough to fully determine "which historical year counts as last year" for any month.
+  const selectedYear = new Date().getFullYear()
 
   useEffect(() => {
     if (state.status !== 'loading') return
@@ -307,15 +308,15 @@ function App() {
   // in the lat/lng inputs, or selecting a field). Also recomputes when the reference month
   // changes, since a different month can shift which crop groups are largest by area.
   const cropColorMap = useMemo(
-    () => (fieldCollection ? buildCropColorMap(summarizeCropShares(fieldCollection, nowSec)) : new Map<string, string>()),
-    [fieldCollection, nowSec],
+    () => (fieldCollection ? buildCropColorMap(summarizeCropShares(fieldCollection, selectedMonth, selectedYear)) : new Map<string, string>()),
+    [fieldCollection, selectedMonth, selectedYear],
   )
 
   // Crop options are always derived from the complete result (never the filtered view),
   // so picking "Mustard" doesn't shrink the dropdown down to just "Mustard" afterward.
   const cropOptions = useMemo(
-    () => (fieldCollection ? getAvailableCrops(fieldCollection, nowSec) : []),
-    [fieldCollection, nowSec],
+    () => (fieldCollection ? getAvailableCrops(fieldCollection, selectedMonth, selectedYear) : []),
+    [fieldCollection, selectedMonth, selectedYear],
   )
 
   // Sunflower RF v0 — checked against the FULL search result (fieldCollection), not the
@@ -332,8 +333,12 @@ function App() {
   // Whether the "Sunflower" option should even appear in the crop dropdown — only once at
   // least one field in the current search has actually cleared the threshold, same "don't show
   // an option nothing matches" rule every other crop option already follows (getAvailableCrops).
+  // Also gated on SUNFLOWER_UI_ENABLED: while Sunflower is temporarily hidden from the
+  // frontend, sunflowerProbabilities never gets any entries anyway (useSunflowerFieldColors is
+  // a no-op — see lib/featureFlags.ts), but this stays an explicit, second, defensive check
+  // rather than relying solely on that.
   const hasSunflowerMatch = useMemo(
-    () => [...sunflowerProbabilities.values()].some((percent) => percent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT),
+    () => SUNFLOWER_UI_ENABLED && [...sunflowerProbabilities.values()].some((percent) => percent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT),
     [sunflowerProbabilities],
   )
 
@@ -347,14 +352,17 @@ function App() {
   // looking at the Sunflower filter. Only sunflowerVisible — used exclusively while that filter
   // is actually selected — needs to react to sunflowerProbabilities at all.
   const nonSunflowerVisible = useMemo(
-    () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop, undefined, undefined, nowSec) : null),
-    [fieldCollection, selectedCrop, nowSec],
+    () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop, undefined, undefined, selectedMonth, selectedYear) : null),
+    [fieldCollection, selectedCrop, selectedMonth, selectedYear],
   )
   const sunflowerVisible = useMemo(
-    () => (fieldCollection && selectedCrop === SUNFLOWER_CROP_KEY ? filterFieldsByCrop(fieldCollection, selectedCrop, sunflowerProbabilities) : null),
+    () =>
+      SUNFLOWER_UI_ENABLED && fieldCollection && selectedCrop === SUNFLOWER_CROP_KEY
+        ? filterFieldsByCrop(fieldCollection, selectedCrop, sunflowerProbabilities)
+        : null,
     [fieldCollection, selectedCrop, sunflowerProbabilities],
   )
-  const visibleFieldCollection = selectedCrop === SUNFLOWER_CROP_KEY ? sunflowerVisible : nonSunflowerVisible
+  const visibleFieldCollection = SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY ? sunflowerVisible : nonSunflowerVisible
 
   function handleCropChange(crop: CropFilterValue) {
     setSelectedCrop(crop)
@@ -408,7 +416,8 @@ function App() {
             onMapClick={handleMapClick}
             cropColorMap={cropColorMap}
             sunflowerProbabilities={sunflowerProbabilities}
-            nowSec={nowSec}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
             resetToken={mapResetToken}
             gridKm={appliedGridKm}
             searchToken={searchToken}
@@ -468,7 +477,7 @@ function App() {
 
                 <section>
                   <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
-                    <h2 className="text-sm font-semibold text-slate-900">Crop distribution</h2>
+                    <h2 className="text-sm font-semibold text-slate-900">Expected crop distribution — {formatMonthName(selectedMonth)}</h2>
                     {(cropOptions.length > 0 || hasSunflowerMatch) && (
                       <select
                         aria-label="Filter fields by crop"
@@ -479,7 +488,9 @@ function App() {
                         <option value={ALL_CROPS}>All Crops</option>
                         {/* Pinned right after "All Crops", not sorted alphabetically among AMED
                             crops below — it's the app's core signal, not an incidental category,
-                            and only appears once a real field has actually cleared the threshold. */}
+                            and only appears once a real field has actually cleared the threshold.
+                            Only ever rendered when SUNFLOWER_UI_ENABLED is true (hasSunflowerMatch
+                            is hard-gated on the flag — see its own definition above). */}
                         {hasSunflowerMatch && <option value={SUNFLOWER_CROP_KEY}>Sunflower</option>}
                         {cropOptions.map((option) => (
                           <option key={option.value} value={option.value}>
@@ -491,11 +502,8 @@ function App() {
                   </div>
                   {selectedCrop === ALL_CROPS && (
                     <p className="mb-3 text-xs text-slate-500">
-                      Share of mapped field area by predicted crop for{' '}
-                      <span className="font-medium text-slate-600">
-                        {new Date(nowSec * 1000).toLocaleDateString(undefined, { month: 'long', timeZone: 'UTC' })}
-                      </span>{' '}
-                      · {fieldCollection.features.length} landscape features in the analyzed area
+                      Based on previous year&rsquo;s corresponding historical crop data · {fieldCollection.features.length}{' '}
+                      landscape features in the analyzed area
                     </p>
                   )}
                   <CropSummaryPanel
@@ -503,7 +511,8 @@ function App() {
                     cropColorMap={cropColorMap}
                     selectedCrop={selectedCrop}
                     sunflowerProbabilities={sunflowerProbabilities}
-                    nowSec={nowSec}
+                    selectedMonth={selectedMonth}
+                    selectedYear={selectedYear}
                   />
                 </section>
 
@@ -516,7 +525,8 @@ function App() {
                     key={selectedFeature ? String(selectedFeature.id) : 'none'}
                     feature={selectedFeature}
                     cropColorMap={cropColorMap}
-                    nowSec={nowSec}
+                    selectedMonth={selectedMonth}
+                    selectedYear={selectedYear}
                   />
                 </section>
               </div>

@@ -1,5 +1,6 @@
 import type { NormalizedFieldCollection } from '../../types/agricultural'
-import { getPrimaryCrop, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { getPredictedCrop } from './cropPrediction'
 
 export interface CropShare {
   crop: string | null
@@ -13,16 +14,20 @@ export interface CropShare {
 export const SUNFLOWER_CROP_KEY = 'SUNFLOWER'
 
 /** Percentage of total mapped field area associated with each predicted crop (fields only, not
- *  trees/water/wells). `nowSec` defaults to real "now" but passes through to getPrimaryCrop so
- *  the distribution can be recomputed for a different reference month (see
- *  monthToReferenceDateSec) from the same already-loaded data — no new fetch. */
-export function summarizeCropShares(fieldCollection: NormalizedFieldCollection, nowSec: number = Date.now() / 1000): CropShare[] {
+ *  trees/water/wells). `month`/`year` default to the real current month/year but pass through
+ *  to getPredictedCrop so the distribution can be recomputed for a different reference month
+ *  from the same already-loaded data — no new fetch. */
+export function summarizeCropShares(
+  fieldCollection: NormalizedFieldCollection,
+  month: number = new Date().getMonth() + 1,
+  year: number = new Date().getFullYear(),
+): CropShare[] {
   const fields = fieldCollection.features.filter((feature) => feature.properties.aluType === 'field')
   const totalAreaSqM = fields.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
 
   const areaByCrop = new Map<string | null, number>()
   for (const feature of fields) {
-    const crop = getPrimaryCrop(feature.properties, nowSec)
+    const crop = getPredictedCrop(feature.properties, month, year)
     areaByCrop.set(crop, (areaByCrop.get(crop) ?? 0) + feature.properties.areaSqM)
   }
 
