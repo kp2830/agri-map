@@ -1,0 +1,205 @@
+[
+  {
+    "field_id": "7JXRWVG7+V2J4",
+    "tier": "A",
+    "amed_crop": "RICE",
+    "amed_confidence": 0.288,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R3RRC+37R4",
+    "tier": "A",
+    "amed_crop": "NO_PREDICTION",
+    "amed_confidence": 0,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R3VH6+RWH3",
+    "tier": "B",
+    "amed_crop": "UNKNOWN_CROP",
+    "amed_confidence": 0.434,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R3VQ6+GPHV",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.556,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5RG8+R845",
+    "tier": "A",
+    "amed_crop": "RICE",
+    "amed_confidence": 0.6435,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5RH5+93V2",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.6396,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5R93+RV4F",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.4176,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5RC5+PJ43",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.5502,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5R94+Q87C",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.4995,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5RH8+R997",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.5151,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5RMM+82WM",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.4608,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5WJM+4C64",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.7198,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5W5M+FV8P",
+    "tier": "A",
+    "amed_crop": "RICE",
+    "amed_confidence": 0.3532,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5W7H+4X2V",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.6371,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R5X5J+MG7M",
+    "tier": "B",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.2601,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2V529V+V9W4",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.417,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R6VXJ+J5HF",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.2979,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R6WWF+VQPH",
+    "tier": "A",
+    "amed_crop": "NO_PREDICTION",
+    "amed_confidence": 0,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R7W3J+2RWF",
+    "tier": "A",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.279,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2V62QM+5X7M",
+    "tier": "B",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.4893,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2V62RX+JFJC",
+    "tier": "B",
+    "amed_crop": "NO_PREDICTION",
+    "amed_confidence": 0,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2V723W+C24Q",
+    "tier": "B",
+    "amed_crop": "RICE",
+    "amed_confidence": 0.3183,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2V63Q3+FRJ4",
+    "tier": "B",
+    "amed_crop": "COTTON",
+    "amed_confidence": 0.2905,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "7JXRWXCQ+F3F3",
+    "tier": "A",
+    "amed_crop": "UNKNOWN_CROP",
+    "amed_confidence": 0.2687,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "7JXVW2CM+VJCQ",
+    "tier": "B",
+    "amed_crop": "RICE",
+    "amed_confidence": 0.2627,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R2WCJ+MFQV",
+    "tier": "B",
+    "amed_crop": "NO_PREDICTION",
+    "amed_confidence": 0,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R2X4P+FG64",
+    "tier": "B",
+    "amed_crop": "RICE",
+    "amed_confidence": 0.6395,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R2X5H+37WG",
+    "tier": "B",
+    "amed_crop": "RICE",
+    "amed_confidence": 0.3085,
+    "decision": "KEPT"
+  },
+  {
+    "field_id": "8J2R4WG7+7HPX",
+    "tier": "B",
+    "amed_crop": "NO_PREDICTION",
+    "amed_confidence": 0,
+    "decision": "KEPT"
+  }
+]

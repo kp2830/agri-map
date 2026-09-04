@@ -34,6 +34,7 @@ training/esa/experiments/last_job_id.txt
 training/sunflower/kurukshetra_karnal_alu_discovery_pass1.json
 training/sunflower/haryana_new_fields_pool.json
 training/sunflower/haryana_round3_fields_pool.json
+training/sunflower/sunflower_kurukshetra_250_new_pool.json
 
 # WorldCereal research integration: cached job results / downloaded rasters (server/src/services/
 # agricultural/worldcereal/, gated by ENABLE_WORLDCEREAL_RESEARCH) — machine-generated, never committed.

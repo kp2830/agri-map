@@ -7,9 +7,22 @@
  * does not replace or modify the other.
  */
 
-/** Explicit model version — part of the cache key (see resultStore.ts) so a future v1 model
- *  can never be silently served from a v0 cache entry. */
-export const SUNFLOWER_RF_MODEL_VERSION = 'sunflower-rf-v0'
+/**
+ * Explicit model version — part of the cache key (see resultStore.ts) so a model retrained on a
+ * different dataset can never be silently served from a stale cache entry.
+ *
+ * v1 (current): retrained on the expanded round-4 Kurukshetra/Haryana dataset — 72 positives
+ * (25 round-1/2 + 18 round-3 + 29 round-4, all AMED-conflict-filtered, same founder temporal
+ * heuristic and Tier A/B rules as v0 — see training/sunflower/assemble_and_retrain_v3.py) against
+ * the SAME unchanged 205 Indian competing-crop negatives and SAME RF hyperparameters as v0.
+ * Promoted because it beat v0 on every metric under the identical evaluation methodology,
+ * including a genuinely held-out test split never touched during training (precision 0.778->0.875,
+ * recall 0.778->0.933, F1 0.778->0.903, PR-AUC 0.944->0.969 — see
+ * training/sunflower/experiment_a_v3_results.json for the full comparison). v0
+ * (model/sunflower_rf_v0.json) is kept on disk, fully intact, for rollback/comparison — this
+ * constant is the only thing that decides which one is actually loaded.
+ */
+export const SUNFLOWER_RF_MODEL_VERSION = 'sunflower-rf-v1'
 
 /**
  * Real, fixed training windows (see training/sunflower/train_rf_experiments_ab.py /

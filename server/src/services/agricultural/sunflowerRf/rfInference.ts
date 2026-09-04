@@ -1,11 +1,17 @@
 /**
- * Pure-TypeScript inference engine for the exported Sunflower RF v0 model — no Python, no ONNX,
- * no new runtime dependency. This is deliberately the smallest reliable production-compatible
+ * Pure-TypeScript inference engine for the exported Sunflower RF model — no Python, no ONNX, no
+ * new runtime dependency. This is deliberately the smallest reliable production-compatible
  * approach: the real model (300 trees, max_depth=6 — small) was exported to plain JSON
- * (training/sunflower/export_rf_to_json.py) and VERIFIED to reproduce the real scikit-learn
- * model's predict_proba exactly (max diff 2.22e-16, i.e. floating-point epsilon) over all 230
- * real training rows before being copied into this service — see that script's own verification
- * step. This module is a faithful re-implementation of that verified export, not an approximation.
+ * (training/sunflower/export_rf_to_json.py / export_rf_v3_to_json.py) and VERIFIED to reproduce
+ * the real scikit-learn model's predict_proba exactly (max diff 2.22e-16, i.e. floating-point
+ * epsilon) over every real training row before being copied into this service — see that
+ * script's own verification step. This module is a faithful re-implementation of that verified
+ * export, not an approximation.
+ *
+ * MODEL_PATH and config.ts's SUNFLOWER_RF_MODEL_VERSION are updated together when a new model is
+ * promoted (see config.ts's own docstring for the current version's provenance) — the previous
+ * model file is always left in place on disk (never deleted) so a rollback is just reverting
+ * these two lines, no retraining required.
  */
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -13,7 +19,7 @@ import { fileURLToPath } from 'node:url'
 import { EXPECTED_FEATURE_ORDER } from './config.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const MODEL_PATH = join(__dirname, 'model/sunflower_rf_v0.json')
+const MODEL_PATH = join(__dirname, 'model/sunflower_rf_v1.json')
 
 interface TreeNode {
   leaf: boolean
