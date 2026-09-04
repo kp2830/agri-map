@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { StatusCard } from './components/StatusCard'
 import { CentroidForm } from './features/fields/CentroidForm'
 import { CropSummaryPanel } from './features/fields/CropSummaryPanel'
-import { buildCropColorMap, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
+import { buildCropColorMap, monthToReferenceDateSec, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
 import { ALL_CROPS, filterFieldsByCrop, getAvailableCrops, type CropFilterValue } from './features/fields/cropFilter'
 import { SUNFLOWER_CROP_KEY, summarizeCropShares } from './features/fields/cropSummary'
 import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
 import { FieldIdSearch } from './features/fields/FieldIdSearch'
+import { MonthSelector } from './features/fields/MonthSelector'
 import { useAgriculturalFields } from './features/fields/useAgriculturalFields'
 import { decodeFieldId } from './lib/api'
 import { defaultMapCenter } from './lib/config'
@@ -172,6 +173,16 @@ function App() {
   // call has happened either way.
   const [pendingClick, setPendingClick] = useState<{ lat: number; lng: number } | null>(null)
   const [fieldIdSearchStatus, setFieldIdSearchStatus] = useState<'idle' | 'searching' | 'not_found' | 'invalid'>('idle')
+  // Reference month for "what crop would be growing" — 1-12, defaults to the real current
+  // month so existing behavior is unchanged until the user deliberately picks a different one.
+  // Deliberately NOT reset by "New Search": it's a viewing preference (like gridKm/maxSearchKm
+  // above), not part of the active search result, so it persists across searches the same way.
+  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1)
+  // The actual reference timestamp fed into every AMED crop-determination call this session —
+  // see monthToReferenceDateSec for why day 15 of the selected month, fed through the SAME
+  // getActiveCropOutcome logic already used for "now", is sufficient to answer "what would be
+  // growing in month X" with no separate prediction system.
+  const nowSec = useMemo(() => monthToReferenceDateSec(selectedMonth), [selectedMonth])
 
   useEffect(() => {
     if (state.status !== 'loading') return
@@ -293,15 +304,19 @@ function App() {
 
   // Recomputing this means re-walking every field feature — memoized so it only happens
   // when the loaded data actually changes, not on every unrelated re-render (e.g. typing
-  // in the lat/lng inputs, or selecting a field).
+  // in the lat/lng inputs, or selecting a field). Also recomputes when the reference month
+  // changes, since a different month can shift which crop groups are largest by area.
   const cropColorMap = useMemo(
-    () => (fieldCollection ? buildCropColorMap(summarizeCropShares(fieldCollection)) : new Map<string, string>()),
-    [fieldCollection],
+    () => (fieldCollection ? buildCropColorMap(summarizeCropShares(fieldCollection, nowSec)) : new Map<string, string>()),
+    [fieldCollection, nowSec],
   )
 
   // Crop options are always derived from the complete result (never the filtered view),
   // so picking "Mustard" doesn't shrink the dropdown down to just "Mustard" afterward.
-  const cropOptions = useMemo(() => (fieldCollection ? getAvailableCrops(fieldCollection) : []), [fieldCollection])
+  const cropOptions = useMemo(
+    () => (fieldCollection ? getAvailableCrops(fieldCollection, nowSec) : []),
+    [fieldCollection, nowSec],
+  )
 
   // Sunflower RF v0 — checked against the FULL search result (fieldCollection), not the
   // crop-filtered visibleFieldCollection: switching the crop filter must not throw away
@@ -332,8 +347,8 @@ function App() {
   // looking at the Sunflower filter. Only sunflowerVisible — used exclusively while that filter
   // is actually selected — needs to react to sunflowerProbabilities at all.
   const nonSunflowerVisible = useMemo(
-    () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop) : null),
-    [fieldCollection, selectedCrop],
+    () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop, undefined, undefined, nowSec) : null),
+    [fieldCollection, selectedCrop, nowSec],
   )
   const sunflowerVisible = useMemo(
     () => (fieldCollection && selectedCrop === SUNFLOWER_CROP_KEY ? filterFieldsByCrop(fieldCollection, selectedCrop, sunflowerProbabilities) : null),
@@ -357,6 +372,8 @@ function App() {
             <p className="text-xs text-slate-500">Agricultural field intelligence from satellite data</p>
           </div>
         </div>
+
+        <MonthSelector month={selectedMonth} onMonthChange={setSelectedMonth} />
 
         <CentroidForm
           lat={latInput}
@@ -391,6 +408,7 @@ function App() {
             onMapClick={handleMapClick}
             cropColorMap={cropColorMap}
             sunflowerProbabilities={sunflowerProbabilities}
+            nowSec={nowSec}
             resetToken={mapResetToken}
             gridKm={appliedGridKm}
             searchToken={searchToken}
@@ -473,8 +491,11 @@ function App() {
                   </div>
                   {selectedCrop === ALL_CROPS && (
                     <p className="mb-3 text-xs text-slate-500">
-                      Share of mapped field area by predicted crop · {fieldCollection.features.length} landscape features in
-                      the analyzed area
+                      Share of mapped field area by predicted crop for{' '}
+                      <span className="font-medium text-slate-600">
+                        {new Date(nowSec * 1000).toLocaleDateString(undefined, { month: 'long', timeZone: 'UTC' })}
+                      </span>{' '}
+                      · {fieldCollection.features.length} landscape features in the analyzed area
                     </p>
                   )}
                   <CropSummaryPanel
@@ -482,18 +503,20 @@ function App() {
                     cropColorMap={cropColorMap}
                     selectedCrop={selectedCrop}
                     sunflowerProbabilities={sunflowerProbabilities}
+                    nowSec={nowSec}
                   />
                 </section>
 
                 <section className="border-t border-slate-100 pt-5">
                   <h2 className="mb-3 text-sm font-semibold text-slate-900">Field details</h2>
                   {/* Keyed by field id so selecting a different field mounts a fresh instance —
-                      resetting its "History" view back to the Current Season History default
-                      rather than carrying forward the previously-selected field's choice. */}
+                      resetting its "History" view back to the Complete History default rather
+                      than carrying forward the previously-selected field's choice. */}
                   <FieldDetailsPanel
                     key={selectedFeature ? String(selectedFeature.id) : 'none'}
                     feature={selectedFeature}
                     cropColorMap={cropColorMap}
+                    nowSec={nowSec}
                   />
                 </section>
               </div>

@@ -24,6 +24,11 @@ interface MapViewProps {
   /** Real per-field Sunflower RF probabilities (0-100), lifted to App.tsx so this map and the
    *  crop-distribution panel read the exact same data — see useSunflowerFieldColors. */
   sunflowerProbabilities: Map<string, number>
+  /** Reference timestamp driving each field's displayed AMED color — real current time by
+   *  default, or a different month's reference date when the header's month selector picks one
+   *  (see monthToReferenceDateSec). Never affects Sunflower's own gold coloring, which is driven
+   *  purely by sunflowerProbabilities regardless of this value. */
+  nowSec: number
   /** Bumped by App's "New Search" action to explicitly return the map to its default view. */
   resetToken: number
   /**
@@ -150,6 +155,7 @@ export function MapView({
   onMapClick,
   cropColorMap,
   sunflowerProbabilities,
+  nowSec,
   resetToken,
   gridKm,
   searchToken,
@@ -199,7 +205,7 @@ export function MapView({
     const sunflowerProbabilityPercent = normalized.id === undefined ? null : (sunflowerProbabilities.get(String(normalized.id)) ?? null)
     const isSunflowerLikely =
       normalized.properties.aluType === 'field' && sunflowerProbabilityPercent != null && sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT
-    const color = colorForFeatureWithSunflower(normalized.properties, cropColorMap, sunflowerProbabilityPercent)
+    const color = colorForFeatureWithSunflower(normalized.properties, cropColorMap, sunflowerProbabilityPercent, nowSec)
 
     // Sunflower fields get their own distinct dark-brown stroke and a visibly thicker outline
     // (not just a different fill hue) — a fill-color-only difference from the existing
@@ -213,6 +219,23 @@ export function MapView({
       className: isSelected ? 'field-selected' : undefined,
     }
   }
+
+  // Changing the reference month (nowSec) can change every visible field's displayed AMED
+  // color at once (a different season may now be "active" for many fields simultaneously) —
+  // unlike a single field's Sunflower result arriving, this walks every currently-mounted
+  // layer rather than a handful, but still via the same imperative setStyle pattern rather
+  // than a full GeoJSON remount, so switching months stays cheap even for a dense result.
+  useEffect(() => {
+    for (const layer of layersByIdRef.current.values()) {
+      const pathLayer = layer as Layer & Partial<L.Path>
+      if (typeof pathLayer.setStyle !== 'function') continue
+      const feature = (layer as unknown as { feature?: NormalizedFieldFeature }).feature
+      if (feature) pathLayer.setStyle(featureStyle(feature))
+    }
+    // featureStyle is a fresh closure each render but only depends on selectedFieldId/cropColorMap/
+    // sunflowerProbabilities/nowSec, which are already this effect's real dependencies.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nowSec])
 
   // As each field's Sunflower RF result arrives (sunflowerProbabilities grows one entry at a
   // time — see useSunflowerFieldColors), imperatively restyle just that field's already-mounted

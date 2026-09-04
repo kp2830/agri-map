@@ -27,6 +27,12 @@ type SunflowerRfCheckState =
 interface FieldDetailsPanelProps {
   feature: NormalizedFieldFeature | null
   cropColorMap: Map<string, string>
+  /** Reference timestamp for "what crop would be growing" — real current time by default, or a
+   *  different month's reference date when the header's month selector picks one (see
+   *  monthToReferenceDateSec in cropDisplay.ts). Drives ONLY the displayed crop/season-history
+   *  section below — never the Sunflower eligibility checks, which stay anchored to the real
+   *  current AMED state regardless of which month is being viewed (see realOutcome below). */
+  nowSec: number
 }
 
 type HistoryView = 'current' | 'complete'
@@ -47,18 +53,28 @@ function SectionHeading({ children }: { children: string }) {
   return <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">{children}</h4>
 }
 
-export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelProps) {
+export function FieldDetailsPanel({ feature, cropColorMap, nowSec }: FieldDetailsPanelProps) {
   // Hooks must run unconditionally on every render, so these come before the `!feature` early
   // return below. The parent keys this component by field id, so a newly-selected field mounts
-  // a fresh instance and this always starts back at the default, "Current Season History" —
-  // the user never has to re-pick it per field.
-  const [historyView, setHistoryView] = useState<HistoryView>('current')
+  // a fresh instance and this always starts back at the default, Complete History — the user
+  // never has to re-pick it per field. Complete History is the default (not Current Season
+  // History) because a field's full record is more informative at a glance; Current Season
+  // History remains one dropdown selection away for whoever specifically wants just the
+  // records that explain the currently-shown crop.
+  const [historyView, setHistoryView] = useState<HistoryView>('complete')
   const historyViewId = useId()
   const [sunflowerCheck, setSunflowerCheck] = useState<SunflowerCheckState>({ status: 'idle' })
   const [sunflowerRfCheck, setSunflowerRfCheck] = useState<SunflowerRfCheckState>({ status: 'idle' })
 
   const properties = feature?.properties ?? null
-  const outcome = useMemo(() => (properties ? getActiveCropOutcome(properties) : null), [properties])
+  // Drives everything actually displayed below (crop label, season dates, history windowing) —
+  // reflects whichever month the header's selector is currently showing.
+  const outcome = useMemo(() => (properties ? getActiveCropOutcome(properties, nowSec) : null), [properties, nowSec])
+  // Drives ONLY Sunflower eligibility (both checks below) — deliberately always real "now",
+  // regardless of `nowSec`/the selected month. Eligibility is about whether THIS field's real,
+  // current AMED confidence is strong enough to skip a CDSE spend; a hypothetical "what would
+  // June look like" view must never change that real, present-day gate.
+  const realOutcome = useMemo(() => (properties ? getActiveCropOutcome(properties) : null), [properties])
   const currentSeasonHistory = useMemo(
     () => (properties && outcome ? getCurrentSeasonHistory(properties, outcome) : []),
     [properties, outcome],
@@ -71,8 +87,8 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
   // renders nothing extra — the existing AMED display below is completely unaffected.
   useEffect(() => {
     setSunflowerCheck({ status: 'idle' })
-    if (!feature || !properties || properties.aluType !== 'field' || !outcome) return
-    if (!isEligibleForSunflowerCheck(outcome)) return
+    if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
+    if (!isEligibleForSunflowerCheck(realOutcome)) return
 
     const controller = new AbortController()
     setSunflowerCheck({ status: 'checking' })
@@ -84,7 +100,7 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
       })
 
     return () => controller.abort()
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; outcome is derived from the same properties
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; realOutcome is derived from the same properties, deliberately real-time (not nowSec-dependent)
   }, [feature])
 
   // Sunflower RF v0 — a SEPARATE model/signal from the likeness check above (see
@@ -94,8 +110,8 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
   // panel: AMED's own result above renders immediately regardless of this check's state.
   useEffect(() => {
     setSunflowerRfCheck({ status: 'idle' })
-    if (!feature || !properties || properties.aluType !== 'field' || !outcome) return
-    if (!isEligibleForSunflowerCheck(outcome)) return
+    if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
+    if (!isEligibleForSunflowerCheck(realOutcome)) return
 
     const controller = new AbortController()
     setSunflowerRfCheck({ status: 'checking' })
@@ -107,7 +123,7 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
       })
 
     return () => controller.abort()
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; outcome is derived from the same properties
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; realOutcome is derived from the same properties, deliberately real-time (not nowSec-dependent)
   }, [feature])
 
   if (!feature || !properties || !outcome) {
@@ -133,7 +149,7 @@ export function FieldDetailsPanel({ feature, cropColorMap }: FieldDetailsPanelPr
   // in a way that ignores AMED's reporting lag, and why a 'seasonal' inference is kept
   // distinct from a directly-observed one).
   const activeSeason = outcome.kind === 'observed' || outcome.kind === 'fallback' ? outcome.season : null
-  const primaryCrop = getPrimaryCrop(properties)
+  const primaryCrop = getPrimaryCrop(properties, nowSec)
   const primaryPrediction = activeSeason?.predictions[0] ?? null
   const alternativePredictions = activeSeason?.predictions.slice(1) ?? []
 

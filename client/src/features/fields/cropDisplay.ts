@@ -197,12 +197,35 @@ export function isEligibleForSunflowerCheck(outcome: ActiveCropOutcome, threshol
 /** The crop to show for this field: the determined outcome's crop, or null if AMED never had
  *  monitoring data for it at all. Used everywhere a flat crop identity is needed — crop
  *  filtering, crop distribution, and map coloring — so an inferred seasonal crop (e.g. Rice)
- *  is treated identically to a directly-observed one for grouping purposes. */
-export function getPrimaryCrop(properties: NormalizedFieldProperties): string | null {
-  const outcome = getActiveCropOutcome(properties)
+ *  is treated identically to a directly-observed one for grouping purposes.
+ *
+ *  `nowSec` defaults to the real current time but is exposed so callers can ask "what would be
+ *  growing in month X" (see monthToReferenceDateSec) — passed straight through to
+ *  getActiveCropOutcome, which already treats any date the same way real "now" is treated. */
+export function getPrimaryCrop(properties: NormalizedFieldProperties, nowSec: number = Date.now() / 1000): string | null {
+  const outcome = getActiveCropOutcome(properties, nowSec)
   if (outcome.kind === 'observed' || outcome.kind === 'fallback') return outcome.season.predictions[0]?.crop ?? null
   if (outcome.kind === 'seasonal') return outcome.crop
   return null
+}
+
+/**
+ * A reference timestamp for "the 15th of `month` this year" (month is 1-12) — used to answer
+ * "what would typically be growing in month X" by feeding a date in that month straight into
+ * getActiveCropOutcome's existing logic, rather than a separate month-prediction code path.
+ *
+ * Why this works without any special-casing: getActiveCropOutcome's 'observed' branch (a
+ * season whose real [start, end] window actually covers `nowSec`) will essentially never match
+ * for any month other than the true current one — no historical season's real date range
+ * coincidentally spans an arbitrary other month "this year". That naturally falls through to
+ * the 'seasonal' branch, which matches by calendar month/day alone (year discarded — see
+ * inferSeasonalCrop) — i.e. exactly "what was growing around this time of year historically",
+ * which is what "predict for month X" means. The real current month keeps its normal
+ * 'observed'-first behavior unchanged, since day 15 of the real current month can genuinely
+ * fall inside a real ongoing season's window.
+ */
+export function monthToReferenceDateSec(month: number, referenceYear: number = new Date().getFullYear()): number {
+  return Date.UTC(referenceYear, month - 1, 15) / 1000
 }
 
 /** The single season that produced the current crop determination — whichever one
@@ -284,12 +307,16 @@ export function colorForCropLabel(crop: string | null, colorMap: Map<string, str
   return colorMap.get(crop) ?? OTHER_CROP_COLOR
 }
 
-export function colorForFeature(properties: NormalizedFieldProperties, colorMap: Map<string, string>): string {
+export function colorForFeature(
+  properties: NormalizedFieldProperties,
+  colorMap: Map<string, string>,
+  nowSec: number = Date.now() / 1000,
+): string {
   if (properties.aluType !== 'field') {
     return NEUTRAL_ALU_COLORS[properties.aluType]
   }
 
-  return colorForCropLabel(getPrimaryCrop(properties), colorMap)
+  return colorForCropLabel(getPrimaryCrop(properties, nowSec), colorMap)
 }
 
 /**
@@ -300,16 +327,22 @@ export function colorForFeature(properties: NormalizedFieldProperties, colorMap:
  * that isn't eligible for a Sunflower check at all (see isEligibleForSunflowerCheck) — this
  * function never decides eligibility itself, only whether to apply the color once a real
  * probability is already known. AMED's own crop data is never touched; only the rendered color.
+ *
+ * `nowSec` only affects the fallback AMED color (via colorForFeature) — the Sunflower RF
+ * check itself is deliberately NOT re-triggered or re-gated by the selected month (see
+ * useSunflowerFieldColors): that's a separate, CDSE-cost-sensitive signal, unaffected by
+ * "what would be growing in month X" being an AMED-display-only question.
  */
 export function colorForFeatureWithSunflower(
   properties: NormalizedFieldProperties,
   colorMap: Map<string, string>,
   sunflowerProbabilityPercent: number | null | undefined,
+  nowSec: number = Date.now() / 1000,
 ): string {
   if (properties.aluType === 'field' && sunflowerProbabilityPercent != null && sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT) {
     return SUNFLOWER_LIKELY_FILL_COLOR
   }
-  return colorForFeature(properties, colorMap)
+  return colorForFeature(properties, colorMap, nowSec)
 }
 
 export function colorForAluType(aluType: Exclude<AluFeatureType, 'field'>): string {
