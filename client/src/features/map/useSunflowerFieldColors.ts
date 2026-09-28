@@ -48,6 +48,7 @@ const MAX_FIELDS_PER_VIEW = 40
 export function useSunflowerFieldColors(
   fieldCollection: NormalizedFieldCollection | null,
   center: { lat: number; lng: number } | null,
+  selectedMonth: number,
 ): Map<string, number> {
   const [probabilities, setProbabilities] = useState<Map<string, number>>(new Map())
   const cancelledRef = useRef(false)
@@ -106,7 +107,7 @@ export function useSunflowerFieldColors(
       for (const feature of capped) {
         if (cancelledRef.current) return
         try {
-          const response = await getSunflowerRf(feature)
+          const response = await getSunflowerRf(feature, selectedMonth)
           if (cancelledRef.current) return
           if (response.available) {
             setProbabilities((prev) => {
@@ -131,8 +132,11 @@ export function useSunflowerFieldColors(
     // center intentionally excluded: it always changes in lockstep with fieldCollection (both
     // set from the same search), and including it would risk a spurious extra firing against
     // fieldCollection's stale/previous value if center ever updates first (see comment above).
+    // selectedMonth IS included: a prediction is month-specific now (see growingSeasonGate.ts),
+    // so changing it must re-check every field rather than keep stale results from a different
+    // month's eligibility.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fieldCollection])
+  }, [fieldCollection, selectedMonth])
 
   return probabilities
 }

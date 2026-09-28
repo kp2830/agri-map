@@ -1,7 +1,7 @@
 import { useEffect, useId, useMemo, useState } from 'react'
-import { getSunflowerLikelihood, getSunflowerRf } from '../../lib/api'
-import { SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
-import type { NormalizedFieldFeature, SunflowerLikelihoodResponse, SunflowerRfResponse } from '../../types/agricultural'
+import { getSafflowerRf, getSunflowerLikelihood, getSunflowerRf } from '../../lib/api'
+import { SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
+import type { NormalizedFieldFeature, SafflowerRfResponse, SunflowerLikelihoodResponse, SunflowerRfResponse } from '../../types/agricultural'
 import { CropOutlookCard } from './CropOutlookCard'
 import {
   colorForCropLabel,
@@ -12,9 +12,10 @@ import {
   formatTimestamp,
   getActiveCropOutcome,
   getCurrentSeasonHistory,
+  isEligibleForSafflowerCheck,
   isEligibleForSunflowerCheck,
 } from './cropDisplay'
-import { predictCropOutlook } from './cropPrediction'
+import { formatMonthName, predictCropOutlook } from './cropPrediction'
 
 type SunflowerCheckState =
   | { status: 'idle' | 'checking' }
@@ -24,6 +25,11 @@ type SunflowerCheckState =
 type SunflowerRfCheckState =
   | { status: 'idle' | 'checking' }
   | { status: 'done'; response: SunflowerRfResponse }
+  | { status: 'error' }
+
+type SafflowerRfCheckState =
+  | { status: 'idle' | 'checking' }
+  | { status: 'done'; response: SafflowerRfResponse }
   | { status: 'error' }
 
 interface FieldDetailsPanelProps {
@@ -67,6 +73,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
   const historyViewId = useId()
   const [sunflowerCheck, setSunflowerCheck] = useState<SunflowerCheckState>({ status: 'idle' })
   const [sunflowerRfCheck, setSunflowerRfCheck] = useState<SunflowerRfCheckState>({ status: 'idle' })
+  const [safflowerRfCheck, setSafflowerRfCheck] = useState<SafflowerRfCheckState>({ status: 'idle' })
 
   const properties = feature?.properties ?? null
 
@@ -118,6 +125,8 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
   // (isEligibleForSunflowerCheck — AMED Unknown/low-confidence only), fired independently so one
   // model's latency/failure never affects the other's display. Never blocks the rest of this
   // panel: AMED's own result above renders immediately regardless of this check's state.
+  // `selectedMonth` is now sent to the server too (see growingSeasonGate.ts) and included below
+  // so switching months re-checks rather than showing a stale answer for a now-irrelevant month.
   useEffect(() => {
     setSunflowerRfCheck({ status: 'idle' })
     if (!SUNFLOWER_UI_ENABLED) return
@@ -126,7 +135,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
 
     const controller = new AbortController()
     setSunflowerRfCheck({ status: 'checking' })
-    getSunflowerRf(feature, controller.signal)
+    getSunflowerRf(feature, selectedMonth, controller.signal)
       .then((response) => setSunflowerRfCheck({ status: 'done', response }))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === 'AbortError') return
@@ -134,8 +143,30 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
       })
 
     return () => controller.abort()
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; realOutcome is derived from the same properties, deliberately real-time
-  }, [feature])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
+  }, [feature, selectedMonth])
+
+  // Safflower RF v0 — same shape and same real gating (month-in-season + AMED
+  // confidence/Mustard-conflict, see safflowerRf/service.ts) as Sunflower RF above, an
+  // independent signal fired in parallel.
+  useEffect(() => {
+    setSafflowerRfCheck({ status: 'idle' })
+    if (!SAFFLOWER_UI_ENABLED) return
+    if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
+    if (!isEligibleForSafflowerCheck(realOutcome)) return
+
+    const controller = new AbortController()
+    setSafflowerRfCheck({ status: 'checking' })
+    getSafflowerRf(feature, selectedMonth, controller.signal)
+      .then((response) => setSafflowerRfCheck({ status: 'done', response }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setSafflowerRfCheck({ status: 'error' })
+      })
+
+    return () => controller.abort()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
+  }, [feature, selectedMonth])
 
   if (!feature || !properties) {
     return (
@@ -194,7 +225,10 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
         <p className="text-xs text-slate-400">Sunflower detector: analyzing satellite history…</p>
       )}
       {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'error' && <p className="text-xs text-slate-400">Sunflower detector: unavailable</p>}
-      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'done' && !sunflowerRfCheck.response.available && (
+      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'done' && !sunflowerRfCheck.response.available && sunflowerRfCheck.response.reason === 'OUT_OF_SEASON' && (
+        <p className="text-xs text-slate-400">Sunflower is not in its real growing season (Feb–June) for {formatMonthName(selectedMonth)} — no prediction attempted.</p>
+      )}
+      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'done' && !sunflowerRfCheck.response.available && sunflowerRfCheck.response.reason !== 'OUT_OF_SEASON' && (
         <p className="text-xs text-slate-400">Sunflower detector: unavailable</p>
       )}
       {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'done' && sunflowerRfCheck.response.available && (
@@ -206,6 +240,30 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
           <p className="mt-1 text-xs text-amber-700">
             Experimental v0 model score — not confirmed Sunflower, not a validated statistical accuracy. Trained on
             weak labels derived from a temporal satellite heuristic; AMED's own result above is unchanged.
+          </p>
+        </div>
+      )}
+
+      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'checking' && (
+        <p className="text-xs text-slate-400">Safflower detector: analyzing satellite history…</p>
+      )}
+      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'error' && <p className="text-xs text-slate-400">Safflower detector: unavailable</p>}
+      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'done' && !safflowerRfCheck.response.available && safflowerRfCheck.response.reason === 'OUT_OF_SEASON' && (
+        <p className="text-xs text-slate-400">Safflower is not in its real growing season (Oct–March) for {formatMonthName(selectedMonth)} — no prediction attempted.</p>
+      )}
+      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'done' && !safflowerRfCheck.response.available && safflowerRfCheck.response.reason !== 'OUT_OF_SEASON' && (
+        <p className="text-xs text-slate-400">Safflower detector: unavailable</p>
+      )}
+      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'done' && safflowerRfCheck.response.available && (
+        <div className="rounded-md bg-orange-50 px-3 py-2">
+          <div className="flex items-baseline justify-between gap-3 text-sm">
+            <span className="text-orange-800">Safflower likelihood</span>
+            <span className="font-semibold tabular-nums text-orange-900">{safflowerRfCheck.response.probabilityPercent}%</span>
+          </div>
+          <p className="mt-1 text-xs text-orange-700">
+            Experimental v0 model score, trained on only 16 real weak-label positives with no independently
+            confirmed ground truth — not confirmed Safflower, not a validated statistical accuracy. AMED's own
+            result above is unchanged.
           </p>
         </div>
       )}

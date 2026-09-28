@@ -45,6 +45,14 @@ export const SUNFLOWER_LIKELY_STROKE_COLOR = '#5c3d00'
  *  requirement exactly; not the same number as AMED_STRONG_CONFIDENCE_THRESHOLD above, which
  *  gates whether the model runs at all, not how its result is colored. */
 export const SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT = 50
+/** Safflower's own map-color palette — deliberately distinct from Sunflower's yellow (real
+ *  orange-red flower color, and avoids the two experimental crop layers being visually
+ *  confusable on the map). */
+export const SAFFLOWER_LIKELY_FILL_COLOR = '#e8590c'
+export const SAFFLOWER_LIKELY_STROKE_COLOR = '#5c1a00'
+/** Same real product requirement as Sunflower's threshold above, reused verbatim (not a new
+ *  arbitrary number). */
+export const SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT = 50
 /** AMED returned no monitoring data at all for this field. */
 const NO_PREDICTION_COLOR = '#c3c2b7'
 /** AMED explicitly returned the UNKNOWN_CROP sentinel. */
@@ -200,6 +208,22 @@ export function isEligibleForSunflowerCheck(outcome: ActiveCropOutcome, threshol
   return prediction === undefined || prediction.confidence < threshold
 }
 
+/** Safflower's own real, documented confusion risk (see
+ *  server/src/services/agricultural/safflower/config.ts's SAFFLOWER_KNOWN_CONFUSION_CROPS) --
+ *  Mustard shares Safflower's real Dec-Jan bloom window, so a confident AMED Mustard call is
+ *  never eligible (the opposite treatment from Sunflower's Corn/Maize exception above, which is
+ *  ALWAYS eligible -- Mustard is the one crop Safflower should defer to, not cross-check). */
+const SAFFLOWER_NEVER_RUN_CROPS = new Set(['MUSTARD'])
+
+/** Same shape as isEligibleForSunflowerCheck, for Safflower's own real confusion crop instead of
+ *  Sunflower's Corn/Maize exception. */
+export function isEligibleForSafflowerCheck(outcome: ActiveCropOutcome, threshold: number = AMED_STRONG_CONFIDENCE_THRESHOLD): boolean {
+  if (outcome.kind === 'none' || outcome.kind === 'seasonal') return true
+  const prediction = outcome.season.predictions[0]
+  if (prediction && SAFFLOWER_NEVER_RUN_CROPS.has(prediction.crop.toUpperCase())) return false
+  return prediction === undefined || prediction.confidence < threshold
+}
+
 /** The crop to show for this field: the determined outcome's crop, or null if AMED never had
  *  monitoring data for it at all. Used everywhere a flat crop identity is needed — crop
  *  filtering, crop distribution, and map coloring — so an inferred seasonal crop (e.g. Rice)
@@ -352,6 +376,19 @@ export function colorForFeatureWithSunflower(
 ): string {
   if (properties.aluType === 'field' && sunflowerProbabilityPercent != null && sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT) {
     return SUNFLOWER_LIKELY_FILL_COLOR
+  }
+  return colorForFeature(properties, colorMap, predictedCrop)
+}
+
+/** Same shape as colorForFeatureWithSunflower, for the Safflower RF layer. */
+export function colorForFeatureWithSafflower(
+  properties: NormalizedFieldProperties,
+  colorMap: Map<string, string>,
+  safflowerProbabilityPercent: number | null | undefined,
+  predictedCrop: string | null,
+): string {
+  if (properties.aluType === 'field' && safflowerProbabilityPercent != null && safflowerProbabilityPercent > SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT) {
+    return SAFFLOWER_LIKELY_FILL_COLOR
   }
   return colorForFeature(properties, colorMap, predictedCrop)
 }

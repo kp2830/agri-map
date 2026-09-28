@@ -1,0 +1,4104 @@
+{
+  "results": [
+    {
+      "field_id": "7J9VWHR5+WG5X",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.736764342995251,
+            "ndre": 0.4912626625860438,
+            "ndwi": 0.2777778601821731,
+            "ndyi": 0.21909177456708506
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.45647903968306147,
+            "ndre": 0.2657626033881132,
+            "ndwi": 0.11580557812662684,
+            "ndyi": 0.21941665425020104
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.1973736205521752,
+            "ndre": 0.08996844375369084,
+            "ndwi": -0.03997164391638601,
+            "ndyi": 0.28403958020841374
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVHMF+932Q",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SOYBEANS",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5176992163062095,
+            "ndre": 0.2709732584655285,
+            "ndwi": 0.07753437659703193,
+            "ndyi": 0.18524982742965218
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.2757128123939038,
+            "ndre": 0.16144416838884354,
+            "ndwi": -0.07594178665429355,
+            "ndyi": 0.18367871254682544
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.20467293560504912,
+            "ndre": 0.11140982042998074,
+            "ndwi": -0.09786085207015277,
+            "ndyi": 0.23101040311157706
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVF8G+W9VC",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "GROUNDNUT",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.47915621592055524,
+            "ndre": 0.26746261759569434,
+            "ndwi": 0.0560732847405059,
+            "ndyi": 0.1525498929332428
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.2885418813708936,
+            "ndre": 0.17970812472530437,
+            "ndwi": -0.11971265618185489,
+            "ndyi": 0.16319161458160372
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.18655443794237886,
+            "ndre": 0.09250555981643412,
+            "ndwi": -0.13443060016365557,
+            "ndyi": 0.2460351131432424
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVG96+3VW2",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "RICE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7145241867612908,
+            "ndre": 0.4569534222284953,
+            "ndwi": 0.3104610742242248,
+            "ndyi": 0.2495427348547512
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3334606661399206,
+            "ndre": 0.21377397146489882,
+            "ndwi": -0.019158427035436038,
+            "ndyi": 0.22927992731332783
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.33359264963203006,
+            "ndre": 0.22166686361241672,
+            "ndwi": -0.05156145783128321,
+            "ndyi": 0.276794948346085
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWFVR+FP7F",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "GROUNDNUT",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6097386741957055,
+            "ndre": 0.38181474937946214,
+            "ndwi": 0.19737037032106777,
+            "ndyi": 0.17753835603433812
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4232102593522014,
+            "ndre": 0.24715236819084777,
+            "ndwi": 0.024117168956608682,
+            "ndyi": 0.22544720349488437
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.21631281960893559,
+            "ndre": 0.11703226726824122,
+            "ndwi": -0.06971339936609622,
+            "ndyi": 0.2339593861022114
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGRJ+2JQF",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4531450082321425,
+            "ndre": 0.24888828557890816,
+            "ndwi": 0.059187258593738065,
+            "ndyi": 0.18794995677229523
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.29014421673239893,
+            "ndre": 0.17191643068516577,
+            "ndwi": -0.022800733501758624,
+            "ndyi": 0.16714709166034653
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.21206233333292843,
+            "ndre": 0.11243901857351127,
+            "ndwi": -0.050980977915428785,
+            "ndyi": 0.17498869574754622
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXH64+H742",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4359514708222265,
+            "ndre": 0.24621524948528717,
+            "ndwi": 0.012185193445858264,
+            "ndyi": 0.17868844730362887
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.2788248146497454,
+            "ndre": 0.1558656030397846,
+            "ndwi": -0.05628112203163116,
+            "ndyi": 0.19637776986673358
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2207107846543454,
+            "ndre": 0.10974467473983841,
+            "ndwi": -0.08001749940919117,
+            "ndyi": 0.275341594199601
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7RPQ+JGVC",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.42033729808671133,
+            "ndre": 0.22355578109926114,
+            "ndwi": -0.03673354178733593,
+            "ndyi": 0.2253321658591835
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.28944757119530723,
+            "ndre": 0.1681763084865093,
+            "ndwi": -0.08038991859078178,
+            "ndyi": 0.23572631848051032
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.19792559948198646,
+            "ndre": 0.10264628907019385,
+            "ndwi": -0.07955555197526225,
+            "ndyi": 0.15328774367440112
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXH76+XRJ2",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SOYBEANS",
+      "original_season": "kharif",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5696837888314173,
+            "ndre": 0.3626989589415045,
+            "ndwi": 0.17055898853856274,
+            "ndyi": 0.14979913265028427
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4518884297619518,
+            "ndre": 0.26295478068865263,
+            "ndwi": 0.0755101263220621,
+            "ndyi": 0.22339215535893403
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.24129027599452904,
+            "ndre": 0.13368249015930367,
+            "ndwi": -0.021958288274960134,
+            "ndyi": 0.24293889493769055
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R9VHG+5WQ3",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6152461213724953,
+            "ndre": 0.3619264683553151,
+            "ndwi": 0.08664126328325698,
+            "ndyi": 0.2603280916810036
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.36143916614708443,
+            "ndre": 0.21216027376552424,
+            "ndwi": -0.09327035991563683,
+            "ndyi": 0.2228574946167923
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2656139295016017,
+            "ndre": 0.14717159367033414,
+            "ndwi": -0.11333706974983215,
+            "ndyi": 0.2107453378183501
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J7PRFWP+RQGC",
+      "region": "Karnataka",
+      "district": "Belagavi",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6437627874038839,
+            "ndre": 0.3881549661340394,
+            "ndwi": 0.23491283347885808,
+            "ndyi": 0.1894575093453361
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.39503868373613515,
+            "ndre": 0.23001103635345185,
+            "ndwi": 0.018629319260695155,
+            "ndyi": 0.20468046842586426
+          },
+          "valid_obs_days": 7,
+          "pu_spent": 0.4266666793823242
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2483479563836698,
+            "ndre": 0.1339615788155546,
+            "ndwi": -0.033593447715113016,
+            "ndyi": 0.21338297636420642
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.1600000047683716
+        }
+      },
+      "total_pu_spent": 0.800000023841858
+    },
+    {
+      "field_id": "7J9VVHGC+V74W",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6165037800868352,
+            "ndre": 0.356946054349343,
+            "ndwi": 0.1635058204332987,
+            "ndyi": 0.20680005674560864
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.44460354765256244,
+            "ndre": 0.2665331347286701,
+            "ndwi": 0.1016125648810218,
+            "ndyi": 0.21756463639438156
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3924083511034648,
+            "ndre": 0.23234508795042835,
+            "ndwi": 0.07543178136305262,
+            "ndyi": 0.29026865636308985
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVHFC+W29F",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5444507515057921,
+            "ndre": 0.32227947120554745,
+            "ndwi": 0.10413497040281074,
+            "ndyi": 0.16476985308690928
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4384445458650589,
+            "ndre": 0.26319003524258733,
+            "ndwi": 0.04419022130823578,
+            "ndyi": 0.28404934974387286
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.33227214636281144,
+            "ndre": 0.18002976034767926,
+            "ndwi": -0.011453797354079143,
+            "ndyi": 0.3310249107889831
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXG6R+XF8J",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "rabi",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5692055055073328,
+            "ndre": 0.33190720464502066,
+            "ndwi": 0.12615494813237876,
+            "ndyi": 0.20358398833445143
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3973197086055095,
+            "ndre": 0.22891279020284006,
+            "ndwi": 0.05053328785979172,
+            "ndyi": 0.24168652591489756
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.47924913295677724,
+            "ndre": 0.24142837237034526,
+            "ndwi": 0.08484154050903661,
+            "ndyi": 0.3969181303467069
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWFVX+RFV9",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.600843644142151,
+            "ndre": 0.35853832960128784,
+            "ndwi": 0.15336326758066812,
+            "ndyi": 0.16608452532026505
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.33518908778826395,
+            "ndre": 0.19571735302607218,
+            "ndwi": -0.033189957334349554,
+            "ndyi": 0.20129867047071456
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.19687771101792653,
+            "ndre": 0.09444299108969667,
+            "ndwi": -0.08944804320732752,
+            "ndyi": 0.23517846713463467
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXF3H+5G7W",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.29463484778887394,
+            "ndre": 0.17274907375835802,
+            "ndwi": 0.0012591500165348175,
+            "ndyi": 0.10782399425800643
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.50973474139517,
+            "ndre": 0.3089195657352155,
+            "ndwi": 0.13916949422193947,
+            "ndyi": 0.30000179831615903
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.5720621376213701,
+            "ndre": 0.33342071097682824,
+            "ndwi": 0.2063237473114647,
+            "ndyi": 0.47708544846285467
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7QRX+WC8W",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.21391345164738595,
+            "ndre": 0.10778301014215685,
+            "ndwi": 0.004188836338774616,
+            "ndyi": 0.12977180174008637
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.16261547250097563,
+            "ndre": 0.08717878100752487,
+            "ndwi": -0.0012127594423974283,
+            "ndyi": 0.12163019345098292
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.14442559325834736,
+            "ndre": 0.06336702381668147,
+            "ndwi": -0.001922451653323757,
+            "ndyi": 0.10945860345236721
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R8VRG+VRP9",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "CORN",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5725908073862748,
+            "ndre": 0.34481372338320526,
+            "ndwi": 0.10966613640942213,
+            "ndyi": 0.2054060331138316
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3863467206912381,
+            "ndre": 0.23414354943226848,
+            "ndwi": -0.032983521769069955,
+            "ndyi": 0.2528584822790608
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.28276356815227427,
+            "ndre": 0.1642177251965872,
+            "ndwi": -0.059460365945207226,
+            "ndyi": 0.19675838721117805
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVHHC+GXP5",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6453957112417336,
+            "ndre": 0.33976538275324164,
+            "ndwi": 0.25383038424132837,
+            "ndyi": 0.2318411316456539
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3714728778494256,
+            "ndre": 0.21559546435517923,
+            "ndwi": 0.015306939682756954,
+            "ndyi": 0.23264015239796468
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.22318218222686223,
+            "ndre": 0.12285793642513453,
+            "ndwi": -0.05538557290232607,
+            "ndyi": 0.2509551835911615
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R8R3R+G463",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6967950565474373,
+            "ndre": 0.4226514594895499,
+            "ndwi": 0.22634771934577394,
+            "ndyi": 0.3204152490411486
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.5783520948319208,
+            "ndre": 0.3487212640898569,
+            "ndwi": 0.15703902247007048,
+            "ndyi": 0.36558720824264346
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.45830389303820473,
+            "ndre": 0.2793729903442519,
+            "ndwi": 0.12793711732540813,
+            "ndyi": 0.15750970854257637
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGX4+X85V",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5364684733119822,
+            "ndre": 0.3191795923050052,
+            "ndwi": 0.12364853828092436,
+            "ndyi": 0.1408078100721557
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.43899933489469395,
+            "ndre": 0.26237931079589405,
+            "ndwi": 0.004186081194068088,
+            "ndyi": 0.194330234424426
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3727053668923104,
+            "ndre": 0.2081946414680435,
+            "ndwi": -0.02545846801681014,
+            "ndyi": 0.24937522282394092
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7RHQ+WHF3",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SOYBEANS",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.309320383988814,
+            "ndre": 0.15166298347599932,
+            "ndwi": -0.0203684219651213,
+            "ndyi": 0.19050526937229706
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.20461219451611948,
+            "ndre": 0.10784980464460596,
+            "ndwi": -0.07014280106162742,
+            "ndyi": 0.22197223297719446
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.15497545413672922,
+            "ndre": 0.0653823852771893,
+            "ndwi": -0.08510971956919614,
+            "ndyi": 0.15979711662179658
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J7PVF2G+HXHR",
+      "region": "Karnataka",
+      "district": "Belagavi",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5328589011397625,
+            "ndre": 0.32469493274887407,
+            "ndwi": 0.17655507392353484,
+            "ndyi": 0.1786927454587486
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.31755712628364563,
+            "ndre": 0.18156921216064975,
+            "ndwi": 0.052070989604024884,
+            "ndyi": 0.16632963273496856
+          },
+          "valid_obs_days": 7,
+          "pu_spent": 0.4266666793823242
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.22523545432421896,
+            "ndre": 0.12317390977922411,
+            "ndwi": -0.0073109928182222795,
+            "ndyi": 0.14655608725216654
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.1600000047683716
+        }
+      },
+      "total_pu_spent": 0.800000023841858
+    },
+    {
+      "field_id": "7J9VWFVM+H6RG",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6347074543906785,
+            "ndre": 0.37883464703242137,
+            "ndwi": 0.2260783919163594,
+            "ndyi": 0.1967407673173883
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.5799817926194294,
+            "ndre": 0.34915531356650653,
+            "ndwi": 0.17435294150947087,
+            "ndyi": 0.27451115741607657
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.5262372277407761,
+            "ndre": 0.28015755861997615,
+            "ndwi": 0.1440851128301078,
+            "ndyi": 0.4130356861615037
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J7QCJ75+94X5",
+      "region": "Karnataka",
+      "district": "Gadag",
+      "crop_label": "GRAM",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.33545131164799585,
+            "ndre": 0.19339216230063327,
+            "ndwi": -0.11615694452761414,
+            "ndyi": 0.2453707619318268
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.6857195523240802,
+            "ndre": 0.4488382693438629,
+            "ndwi": 0.2233852014008968,
+            "ndyi": 0.28399772411163554
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2400661119459811,
+            "ndre": 0.13347155480066258,
+            "ndwi": -0.11236684629160312,
+            "ndyi": 0.19965821225683733
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R8V7F+P6R8",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.8142610083926808,
+            "ndre": 0.4467291168191216,
+            "ndwi": 0.29808211191134015,
+            "ndyi": 0.4125639322129163
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.6495416471452424,
+            "ndre": 0.4098742118839062,
+            "ndwi": 0.12380806847729464,
+            "ndyi": 0.583071201136618
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.494424660097469,
+            "ndre": 0.3144706040620804,
+            "ndwi": 0.05690625309944153,
+            "ndyi": 0.33138579807498236
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVFQC+3R7P",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "GROUNDNUT",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4722830515820533,
+            "ndre": 0.2751574624562636,
+            "ndwi": -0.012057864354574118,
+            "ndyi": 0.2076665828935802
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.22537398957647384,
+            "ndre": 0.12608559009968304,
+            "ndwi": -0.16602379283867777,
+            "ndyi": 0.24525326462462543
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.14369714679196477,
+            "ndre": 0.05511882394057466,
+            "ndwi": -0.19038572907447815,
+            "ndyi": 0.2950924246106297
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J8V689H+JJ2M",
+      "region": "Karnataka",
+      "district": "Raichur",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6255818523052665,
+            "ndre": 0.3607035604744279,
+            "ndwi": 0.10091028307668037,
+            "ndyi": 0.42319909644623604
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.37535297065559364,
+            "ndre": 0.2275565680168155,
+            "ndwi": -0.03481168132073234,
+            "ndyi": 0.16840253925216123
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.26571654271748324,
+            "ndre": 0.1413431813474745,
+            "ndwi": -0.10127518057771438,
+            "ndyi": 0.1815251299076611
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGP9+GJRG",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "unclear",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5925493095639655,
+            "ndre": 0.344787104312041,
+            "ndwi": 0.22037927081859798,
+            "ndyi": 0.1887003453091729
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4405840105916325,
+            "ndre": 0.2521717514033968,
+            "ndwi": 0.07753467390491432,
+            "ndyi": 0.26048842558735297
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3623171764376917,
+            "ndre": 0.18922878966335893,
+            "ndwi": 0.02146752496053906,
+            "ndyi": 0.37923169508576393
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J7PRFXM+5GG6",
+      "region": "Karnataka",
+      "district": "Belagavi",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.662677612569597,
+            "ndre": 0.42534440631667775,
+            "ndwi": 0.17515371118982634,
+            "ndyi": 0.1749042734089825
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.33273425245923655,
+            "ndre": 0.20371972663061963,
+            "ndwi": -0.07617993433433141,
+            "ndyi": 0.16876211800124677
+          },
+          "valid_obs_days": 7,
+          "pu_spent": 0.4266666793823242
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2589814356631703,
+            "ndre": 0.1555558097962704,
+            "ndwi": -0.15598450595926908,
+            "ndyi": 0.14945693402033713
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.1600000047683716
+        }
+      },
+      "total_pu_spent": 0.800000023841858
+    },
+    {
+      "field_id": "7J9VWH94+QJWM",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5733583282406736,
+            "ndre": 0.3162177942874954,
+            "ndwi": 0.204452873730078,
+            "ndyi": 0.14848676129675858
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4049335489912731,
+            "ndre": 0.25112561191000593,
+            "ndwi": 0.05687716333422719,
+            "ndyi": 0.20186784111145065
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.20203041076296716,
+            "ndre": 0.07794754602378462,
+            "ndwi": -0.04516427924220518,
+            "ndyi": 0.30424541725618093
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVFPF+M923",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "GROUNDNUT",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.37151284743163543,
+            "ndre": 0.19240416971556212,
+            "ndwi": -0.07939366636387372,
+            "ndyi": 0.20166639554298532
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.15020857220989162,
+            "ndre": 0.07051731464374118,
+            "ndwi": -0.15672322794542473,
+            "ndyi": 0.28840083025269586
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.10677709973464578,
+            "ndre": 0.025278876281305915,
+            "ndwi": -0.19301615529141186,
+            "ndyi": 0.35529307490688256
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGHC+H263",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7367400858231953,
+            "ndre": 0.48340213077408933,
+            "ndwi": 0.3077862118823188,
+            "ndyi": 0.2614553713585649
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3659816674590111,
+            "ndre": 0.24485749532282353,
+            "ndwi": 0.051627738552168026,
+            "ndyi": 0.27895172858238226
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.7603023326396943,
+            "ndre": 0.4889552861452103,
+            "ndwi": 0.31955248951911924,
+            "ndyi": 0.577729007601738
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWFXW+294C",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "RICE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5351473568588174,
+            "ndre": 0.31081000752346494,
+            "ndwi": 0.15448632058487222,
+            "ndyi": 0.14198652046422164
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.25774074129519925,
+            "ndre": 0.15247047247905882,
+            "ndwi": -0.11639098333675535,
+            "ndyi": 0.16698273158361834
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.1576673379918981,
+            "ndre": 0.04383524154470631,
+            "ndwi": -0.28436334563359134,
+            "ndyi": 0.2867716928162882
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWH96+MMM2",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6955301337517225,
+            "ndre": 0.3986253893146148,
+            "ndwi": 0.24570831111990488,
+            "ndyi": 0.22036309740864313
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.325238643013514,
+            "ndre": 0.1713933491362975,
+            "ndwi": -0.006063315334120909,
+            "ndyi": 0.19367347858273065
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.23336184082122946,
+            "ndre": 0.10410212729878437,
+            "ndwi": -0.03959967092109415,
+            "ndyi": 0.25990962495024383
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXH35+HXQX",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7728549584303753,
+            "ndre": 0.5184490710201831,
+            "ndwi": 0.25309111399225676,
+            "ndyi": 0.3250830307750417
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3554970241384788,
+            "ndre": 0.21071860390154473,
+            "ndwi": 0.04586608642568373,
+            "ndyi": 0.1732813501652728
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.19979908542320274,
+            "ndre": 0.0793787614179609,
+            "ndwi": -0.07322887942946452,
+            "ndyi": 0.3732265745944314
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXG3V+QJMM",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4224004330743509,
+            "ndre": 0.24811748244432374,
+            "ndwi": 0.15199850197603995,
+            "ndyi": 0.13548277741296944
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.5416719309794596,
+            "ndre": 0.3579274262373264,
+            "ndwi": 0.19828989780866185,
+            "ndyi": 0.24742923264320082
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.690851466777997,
+            "ndre": 0.4656702058437544,
+            "ndwi": 0.3930381752359562,
+            "ndyi": 0.33460513082070237
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVGGP+WV68",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "GROUNDNUT",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4950052806825349,
+            "ndre": 0.26662222905592486,
+            "ndwi": -0.017286271689403238,
+            "ndyi": 0.1896161606365984
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.26055697419426654,
+            "ndre": 0.15198740173469888,
+            "ndwi": -0.13275408148765566,
+            "ndyi": 0.19229872890494087
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.1987301480363716,
+            "ndre": 0.09644641930406743,
+            "ndwi": -0.14989592744545502,
+            "ndyi": 0.2513636201620102
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXG7W+6W96",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "GRAM",
+      "original_season": "rabi",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4136254362987749,
+            "ndre": 0.23638915270566943,
+            "ndwi": 0.05890463244621502,
+            "ndyi": 0.13053098343538516
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.30020203716827154,
+            "ndre": 0.18369720739058476,
+            "ndwi": -0.0018065111224793567,
+            "ndyi": 0.22191427088145055
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.8070597910519802,
+            "ndre": 0.5044996869383437,
+            "ndwi": 0.3766368008924253,
+            "ndyi": 0.5101457373662428
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVHP3+MQH7",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5792775750160217,
+            "ndre": 0.3462397729357084,
+            "ndwi": 0.09819165762099955,
+            "ndyi": 0.1975865898032983
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3804106937514411,
+            "ndre": 0.23998462027973605,
+            "ndwi": -0.034501068180219994,
+            "ndyi": 0.21830695693691574
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.306431425942315,
+            "ndre": 0.13983630554543602,
+            "ndwi": -0.07787118426575843,
+            "ndyi": 0.29324166145589614
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWH73+W4C2",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "GRAM",
+      "original_season": "rabi",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4356161098605322,
+            "ndre": 0.2594866956641645,
+            "ndwi": 0.10945641932503125,
+            "ndyi": 0.13384890611697403
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.6555507785744136,
+            "ndre": 0.4251439076514892,
+            "ndwi": 0.25328300972411666,
+            "ndyi": 0.27567055998944945
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.26705098253341375,
+            "ndre": 0.1328493646564491,
+            "ndwi": -0.011770195487231294,
+            "ndyi": 0.29887442355170657
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R8VRH+PGHJ",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7008555521438646,
+            "ndre": 0.3967511439056013,
+            "ndwi": 0.19565214884622464,
+            "ndyi": 0.2909847161819479
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.5175007841147011,
+            "ndre": 0.30788637488341525,
+            "ndwi": 0.025557630025613638,
+            "ndyi": 0.32142633745657173
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.32666137242694865,
+            "ndre": 0.19866933762434902,
+            "ndwi": -0.0034456795422449686,
+            "ndyi": 0.13141275499472732
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVGG3+WCGC",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "unclear",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7138326426347097,
+            "ndre": 0.4042694911360741,
+            "ndwi": 0.23245963032046957,
+            "ndyi": 0.2586812297503154
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.5110829106966654,
+            "ndre": 0.3056212719281515,
+            "ndwi": 0.03279072343061368,
+            "ndyi": 0.26359064380327857
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.4219714164733887,
+            "ndre": 0.254058467845122,
+            "ndwi": -0.0361776592520376,
+            "ndyi": 0.2941705405712127
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWH37+4VF8",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5849553857072971,
+            "ndre": 0.3667713837822154,
+            "ndwi": 0.20780751181171367,
+            "ndyi": 0.20391306559838257
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.6169193314527396,
+            "ndre": 0.39163522019759944,
+            "ndwi": 0.2053364199183103,
+            "ndyi": 0.30415985285123776
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.6641406420229083,
+            "ndre": 0.39880885050367954,
+            "ndwi": 0.19647678842510913,
+            "ndyi": 0.49862154145071746
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R9RC4+894V",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SOYBEANS",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4616120738524294,
+            "ndre": 0.2401198793187856,
+            "ndwi": 0.09986613282845135,
+            "ndyi": 0.2144125362207729
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.39313877091087684,
+            "ndre": 0.22537114052471538,
+            "ndwi": -0.01823017567414027,
+            "ndyi": 0.25774888919971917
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.28593401811898705,
+            "ndre": 0.15065242820936775,
+            "ndwi": -0.04694498945323247,
+            "ndyi": 0.22928626705256724
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7RJ8+J9QJ",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SOYBEANS",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.39165856678081656,
+            "ndre": 0.20308610513624362,
+            "ndwi": 0.1109807800913722,
+            "ndyi": 0.1301588314067875
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.24949531399955352,
+            "ndre": 0.13910109565282863,
+            "ndwi": -0.05725146556020869,
+            "ndyi": 0.18157464318598313
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.19503963943570854,
+            "ndre": 0.09397603713732679,
+            "ndwi": -0.05713944836170413,
+            "ndyi": 0.13572557936422525
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGRW+5W68",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.36640767367188504,
+            "ndre": 0.20977492105630904,
+            "ndwi": 0.13661681190160246,
+            "ndyi": 0.09056601899597223
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.7540405981468432,
+            "ndre": 0.4993019606127884,
+            "ndwi": 0.2995796714768265,
+            "ndyi": 0.4431029011354302
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.4525253230875188,
+            "ndre": 0.24695636911995036,
+            "ndwi": 0.09059735321947797,
+            "ndyi": 0.3344575552777811
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVGJJ+F2W9",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "unclear",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5496923207588817,
+            "ndre": 0.2776642977327541,
+            "ndwi": 0.14973188026519696,
+            "ndyi": 0.18297479962137117
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4002639959687773,
+            "ndre": 0.23675946334133977,
+            "ndwi": -0.05870137329355044,
+            "ndyi": 0.26991979666054255
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3020140737619089,
+            "ndre": 0.1773687207504459,
+            "ndwi": -0.11135213787707945,
+            "ndyi": 0.32641052406119264
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWHR9+W7FH",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.3562382510233305,
+            "ndre": 0.22493180834171944,
+            "ndwi": 0.023248873310119142,
+            "ndyi": 0.08007308390174944
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.25888577432468024,
+            "ndre": 0.16474178793101477,
+            "ndwi": -0.03950850287901945,
+            "ndyi": 0.17167366157317981
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.18761754883774398,
+            "ndre": 0.10629411889561291,
+            "ndwi": -0.03889929217382752,
+            "ndyi": 0.2027402129666559
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7RWX+V4MX",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.728836595684617,
+            "ndre": 0.4473613550538547,
+            "ndwi": 0.24690334056759938,
+            "ndyi": 0.3384154520846985
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.7504060794036466,
+            "ndre": 0.4726526958820147,
+            "ndwi": 0.22374794030418763,
+            "ndyi": 0.6350633209173998
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3930979528661499,
+            "ndre": 0.21677692051102218,
+            "ndwi": 0.05472557471433899,
+            "ndyi": 0.2184017141150712
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWFCH+RGV9",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6722227590424674,
+            "ndre": 0.43783323730898915,
+            "ndwi": 0.29423938401871264,
+            "ndyi": 0.2226928025336256
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.7861493229866028,
+            "ndre": 0.5745127173406737,
+            "ndwi": 0.29961969064814703,
+            "ndyi": 0.3951571363955736
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.7843233304364341,
+            "ndre": 0.580896256757634,
+            "ndwi": 0.284374692610332,
+            "ndyi": 0.621121345353978
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R9VF4+8XH2",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "rabi",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.715680642561479,
+            "ndre": 0.3811115737665783,
+            "ndwi": 0.32401309111578913,
+            "ndyi": 0.32538757727227413
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.41905666732539726,
+            "ndre": 0.2461689442614884,
+            "ndwi": 0.08978267509188631,
+            "ndyi": 0.2647650763956886
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.49192340265620826,
+            "ndre": 0.26112123680385674,
+            "ndwi": 0.13833297789096832,
+            "ndyi": 0.309218487448313
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R9V9C+Q8W5",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6380713737346757,
+            "ndre": 0.35049582115361394,
+            "ndwi": 0.14750977311755567,
+            "ndyi": 0.2884548753499984
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4214661211614877,
+            "ndre": 0.24295884514218768,
+            "ndwi": -0.01858135311613723,
+            "ndyi": 0.2594690486229082
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2774940934819235,
+            "ndre": 0.15281422457224883,
+            "ndwi": -0.07580265827791792,
+            "ndyi": 0.22977597276929396
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVHP6+R246",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.37730118477096164,
+            "ndre": 0.2525706694771846,
+            "ndwi": 0.19924288243055346,
+            "ndyi": 0.22205390656987828
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.39458836217721305,
+            "ndre": 0.24801931480566664,
+            "ndwi": 0.023798753988618655,
+            "ndyi": 0.2303884377082189
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.314127874871095,
+            "ndre": 0.17263013931612176,
+            "ndwi": -0.027516739442944527,
+            "ndyi": 0.2924852967262268
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7VPC+CHVJ",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4290842443019494,
+            "ndre": 0.2178962513290603,
+            "ndwi": 0.07564704389921546,
+            "ndyi": 0.22525944920449423
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.291636041654595,
+            "ndre": 0.16550847949724198,
+            "ndwi": -0.0042275220212139464,
+            "ndyi": 0.2300196280024974
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.22638608515262604,
+            "ndre": 0.11197188013800603,
+            "ndwi": -0.0049556420404121455,
+            "ndyi": 0.2139642554624327
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGX3+XG2H",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "rabi",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.36956957290096887,
+            "ndre": 0.185891780158314,
+            "ndwi": 0.10647895834479255,
+            "ndyi": 0.10027650747217054
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4739103465369253,
+            "ndre": 0.28203512782400303,
+            "ndwi": 0.07727870108616172,
+            "ndyi": 0.2532674685346358
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.42529804236961133,
+            "ndre": 0.22033992849967693,
+            "ndwi": 0.04557523027125915,
+            "ndyi": 0.34527112837090634
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWHR9+C2H9",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SOYBEANS",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4294079801448324,
+            "ndre": 0.23072804703594446,
+            "ndwi": 0.11132866712404958,
+            "ndyi": 0.12409858921480449
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3373360146450091,
+            "ndre": 0.2032929282022428,
+            "ndwi": -0.02456505999515788,
+            "ndyi": 0.19226221251714082
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.22134405704615995,
+            "ndre": 0.1168391713754663,
+            "ndwi": -0.06192750809124753,
+            "ndyi": 0.21209122570632383
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWH29+Q353",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "GRAM",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.43416969060897825,
+            "ndre": 0.26462369660536456,
+            "ndwi": 0.10654344379901885,
+            "ndyi": 0.2357528909047445
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.770814104795456,
+            "ndre": 0.507291888197263,
+            "ndwi": 0.3533216610749562,
+            "ndyi": 0.3637131706078848
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2697020924091339,
+            "ndre": 0.12624159221847847,
+            "ndwi": 0.061807972149302566,
+            "ndyi": 0.332090593278408
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXF4G+64MF",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "rabi",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7133048524459201,
+            "ndre": 0.4683643085537134,
+            "ndwi": 0.2465299140248034,
+            "ndyi": 0.17972597591923903
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.5065459551082717,
+            "ndre": 0.30541547822455567,
+            "ndwi": 0.06760993724844108,
+            "ndyi": 0.24590470277600818
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.23480106269319856,
+            "ndre": 0.13096736837178471,
+            "ndwi": -0.0639845128171146,
+            "ndyi": 0.21947914724134737
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVFRC+4PMF",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2021,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.3858498360271806,
+            "ndre": 0.20713299788810585,
+            "ndwi": -0.11552772408316811,
+            "ndyi": 0.20065703833544699
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.2179885112245877,
+            "ndre": 0.1229684803055392,
+            "ndwi": -0.20617292761802672,
+            "ndyi": 0.23512052217015517
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.17327993807417374,
+            "ndre": 0.07693043073846233,
+            "ndwi": -0.21963649508025918,
+            "ndyi": 0.28684494655441356
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWHW8+XG49",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5148374670081668,
+            "ndre": 0.3251717352395893,
+            "ndwi": 0.20527314097962823,
+            "ndyi": 0.12061212850663945
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.496659527782701,
+            "ndre": 0.30363886437864374,
+            "ndwi": 0.1073059022291285,
+            "ndyi": 0.2536585969802661
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.22893566345302474,
+            "ndre": 0.12027561510156874,
+            "ndwi": -0.042132751878378824,
+            "ndyi": 0.2427686270740298
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXF4J+M6VM",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5386395700772604,
+            "ndre": 0.3130928617715836,
+            "ndwi": 0.10659049963578582,
+            "ndyi": 0.2049801873167356
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.31651058614253996,
+            "ndre": 0.17994107565283776,
+            "ndwi": -0.06608068394660949,
+            "ndyi": 0.20192305326461796
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.22873044073581691,
+            "ndre": 0.11826790057122709,
+            "ndwi": -0.09594896361231806,
+            "ndyi": 0.24176489859819414
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXH44+8PF5",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5870060628793704,
+            "ndre": 0.3794557124550157,
+            "ndwi": 0.2114770745894862,
+            "ndyi": 0.15724042535429664
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.41952734784510143,
+            "ndre": 0.25032063591405285,
+            "ndwi": 0.04741954271075367,
+            "ndyi": 0.20406706942327366
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3121634056358218,
+            "ndre": 0.1806459213905739,
+            "ndwi": -0.017464684977038007,
+            "ndyi": 0.2737032329230189
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVGCM+JQG2",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.40933821917999363,
+            "ndre": 0.22083373539268022,
+            "ndwi": -0.011517432577434985,
+            "ndyi": 0.19312719279338444
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.2580177845344657,
+            "ndre": 0.1424348840401286,
+            "ndwi": -0.13136836588382722,
+            "ndyi": 0.2293336846289181
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.1925336984651429,
+            "ndre": 0.08859034505266686,
+            "ndwi": -0.1648387713801293,
+            "ndyi": 0.26746810138935134
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVFJH+P883",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "CORN",
+      "original_season": "kharif",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.34395609009597033,
+            "ndre": 0.17281189333233568,
+            "ndwi": 0.0024578665874691458,
+            "ndyi": 0.13987751434453657
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.21569078401834876,
+            "ndre": 0.10815296254845129,
+            "ndwi": -0.16781547141295894,
+            "ndyi": 0.16903924379773716
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.14616530968083274,
+            "ndre": 0.03714403807599512,
+            "ndwi": -0.2006699972682529,
+            "ndyi": 0.266019312871827
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R9Q9J+57G3",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.4904982784474401,
+            "ndre": 0.25317255648928627,
+            "ndwi": 0.0627360494715542,
+            "ndyi": 0.21188359072720497
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.25553722977813137,
+            "ndre": 0.14416953011037684,
+            "ndwi": -0.03690772715184243,
+            "ndyi": 0.23955291709010026
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.16922924704325032,
+            "ndre": 0.0785319877585108,
+            "ndwi": -0.042006599897203956,
+            "ndyi": 0.2167301974456075
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVHP4+FG5X",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7009541562625341,
+            "ndre": 0.4137417039700916,
+            "ndwi": 0.2134023579103606,
+            "ndyi": 0.25133749906505853
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4226443772656577,
+            "ndre": 0.23803617554051537,
+            "ndwi": -0.013325958775905223,
+            "ndyi": 0.24884723944323403
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.18458419005785667,
+            "ndre": 0.07020838340478285,
+            "ndwi": -0.17078390334333693,
+            "ndyi": 0.2781795400593962
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGQG+VCH2",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5654000143210093,
+            "ndre": 0.3230035106341044,
+            "ndwi": 0.08570991456508636,
+            "ndyi": 0.24178743610779443
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.30427218874295553,
+            "ndre": 0.18368779371182123,
+            "ndwi": -0.048801212447385,
+            "ndyi": 0.17141098603606225
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.16760186354319256,
+            "ndre": 0.0417600060463883,
+            "ndwi": -0.11617910085866849,
+            "ndyi": 0.23999610294898352
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVG7W+G4QQ",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6258971973045452,
+            "ndre": 0.31482922708666006,
+            "ndwi": 0.11371348083421992,
+            "ndyi": 0.19268252116602821
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.44615223488292177,
+            "ndre": 0.276906769259556,
+            "ndwi": -0.14520612206007982,
+            "ndyi": 0.2777976491564029
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3468856932343664,
+            "ndre": 0.19974873063934817,
+            "ndwi": -0.1973350539400771,
+            "ndyi": 0.30110353815394475
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWH35+96H7",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "unclear",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.3721124703107877,
+            "ndre": 0.20614303910812407,
+            "ndwi": 0.10755544233807297,
+            "ndyi": 0.1753190658813299
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4476374201996382,
+            "ndre": 0.26491687093363253,
+            "ndwi": 0.12889381596861887,
+            "ndyi": 0.25150339298470076
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.39776582374822256,
+            "ndre": 0.22770114892790486,
+            "ndwi": 0.08591758460889373,
+            "ndyi": 0.3480189730261648
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGW7+F758",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5394747237916346,
+            "ndre": 0.3261559900862199,
+            "ndwi": 0.16611424888725634,
+            "ndyi": 0.15322695939836126
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.6261894487672384,
+            "ndre": 0.3772309299972322,
+            "ndwi": 0.14432972302246427,
+            "ndyi": 0.3115785350402196
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.7210740107629033,
+            "ndre": 0.4634333594391743,
+            "ndwi": 0.20573505422928268,
+            "ndyi": 0.49860741363631356
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVFCW+QQQM",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SOYBEANS",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.49418546084095444,
+            "ndre": 0.2515755688735083,
+            "ndwi": 0.01070489279592556,
+            "ndyi": 0.18997511450274318
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.2502755463561591,
+            "ndre": 0.157394331123899,
+            "ndwi": -0.18501307324451557,
+            "ndyi": 0.164990800509558
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.1847404992098317,
+            "ndre": 0.10217633693451611,
+            "ndwi": -0.21059245331322446,
+            "ndyi": 0.2606627823894515
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWHR8+5VV4",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5586463510990143,
+            "ndre": 0.34209425581826103,
+            "ndwi": 0.0648116438339154,
+            "ndyi": 0.20350141326586407
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3219061007102331,
+            "ndre": 0.2104006654686398,
+            "ndwi": -0.03130999351851642,
+            "ndyi": 0.1696037373609013
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.20949258241388533,
+            "ndre": 0.1362918516000112,
+            "ndwi": -0.05952826514840126,
+            "ndyi": 0.20376717547575635
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R9V2G+RQ8H",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5160286575555801,
+            "ndre": 0.250363522519668,
+            "ndwi": 0.10178804273406664,
+            "ndyi": 0.15348876938999942
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.5039937289224731,
+            "ndre": 0.274882005320655,
+            "ndwi": 0.051913215600911326,
+            "ndyi": 0.23272370691928598
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3119663670659065,
+            "ndre": 0.1894044776757558,
+            "ndwi": 0.014243707565280298,
+            "ndyi": 0.13105780196686587
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXG39+H36V",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "RICE",
+      "original_season": "unclear",
+      "original_year": 2021,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.3892555906319283,
+            "ndre": 0.21420385306769774,
+            "ndwi": 0.029527624456104486,
+            "ndyi": 0.09688273092480733
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.23555759011719704,
+            "ndre": 0.13792443313928834,
+            "ndwi": -0.026216403121552795,
+            "ndyi": 0.15080645885930655
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.1853728658506568,
+            "ndre": 0.097023503566292,
+            "ndwi": -0.05071764165358487,
+            "ndyi": 0.21565705548289796
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7RP9+3HMP",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.36988985948264597,
+            "ndre": 0.16053074095398187,
+            "ndwi": 0.0422388139180839,
+            "ndyi": 0.20437274500727654
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.33221142583837115,
+            "ndre": 0.17886967316662775,
+            "ndwi": -0.0017097850858893563,
+            "ndyi": 0.22487263071040312
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.27879376504570247,
+            "ndre": 0.16147478343482363,
+            "ndwi": 0.023046432575210933,
+            "ndyi": 0.14551293235272167
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVG53+5XRG",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6254239430030186,
+            "ndre": 0.3229897742470106,
+            "ndwi": 0.3393424194720056,
+            "ndyi": 0.1753920169754161
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.40373560686906185,
+            "ndre": 0.23905115491814083,
+            "ndwi": -0.012608194758003167,
+            "ndyi": 0.21492963847186833
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.27305806304017705,
+            "ndre": 0.11753885130423844,
+            "ndwi": -0.10109391994774342,
+            "ndyi": 0.33287740333212745
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGWG+M8XQ",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.3307347091003543,
+            "ndre": 0.1893393164722337,
+            "ndwi": 0.03728731868267502,
+            "ndyi": 0.09138881728479947
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.23987871504255703,
+            "ndre": 0.14902040815047385,
+            "ndwi": -0.05744080431094127,
+            "ndyi": 0.14709964688601238
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.1976077365688979,
+            "ndre": 0.10740772448895898,
+            "ndwi": -0.08049859600474257,
+            "ndyi": 0.1733404891814903
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R9RGF+JR2H",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "rabi",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.44038362713421086,
+            "ndre": 0.23441419914803086,
+            "ndwi": 0.05623325185083292,
+            "ndyi": 0.11540363558485885
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.2919575494221028,
+            "ndre": 0.15304563663142057,
+            "ndwi": -0.01713911896370644,
+            "ndyi": 0.15628327460338673
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.23995098230593348,
+            "ndre": 0.11437476746162728,
+            "ndwi": 0.007796030080712894,
+            "ndyi": 0.1822922928806614
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVGFH+9JWV",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "unclear",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7315397636834966,
+            "ndre": 0.4528467719869096,
+            "ndwi": 0.30607568732527796,
+            "ndyi": 0.2492911847986916
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3124804692212925,
+            "ndre": 0.19169647929280303,
+            "ndwi": -0.03233018554692958,
+            "ndyi": 0.23648444812658226
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.22049938332895905,
+            "ndre": 0.09517937880767466,
+            "ndwi": -0.10181060212469377,
+            "ndyi": 0.3791472646732663
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVF4H+77P9",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "RICE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7468660793806378,
+            "ndre": 0.4517513341025303,
+            "ndwi": 0.28043592180076404,
+            "ndyi": 0.2788270240551548
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.396451095983996,
+            "ndre": 0.2472434334326208,
+            "ndwi": -0.004870175062625993,
+            "ndyi": 0.1881844053164734
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.27273115813732146,
+            "ndre": 0.14192170746698,
+            "ndwi": -0.09515168054985176,
+            "ndyi": 0.35460129325327117
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7RVJ+HV3X",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6686812901135646,
+            "ndre": 0.356714920112581,
+            "ndwi": 0.20822355399529138,
+            "ndyi": 0.29523670086354925
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4311126152975391,
+            "ndre": 0.25267568531662526,
+            "ndwi": 0.0276053807338949,
+            "ndyi": 0.2604460672785838
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.31201414222067053,
+            "ndre": 0.18928943642161108,
+            "ndwi": -0.01591337016769544,
+            "ndyi": 0.18344039831197623
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWFQX+9XQC",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "MUSTARD",
+      "original_season": "rabi",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5715294848470127,
+            "ndre": 0.3475560798656706,
+            "ndwi": 0.17096232957042315,
+            "ndyi": 0.21980217040753836
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.46060717754504255,
+            "ndre": 0.2971347840575903,
+            "ndwi": 0.14230971491219951,
+            "ndyi": 0.28517524760727786
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.7157491004350138,
+            "ndre": 0.42497607714989594,
+            "ndwi": 0.35541773675119176,
+            "ndyi": 0.5083683109750934
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWG7X+H4WC",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.44396776979528185,
+            "ndre": 0.2608015137108196,
+            "ndwi": 0.1219072751790861,
+            "ndyi": 0.1355478639572697
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.38243617143319997,
+            "ndre": 0.2326556811514108,
+            "ndwi": -0.04009185088595942,
+            "ndyi": 0.19471351219260175
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.28660664156727167,
+            "ndre": 0.1595777787430131,
+            "ndwi": -0.05558606229074623,
+            "ndyi": 0.2353472081215485
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWH5F+W29H",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.6284883923925302,
+            "ndre": 0.42053824952789104,
+            "ndwi": 0.2692201791703229,
+            "ndyi": 0.15529018128018068
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3498173403519171,
+            "ndre": 0.21642130522954242,
+            "ndwi": -0.007799153305866111,
+            "ndyi": 0.23270648261647167
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.41889020487850104,
+            "ndre": 0.2360152689895283,
+            "ndwi": 0.056176962622694296,
+            "ndyi": 0.35563089698553085
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VXF4G+XQRQ",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.44688924291619553,
+            "ndre": 0.2448015280619816,
+            "ndwi": 0.031784686471197615,
+            "ndyi": 0.15438849882533154
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.28474707735909355,
+            "ndre": 0.16378683663076826,
+            "ndwi": -0.07296207435429095,
+            "ndyi": 0.15228813256447518
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.21820575702521536,
+            "ndre": 0.11851486046281126,
+            "ndwi": -0.13108537801437908,
+            "ndyi": 0.2256663257463111
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVHFC+PWV6",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.47280842630249087,
+            "ndre": 0.2637035171360229,
+            "ndwi": 0.15065032465270523,
+            "ndyi": 0.1801945455866217
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.5188219397357017,
+            "ndre": 0.3045916292703513,
+            "ndwi": 0.15673743263592546,
+            "ndyi": 0.28500387034181396
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2352851420979608,
+            "ndre": 0.11088793120253478,
+            "ndwi": -0.004280465635185297,
+            "ndyi": 0.262613536902901
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVGQH+QQ2G",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "unclear",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.39353182052144786,
+            "ndre": 0.22505986393962335,
+            "ndwi": 0.1239747771958497,
+            "ndyi": 0.12478756705817166
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.4294847504873025,
+            "ndre": 0.2702345156772552,
+            "ndwi": 0.03875559811774445,
+            "ndyi": 0.24276558925446717
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.4070734861061761,
+            "ndre": 0.2395843897308958,
+            "ndwi": -0.0049889488758421245,
+            "ndyi": 0.3029684767519173
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVG7H+RJHX",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5250096370776495,
+            "ndre": 0.23530299189830356,
+            "ndwi": 0.056112552527338266,
+            "ndyi": 0.2258465935786565
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.2906917533526818,
+            "ndre": 0.11210651180396478,
+            "ndwi": -0.08992223621656496,
+            "ndyi": 0.28892522503932316
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.3303808166335026,
+            "ndre": 0.11435742427905402,
+            "ndwi": -0.04603381086296091,
+            "ndyi": 0.3151169711103041
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVGH2+PXQ8",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7355343103408813,
+            "ndre": 0.46214496996253734,
+            "ndwi": 0.3881104895845056,
+            "ndyi": 0.2576694791205227
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.3221706769118706,
+            "ndre": 0.22846186024447285,
+            "ndwi": -0.018361302682509024,
+            "ndyi": 0.20419903397560119
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.31004499830305576,
+            "ndre": 0.16793342817497128,
+            "ndwi": -0.06253176283401747,
+            "ndyi": 0.37495728489011526
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWHC8+C2R6",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5823836320171168,
+            "ndre": 0.3475780589031238,
+            "ndwi": 0.1722594998630823,
+            "ndyi": 0.13518830259403622
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.48024831498370446,
+            "ndre": 0.27530326082425965,
+            "ndwi": 0.10885879723683878,
+            "ndyi": 0.2713259845796753
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.26935741892632314,
+            "ndre": 0.1383122484254486,
+            "ndwi": -0.014197818704825994,
+            "ndyi": 0.27390475983128815
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWFMX+XVV7",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "COTTON",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7272478594548173,
+            "ndre": 0.43885669381254255,
+            "ndwi": 0.2379071503463719,
+            "ndyi": 0.261891585153838
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.31467952877283095,
+            "ndre": 0.18461889363437267,
+            "ndwi": 0.030590595762866248,
+            "ndyi": 0.25527118891477585
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.25918101860831183,
+            "ndre": 0.11457440033943081,
+            "ndwi": -0.010657044533824472,
+            "ndyi": 0.4380680055667957
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7VW9+VXV9",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "COTTON",
+      "original_season": "unclear",
+      "original_year": 2021,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7007364561924567,
+            "ndre": 0.38593995685760796,
+            "ndwi": 0.2107589233380098,
+            "ndyi": 0.31845309012211287
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.6295235753059387,
+            "ndre": 0.37138195679737973,
+            "ndwi": 0.11193804546760823,
+            "ndyi": 0.445383664029531
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.4689892817002076,
+            "ndre": 0.2862384617328644,
+            "ndwi": 0.07798790415892233,
+            "ndyi": 0.2121542661737364
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVGMM+WH58",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.7133766946693261,
+            "ndre": 0.4499760158360004,
+            "ndwi": 0.3148559133211771,
+            "ndyi": 0.23372230771929026
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.549727859099706,
+            "ndre": 0.3372779250144958,
+            "ndwi": 0.04931489868710438,
+            "ndyi": 0.39151253352562587
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.6549047629038492,
+            "ndre": 0.3795161346594492,
+            "ndwi": 0.09881168867771824,
+            "ndyi": 0.5202010174592336
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGM3+W54G",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2023,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.3442062476533464,
+            "ndre": 0.2013615858159028,
+            "ndwi": 0.02091886761627393,
+            "ndyi": 0.18921602505724877
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.21993965209694574,
+            "ndre": 0.12710309520043667,
+            "ndwi": -0.045894506024660595,
+            "ndyi": 0.19095742913195862
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.1548005203076173,
+            "ndre": 0.07206597377353319,
+            "ndwi": -0.08596014540671604,
+            "ndyi": 0.2362788143800571
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R7QMX+GXP7",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SORGHUM",
+      "original_season": "rabi",
+      "original_year": 2024,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5321528502218017,
+            "ndre": 0.2926745499883378,
+            "ndwi": 0.14378480850667738,
+            "ndyi": 0.2628335492624034
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.47843377611466814,
+            "ndre": 0.26889946641939466,
+            "ndwi": 0.0987985013999495,
+            "ndyi": 0.3150198264490989
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.2786803216069609,
+            "ndre": 0.1323473844421351,
+            "ndwi": 0.016021849403342055,
+            "ndyi": 0.25132685703235674
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVG58+JR8P",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "rabi",
+      "original_year": 2026,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5996291157789528,
+            "ndre": 0.3586875543696806,
+            "ndwi": 0.14927448160597123,
+            "ndyi": 0.21056020772084594
+          },
+          "valid_obs_days": 4,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.30077211807171506,
+            "ndre": 0.1513823016624277,
+            "ndwi": -0.032820626370570004,
+            "ndyi": 0.2699219955441852
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.5599685180932283,
+            "ndre": 0.32947014970704913,
+            "ndwi": 0.09182359409169295,
+            "ndyi": 0.4233611663803458
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9R9RC3+MQR5",
+      "region": "Karnataka",
+      "district": "Kalaburagi",
+      "crop_label": "SOYBEANS",
+      "original_season": "kharif",
+      "original_year": 2022,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.22965709120035172,
+            "ndre": 0.10209715459495781,
+            "ndwi": -0.05198926292359829,
+            "ndyi": 0.182838068343699
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.16217731001476446,
+            "ndre": 0.09977212902109993,
+            "ndwi": -0.05104297764288882,
+            "ndyi": 0.20911644880349436
+          },
+          "valid_obs_days": 6,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.11430470459163189,
+            "ndre": 0.06022350105922669,
+            "ndwi": -0.042238812893629074,
+            "ndyi": 0.21775798685848713
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VWGXH+M7V6",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SUGARCANE",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.5381293240340069,
+            "ndre": 0.32278005758737,
+            "ndwi": 0.07372099197038068,
+            "ndyi": 0.16662512954349631
+          },
+          "valid_obs_days": 3,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.33349194717407216,
+            "ndre": 0.20216232109069826,
+            "ndwi": -0.06773499502893539,
+            "ndyi": 0.2004090996682643
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.24065801218152044,
+            "ndre": 0.13563190992223093,
+            "ndwi": -0.1377667369320989,
+            "ndyi": 0.24561000853776938
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    },
+    {
+      "field_id": "7J9VVFCW+V2VX",
+      "region": "Karnataka",
+      "district": "Bidar",
+      "crop_label": "SORGHUM",
+      "original_season": "kharif",
+      "original_year": 2025,
+      "windows": {
+        "establishment": {
+          "means": {
+            "ndvi": 0.34964963545401895,
+            "ndre": 0.2269215372701486,
+            "ndwi": -0.044124637652809426,
+            "ndyi": 0.1475571668706834
+          },
+          "valid_obs_days": 1,
+          "pu_spent": 0.2133333396911621
+        },
+        "flowering": {
+          "means": {
+            "ndvi": 0.23772199104229608,
+            "ndre": 0.16496232549349468,
+            "ndwi": -0.1325371827930212,
+            "ndyi": 0.1225612901034765
+          },
+          "valid_obs_days": 5,
+          "pu_spent": 0.3200000095367432
+        },
+        "harvest": {
+          "means": {
+            "ndvi": 0.21585175705452758,
+            "ndre": 0.12075491699700555,
+            "ndwi": -0.1490067495033145,
+            "ndyi": 0.17798054218292236
+          },
+          "valid_obs_days": 2,
+          "pu_spent": 0.10666666984558106
+        }
+      },
+      "total_pu_spent": 0.6400000190734864
+    }
+  ]
+}

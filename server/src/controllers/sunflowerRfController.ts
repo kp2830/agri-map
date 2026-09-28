@@ -5,20 +5,26 @@ import { getSunflowerRfPrediction, isEligibleForSunflowerRf } from '../services/
 import type { NormalizedFieldFeature } from '../types/agricultural.js'
 
 /**
- * Sunflower RF v0 — an ADDITIVE signal only. Gated on the existing production AMED
- * strong-confidence logic (buildAmedHypotheses + the same 0.8 threshold overridePolicy.ts
- * already uses): if AMED already has a confidently-observed prediction, this endpoint returns
- * `unavailable: AMED_HIGH_CONFIDENCE` immediately without spending any CDSE credits. The client
- * decides whether to call this at all (see FieldDetailsPanel) — but the gate is re-checked
- * server-side too, so a client bug can never cause an unnecessary CDSE spend.
+ * Sunflower RF v0 — an ADDITIVE signal only. Gated on: (1) the caller's selected month actually
+ * being one Sunflower could plausibly be growing in (see growingSeasonGate.ts — this is the real
+ * fix for why Sunflower RF was temporarily hidden from the frontend), then (2) the existing
+ * production AMED strong-confidence logic (buildAmedHypotheses + the same 0.8 threshold
+ * overridePolicy.ts already uses). The client decides whether to call this at all (see
+ * FieldDetailsPanel) — but both gates are re-checked server-side too, so a client bug can never
+ * cause an unnecessary CDSE spend or a misleading result.
  *
  * Never overrides, modifies, or is merged into the AMED crop prediction — this is a separate
  * field in the response, displayed as its own section.
  */
 export async function getSunflowerRf(req: Request, res: Response) {
   const feature = req.body?.feature as NormalizedFieldFeature | undefined
+  const selectedMonth = Number(req.body?.selectedMonth)
   if (!feature || !feature.geometry || !feature.properties || (feature.id === undefined || feature.id === null)) {
-    res.status(400).json({ error: 'body must be { feature: NormalizedFieldFeature } — the same feature object returned by /agriculture/fields, including its id' })
+    res.status(400).json({ error: 'body must be { feature: NormalizedFieldFeature, selectedMonth: number } — the same feature object returned by /agriculture/fields, including its id, and the 1-12 month currently selected in the UI' })
+    return
+  }
+  if (!Number.isInteger(selectedMonth) || selectedMonth < 1 || selectedMonth > 12) {
+    res.status(400).json({ error: 'selectedMonth must be an integer 1-12' })
     return
   }
   if (!isSupportedFieldGeometry(feature.geometry)) {
@@ -27,8 +33,9 @@ export async function getSunflowerRf(req: Request, res: Response) {
   }
 
   const { amedTop } = buildAmedHypotheses(feature.properties)
-  if (!isEligibleForSunflowerRf(amedTop)) {
-    res.json({ available: false, reason: 'AMED_HIGH_CONFIDENCE' })
+  const gate = isEligibleForSunflowerRf(amedTop, selectedMonth)
+  if (!gate.eligible) {
+    res.json({ available: false, reason: gate.reason })
     return
   }
 

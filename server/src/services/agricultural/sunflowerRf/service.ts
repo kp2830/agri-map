@@ -1,10 +1,12 @@
 /**
- * Orchestrates Sunflower RF v0: AMED confidence gate -> cache check -> real CDSE feature
- * extraction -> real RF inference -> cache. This is an ADDITIVE, isolated pathway — it never
- * modifies AMED, never overrides the AMED crop prediction, and is only reached when the caller
- * (the controller) has already determined AMED is Unknown/low-confidence for this field.
+ * Orchestrates Sunflower RF v0: month-in-season gate -> AMED confidence gate -> cache check ->
+ * real CDSE feature extraction -> real RF inference -> cache. This is an ADDITIVE, isolated
+ * pathway — it never modifies AMED, never overrides the AMED crop prediction, and is only reached
+ * when the caller (the controller) has already determined AMED is Unknown/low-confidence for
+ * this field AND the selected month is one Sunflower could plausibly be in the ground for.
  */
 import type { MultiPolygon, Polygon } from 'geojson'
+import { isCropInSeasonForMonth } from '../growingSeasonGate.js'
 import { AMED_STRONG_CONFIDENCE_THRESHOLD, FEATURE_WINDOW_VERSION, SUNFLOWER_RF_MODEL_VERSION } from './config.js'
 import { extractSunflowerRfFeatures, toOrderedVector } from './featureExtraction.js'
 import { predictSunflowerProbability } from './rfInference.js'
@@ -25,13 +27,21 @@ export { AMED_STRONG_CONFIDENCE_THRESHOLD }
 const ALWAYS_RUN_FOR_CROPS = new Set(['CORN', 'MAIZE'])
 
 /** Pure gate logic, exported separately so the controller (and tests) can check eligibility
- *  without touching the cache/CDSE/inference machinery. AMED null (Unknown/no usable
- *  prediction) -> eligible. AMED Corn/Maize -> ALWAYS eligible, regardless of confidence.
- *  Every other crop: eligible only below the 0.80 strong-confidence threshold (unchanged). */
-export function isEligibleForSunflowerRf(amedTop: AmedHypothesis | null): boolean {
-  if (!amedTop) return true
-  if (ALWAYS_RUN_FOR_CROPS.has(amedTop.crop.toUpperCase())) return true
-  return amedTop.confidence < AMED_STRONG_CONFIDENCE_THRESHOLD
+ *  without touching the cache/CDSE/inference machinery.
+ *  - Selected month outside Sunflower's real growing season (see growingSeasonGate.ts) -> NOT
+ *    eligible. This is the real fix for why Sunflower RF was temporarily hidden from the
+ *    frontend (see client/src/lib/featureFlags.ts): the model always evaluates its fixed
+ *    April/May/June training window regardless of which month is selected, so a prediction must
+ *    never be shown against a month it has no real relationship to.
+ *  - AMED null (Unknown/no usable prediction) -> eligible. AMED Corn/Maize -> ALWAYS eligible,
+ *    regardless of confidence. Every other crop: eligible only below the 0.80 strong-confidence
+ *    threshold (unchanged). */
+export function isEligibleForSunflowerRf(amedTop: AmedHypothesis | null, selectedMonth: number): { eligible: boolean; reason?: 'OUT_OF_SEASON' | 'AMED_HIGH_CONFIDENCE' } {
+  if (!isCropInSeasonForMonth('sunflower', selectedMonth)) return { eligible: false, reason: 'OUT_OF_SEASON' }
+  if (!amedTop) return { eligible: true }
+  if (ALWAYS_RUN_FOR_CROPS.has(amedTop.crop.toUpperCase())) return { eligible: true }
+  if (amedTop.confidence < AMED_STRONG_CONFIDENCE_THRESHOLD) return { eligible: true }
+  return { eligible: false, reason: 'AMED_HIGH_CONFIDENCE' }
 }
 
 const inFlight = new Map<string, Promise<SunflowerRfResult>>()

@@ -36,12 +36,20 @@ training/sunflower/haryana_new_fields_pool.json
 training/sunflower/haryana_round3_fields_pool.json
 training/sunflower/sunflower_kurukshetra_250_new_pool.json
 
+# Latur safflower discovery: same raw ALU field-pool dump pattern as the sunflower ones above —
+# large, machine-generated, regeneratable from the discovery scripts. The derived, curated
+# outputs (training/safflower/*.py, results/scored/candidate JSONs, the exported model) stay
+# tracked normally.
+training/safflower/latur_pilot_fields_pool.json
+
 # WorldCereal research integration: cached job results / downloaded rasters (server/src/services/
 # agricultural/worldcereal/, gated by ENABLE_WORLDCEREAL_RESEARCH) — machine-generated, never committed.
 server/.worldcereal-research-cache/
 
-# Sunflower RF v0 prediction cache (server/src/services/agricultural/sunflowerRf/) — machine-generated, never committed.
+# Sunflower/Safflower RF v0 prediction caches (server/src/services/agricultural/sunflowerRf/,
+# safflowerRf/) — machine-generated, never committed.
 server/.sunflower-rf-cache/
+server/.safflower-rf-cache/
 
 # Environment variables
 .env

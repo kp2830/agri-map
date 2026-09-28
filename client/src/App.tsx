@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { StatusCard } from './components/StatusCard'
 import { CentroidForm } from './features/fields/CentroidForm'
 import { CropSummaryPanel } from './features/fields/CropSummaryPanel'
-import { buildCropColorMap, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
+import { SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, buildCropColorMap, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
 import { ALL_CROPS, filterFieldsByCrop, getAvailableCrops, type CropFilterValue } from './features/fields/cropFilter'
-import { SUNFLOWER_CROP_KEY, summarizeCropShares } from './features/fields/cropSummary'
+import { SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY, summarizeCropShares } from './features/fields/cropSummary'
 import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
 import { FieldIdSearch } from './features/fields/FieldIdSearch'
@@ -13,9 +13,10 @@ import { MonthSelector } from './features/fields/MonthSelector'
 import { useAgriculturalFields } from './features/fields/useAgriculturalFields'
 import { decodeFieldId } from './lib/api'
 import { defaultMapCenter } from './lib/config'
-import { SUNFLOWER_UI_ENABLED } from './lib/featureFlags'
+import { SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from './lib/featureFlags'
 import { markPerf } from './lib/perf'
 import { MapView } from './features/map/MapView'
+import { useSafflowerFieldColors } from './features/map/useSafflowerFieldColors'
 import { useSunflowerFieldColors } from './features/map/useSunflowerFieldColors'
 import type { CoverageInfo, NormalizedFieldFeature } from './types/agricultural'
 
@@ -328,30 +329,35 @@ function App() {
   // arrives — no click on an individual field required (see the hook's own docstring for why
   // it's keyed on fieldCollection's identity specifically). Declared before visibleFieldCollection
   // below since the "Sunflower" filter selection reads from it.
-  const sunflowerProbabilities = useSunflowerFieldColors(fieldCollection, submittedCenter)
+  const sunflowerProbabilities = useSunflowerFieldColors(fieldCollection, submittedCenter, selectedMonth)
+  // Safflower RF v0 — same reasoning as Sunflower's hook call above, checked against the full
+  // result independently.
+  const safflowerProbabilities = useSafflowerFieldColors(fieldCollection, submittedCenter, selectedMonth)
 
-  // Whether the "Sunflower" option should even appear in the crop dropdown — only once at
-  // least one field in the current search has actually cleared the threshold, same "don't show
-  // an option nothing matches" rule every other crop option already follows (getAvailableCrops).
-  // Also gated on SUNFLOWER_UI_ENABLED: while Sunflower is temporarily hidden from the
-  // frontend, sunflowerProbabilities never gets any entries anyway (useSunflowerFieldColors is
-  // a no-op — see lib/featureFlags.ts), but this stays an explicit, second, defensive check
-  // rather than relying solely on that.
+  // Whether the "Sunflower"/"Safflower" options should even appear in the crop dropdown — only
+  // once at least one field in the current search has actually cleared the threshold, same
+  // "don't show an option nothing matches" rule every other crop option already follows
+  // (getAvailableCrops). Also gated on their own UI_ENABLED flag as an explicit, second,
+  // defensive check.
   const hasSunflowerMatch = useMemo(
     () => SUNFLOWER_UI_ENABLED && [...sunflowerProbabilities.values()].some((percent) => percent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT),
     [sunflowerProbabilities],
+  )
+  const hasSafflowerMatch = useMemo(
+    () => SAFFLOWER_UI_ENABLED && [...safflowerProbabilities.values()].some((percent) => percent > SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT),
+    [safflowerProbabilities],
   )
 
   // Pure client-side filter over the already-loaded collection — no network request, no new
   // S2/ALU/AMED lookup. `fieldCollection` itself is never mutated or replaced.
   //
-  // Split into two memos rather than one, deliberately: the ordinary AMED-crop path
-  // (nonSunflowerVisible) must stay referentially stable while sunflowerProbabilities keeps
-  // growing in the background, or every newly-arrived RF result would force MapView's GeoJSON
-  // layer to remount (thousands of polygons, for a dense search) even when the user isn't even
-  // looking at the Sunflower filter. Only sunflowerVisible — used exclusively while that filter
-  // is actually selected — needs to react to sunflowerProbabilities at all.
-  const nonSunflowerVisible = useMemo(
+  // Split into separate memos rather than one, deliberately: the ordinary AMED-crop path
+  // (nonExperimentalVisible) must stay referentially stable while sunflower/safflowerProbabilities
+  // keep growing in the background, or every newly-arrived RF result would force MapView's
+  // GeoJSON layer to remount (thousands of polygons, for a dense search) even when the user
+  // isn't even looking at that filter. Only the crop-specific memo — used exclusively while that
+  // filter is actually selected — needs to react to its own probabilities Map at all.
+  const nonExperimentalVisible = useMemo(
     () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop, undefined, undefined, selectedMonth, selectedYear) : null),
     [fieldCollection, selectedCrop, selectedMonth, selectedYear],
   )
@@ -362,7 +368,19 @@ function App() {
         : null,
     [fieldCollection, selectedCrop, sunflowerProbabilities],
   )
-  const visibleFieldCollection = SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY ? sunflowerVisible : nonSunflowerVisible
+  const safflowerVisible = useMemo(
+    () =>
+      SAFFLOWER_UI_ENABLED && fieldCollection && selectedCrop === SAFFLOWER_CROP_KEY
+        ? filterFieldsByCrop(fieldCollection, selectedCrop, undefined, undefined, selectedMonth, selectedYear, safflowerProbabilities)
+        : null,
+    [fieldCollection, selectedCrop, safflowerProbabilities, selectedMonth, selectedYear],
+  )
+  const visibleFieldCollection =
+    SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY
+      ? sunflowerVisible
+      : SAFFLOWER_UI_ENABLED && selectedCrop === SAFFLOWER_CROP_KEY
+        ? safflowerVisible
+        : nonExperimentalVisible
 
   function handleCropChange(crop: CropFilterValue) {
     setSelectedCrop(crop)
@@ -416,6 +434,7 @@ function App() {
             onMapClick={handleMapClick}
             cropColorMap={cropColorMap}
             sunflowerProbabilities={sunflowerProbabilities}
+            safflowerProbabilities={safflowerProbabilities}
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
             resetToken={mapResetToken}
@@ -478,7 +497,7 @@ function App() {
                 <section>
                   <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
                     <h2 className="text-sm font-semibold text-slate-900">Predicted crop distribution — {formatMonthName(selectedMonth)}</h2>
-                    {(cropOptions.length > 0 || hasSunflowerMatch) && (
+                    {(cropOptions.length > 0 || hasSunflowerMatch || hasSafflowerMatch) && (
                       <select
                         aria-label="Filter fields by crop"
                         value={selectedCrop}
@@ -487,11 +506,13 @@ function App() {
                       >
                         <option value={ALL_CROPS}>All Crops</option>
                         {/* Pinned right after "All Crops", not sorted alphabetically among AMED
-                            crops below — it's the app's core signal, not an incidental category,
-                            and only appears once a real field has actually cleared the threshold.
-                            Only ever rendered when SUNFLOWER_UI_ENABLED is true (hasSunflowerMatch
-                            is hard-gated on the flag — see its own definition above). */}
+                            crops below — they're the app's core experimental signals, not
+                            incidental categories, and only appear once a real field has actually
+                            cleared the threshold. Only ever rendered when their own UI_ENABLED
+                            flag is true (hasSunflowerMatch/hasSafflowerMatch are hard-gated on it
+                            — see their own definitions above). */}
                         {hasSunflowerMatch && <option value={SUNFLOWER_CROP_KEY}>Sunflower</option>}
+                        {hasSafflowerMatch && <option value={SAFFLOWER_CROP_KEY}>Safflower</option>}
                         {cropOptions.map((option) => (
                           <option key={option.value} value={option.value}>
                             {option.label}
@@ -511,6 +532,7 @@ function App() {
                     cropColorMap={cropColorMap}
                     selectedCrop={selectedCrop}
                     sunflowerProbabilities={sunflowerProbabilities}
+                    safflowerProbabilities={safflowerProbabilities}
                     selectedMonth={selectedMonth}
                     selectedYear={selectedYear}
                   />

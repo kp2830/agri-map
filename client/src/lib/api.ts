@@ -1,4 +1,10 @@
-import type { FieldsResponse, NormalizedFieldFeature, SunflowerLikelihoodResponse, SunflowerRfResponse } from '../types/agricultural'
+import type {
+  FieldsResponse,
+  NormalizedFieldFeature,
+  SafflowerRfResponse,
+  SunflowerLikelihoodResponse,
+  SunflowerRfResponse,
+} from '../types/agricultural'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -52,15 +58,31 @@ export async function getSunflowerLikelihood(
 }
 
 /** Sunflower RF v0 (India-native, weakly-supervised) — a separate signal from the likeness
- *  model above. Real-time, per-field, on-demand only. The server re-checks the AMED
- *  strong-confidence gate itself, so calling this for a high-confidence field is safe (just
+ *  model above. Real-time, per-field, on-demand only. `selectedMonth` (1-12) is the month
+ *  currently selected in the UI's month selector — the server uses it to gate whether a
+ *  prediction is even attempted (Sunflower's fixed training window only represents a real
+ *  Feb-June growing cycle; outside that, the endpoint returns `OUT_OF_SEASON` with no CDSE
+ *  spend, never a prediction unrelated to the selected month). The server also re-checks the
+ *  AMED strong-confidence gate itself, so calling this for a high-confidence field is safe (just
  *  wasted round-trip) — but callers should still gate with isEligibleForSunflowerCheck first,
  *  same as the likeness check above, to avoid the unnecessary request. */
 export async function getSunflowerRf(
   feature: NormalizedFieldFeature,
+  selectedMonth: number,
   signal?: AbortSignal,
 ): Promise<SunflowerRfResponse> {
-  return apiPost<SunflowerRfResponse>('/agriculture/sunflower-rf', { feature }, signal)
+  return apiPost<SunflowerRfResponse>('/agriculture/sunflower-rf', { feature, selectedMonth }, signal)
+}
+
+/** Safflower RF v0 — same shape and same month-gating as Sunflower RF above. See
+ *  server/src/services/agricultural/growingSeasonGate.ts for Safflower's real Oct-March
+ *  growing-season range. */
+export async function getSafflowerRf(
+  feature: NormalizedFieldFeature,
+  selectedMonth: number,
+  signal?: AbortSignal,
+): Promise<SafflowerRfResponse> {
+  return apiPost<SafflowerRfResponse>('/agriculture/safflower-rf', { feature, selectedMonth }, signal)
 }
 
 /** Decodes a real ALU field ID (a standard Open Location Code) to its center lat/lng — powers

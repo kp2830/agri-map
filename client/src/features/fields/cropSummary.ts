@@ -1,5 +1,5 @@
 import type { NormalizedFieldCollection } from '../../types/agricultural'
-import { SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
 import { getPredictedCrop } from './cropPrediction'
 
 export interface CropShare {
@@ -12,6 +12,9 @@ export interface CropShare {
  *  label (AMED has no Sunflower class at all, which is the entire reason this model exists),
  *  so there's no risk of colliding with a genuine AMED-predicted crop of the same name. */
 export const SUNFLOWER_CROP_KEY = 'SUNFLOWER'
+
+/** Same reasoning as SUNFLOWER_CROP_KEY, for Safflower RF (AMED has no Safflower class either). */
+export const SAFFLOWER_CROP_KEY = 'SAFFLOWER'
 
 /** Percentage of total mapped field area associated with each predicted crop (fields only, not
  *  trees/water/wells). `month`/`year` default to the real current month/year but pass through
@@ -71,4 +74,28 @@ export function computeSunflowerShare(
 
   if (sunflowerFieldCount === 0) return null
   return { crop: SUNFLOWER_CROP_KEY, areaSqM: sunflowerAreaSqM, percentage: totalAreaSqM > 0 ? sunflowerAreaSqM / totalAreaSqM : 0 }
+}
+
+/** Same shape as computeSunflowerShare, for Safflower RF. */
+export function computeSafflowerShare(
+  fieldCollection: NormalizedFieldCollection,
+  safflowerProbabilities: Map<string, number>,
+  thresholdPercent: number = SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
+): CropShare | null {
+  const fields = fieldCollection.features.filter((feature) => feature.properties.aluType === 'field')
+  const totalAreaSqM = fields.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
+
+  let safflowerAreaSqM = 0
+  let safflowerFieldCount = 0
+  for (const feature of fields) {
+    if (feature.id === undefined) continue
+    const probabilityPercent = safflowerProbabilities.get(String(feature.id))
+    if (probabilityPercent !== undefined && probabilityPercent > thresholdPercent) {
+      safflowerAreaSqM += feature.properties.areaSqM
+      safflowerFieldCount++
+    }
+  }
+
+  if (safflowerFieldCount === 0) return null
+  return { crop: SAFFLOWER_CROP_KEY, areaSqM: safflowerAreaSqM, percentage: totalAreaSqM > 0 ? safflowerAreaSqM / totalAreaSqM : 0 }
 }

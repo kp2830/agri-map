@@ -79,4 +79,23 @@ export type SunflowerRfResponse =
       source: 'sunflower_random_forest'
       labelType: 'weakly_supervised_model'
     }
-  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
+
+/**
+ * Safflower RF v0 — same shape and same honesty requirements as Sunflower RF above
+ * (server/src/services/agricultural/safflowerRf/). Training positives are weak labels from the
+ * Latur, Maharashtra pilot (see training/safflower/score_and_tier.py) — not field-survey-
+ * confirmed Safflower, and a visual spot-check of a subset of them found some that look like
+ * tree/scrub cover, not cropland. Never display this as "confirmed" or as a calibrated
+ * statistical accuracy.
+ */
+export type SafflowerRfResponse =
+  | {
+      available: true
+      probability: number
+      probabilityPercent: number
+      modelVersion: string
+      source: 'safflower_random_forest'
+      labelType: 'weakly_supervised_model'
+    }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }

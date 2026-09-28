@@ -1,5 +1,6 @@
 export type SunflowerRfUnavailableReason =
   | 'AMED_HIGH_CONFIDENCE' // gate: RF intentionally not run
+  | 'OUT_OF_SEASON' // gate: the currently selected month falls outside Sunflower's real growing season
   | 'SATELLITE_DATA_UNAVAILABLE'
   | 'PREDICTION_FAILED'
 

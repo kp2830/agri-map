@@ -1,0 +1,20 @@
+{
+  "model_version": "safflower-rf-v0-experimental",
+  "features": [
+    "ndvi_establishment",
+    "ndvi_flowering",
+    "ndvi_harvest",
+    "ndre_establishment",
+    "ndre_flowering",
+    "ndre_harvest",
+    "ndwi_establishment",
+    "ndwi_flowering",
+    "ndwi_harvest",
+    "ndyi_establishment",
+    "ndyi_flowering",
+    "ndyi_harvest"
+  ],
+  "n_positives": 16,
+  "n_negatives": 100,
+  "trees": []
+}

@@ -2,12 +2,20 @@ import L from 'leaflet'
 import type { LeafletMouseEvent, Layer, StyleFunction } from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { Circle, CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap, useMapEvents, ZoomControl } from 'react-leaflet'
-import { colorForFeature, colorForFeatureWithSunflower, SUNFLOWER_LIKELY_STROKE_COLOR, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from '../fields/cropDisplay'
+import {
+  colorForFeature,
+  colorForFeatureWithSafflower,
+  colorForFeatureWithSunflower,
+  SAFFLOWER_LIKELY_STROKE_COLOR,
+  SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
+  SUNFLOWER_LIKELY_STROKE_COLOR,
+  SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
+} from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
 import { getPredictedCrop } from '../fields/cropPrediction'
-import { SUNFLOWER_CROP_KEY } from '../fields/cropSummary'
+import { SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from '../fields/cropSummary'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
-import { SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
+import { SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 import { logPerfDelta, markPerf } from '../../lib/perf'
 import type { CoverageInfo, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
 
@@ -28,10 +36,13 @@ interface MapViewProps {
    *  while SUNFLOWER_UI_ENABLED is false (the hook that would populate it is a no-op — see
    *  lib/featureFlags.ts), so every Sunflower-driven code path below naturally does nothing. */
   sunflowerProbabilities: Map<string, number>
+  /** Same as sunflowerProbabilities, for Safflower RF — see useSafflowerFieldColors. Empty
+   *  while SAFFLOWER_UI_ENABLED is false. */
+  safflowerProbabilities: Map<string, number>
   /** The reference month (1-12) and year driving each field's displayed AMED color — see
    *  cropPrediction.ts's predictCropOutlook, which primarily uses the corresponding month one
-   *  year earlier as its evidence. Never affects Sunflower's own gold coloring, which is driven
-   *  purely by sunflowerProbabilities regardless of this value. */
+   *  year earlier as its evidence. Never affects Sunflower/Safflower's own coloring, which is
+   *  driven purely by sunflowerProbabilities/safflowerProbabilities regardless of this value. */
   selectedMonth: number
   selectedYear: number
   /** Bumped by App's "New Search" action to explicitly return the map to its default view. */
@@ -160,6 +171,7 @@ export function MapView({
   onMapClick,
   cropColorMap,
   sunflowerProbabilities,
+  safflowerProbabilities,
   selectedMonth,
   selectedYear,
   resetToken,
@@ -195,7 +207,12 @@ export function MapView({
     SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY
       ? [...sunflowerProbabilities.values()].filter((percent) => percent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT).length
       : 0
-  const geoJsonDataKey = `${searchToken}-${center?.lat}-${center?.lng}-${selectedCrop}-${qualifyingSunflowerCount}`
+  // Same reasoning as qualifyingSunflowerCount above, for the Safflower filter.
+  const qualifyingSafflowerCount =
+    SAFFLOWER_UI_ENABLED && selectedCrop === SAFFLOWER_CROP_KEY
+      ? [...safflowerProbabilities.values()].filter((percent) => percent > SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT).length
+      : 0
+  const geoJsonDataKey = `${searchToken}-${center?.lat}-${center?.lng}-${selectedCrop}-${qualifyingSunflowerCount}-${qualifyingSafflowerCount}`
   const layersByIdRef = useRef(new Map<string, Layer>())
   const prevDataKeyRef = useRef(geoJsonDataKey)
   if (prevDataKeyRef.current !== geoJsonDataKey) {
@@ -219,17 +236,43 @@ export function MapView({
       normalized.properties.aluType === 'field' &&
       sunflowerProbabilityPercent != null &&
       sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT
-    const color = SUNFLOWER_UI_ENABLED
+    // Same shape as the Sunflower probability above, for Safflower.
+    const safflowerProbabilityPercent =
+      SAFFLOWER_UI_ENABLED && normalized.id !== undefined ? (safflowerProbabilities.get(String(normalized.id)) ?? null) : null
+    const isSafflowerLikely =
+      SAFFLOWER_UI_ENABLED &&
+      normalized.properties.aluType === 'field' &&
+      safflowerProbabilityPercent != null &&
+      safflowerProbabilityPercent > SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT
+
+    const baseColor = SUNFLOWER_UI_ENABLED
       ? colorForFeatureWithSunflower(normalized.properties, cropColorMap, sunflowerProbabilityPercent, predictedCrop)
       : colorForFeature(normalized.properties, cropColorMap, predictedCrop)
+    // Safflower is layered on top of the Sunflower-aware base color, not the other function's
+    // own AMED fallback — a field could in principle clear both thresholds at once, and
+    // Safflower (checked second) wins that rare tie deterministically rather than leaving it to
+    // call order. Neither RF layer ever touches AMED's own data, only the rendered color.
+    const color =
+      SAFFLOWER_UI_ENABLED && isSafflowerLikely
+        ? colorForFeatureWithSafflower(normalized.properties, cropColorMap, safflowerProbabilityPercent, predictedCrop)
+        : baseColor
 
-    // Sunflower fields get their own distinct dark-brown stroke and a visibly thicker outline
-    // (not just a different fill hue) — a fill-color-only difference from the existing
+    // Sunflower/Safflower fields get their own distinct dark stroke and a visibly thicker
+    // outline (not just a different fill hue) — a fill-color-only difference from the existing
     // categorical crop palette read as ambiguous in practice (a real Corn field's assigned
     // orange/amber landed close enough to an earlier gold choice to be mistaken for it).
+    const strokeColor = isSelected
+      ? '#0b0b0b'
+      : isSafflowerLikely
+        ? SAFFLOWER_LIKELY_STROKE_COLOR
+        : isSunflowerLikely
+          ? SUNFLOWER_LIKELY_STROKE_COLOR
+          : color
+    const weight = isSelected ? 3 : isSafflowerLikely || isSunflowerLikely ? 2.5 : 1.25
+
     return {
-      color: isSelected ? '#0b0b0b' : isSunflowerLikely ? SUNFLOWER_LIKELY_STROKE_COLOR : color,
-      weight: isSelected ? 3 : isSunflowerLikely ? 2.5 : 1.25,
+      color: strokeColor,
+      weight,
       fillColor: color,
       fillOpacity: isSelected ? 0.8 : 0.55,
       className: isSelected ? 'field-selected' : undefined,
@@ -249,7 +292,8 @@ export function MapView({
       if (feature) pathLayer.setStyle(featureStyle(feature))
     }
     // featureStyle is a fresh closure each render but only depends on selectedFieldId/cropColorMap/
-    // sunflowerProbabilities/selectedMonth/selectedYear, which are already this effect's real deps.
+    // sunflowerProbabilities/safflowerProbabilities/selectedMonth/selectedYear, which are already
+    // this effect's real deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMonth, selectedYear])
 
@@ -268,6 +312,19 @@ export function MapView({
     // sunflowerProbabilities, which are already this effect's real dependencies.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sunflowerProbabilities])
+
+  // Same as the Sunflower-arrival effect above, for Safflower RF results.
+  useEffect(() => {
+    for (const fieldId of safflowerProbabilities.keys()) {
+      const layer = layersByIdRef.current.get(fieldId) as (Layer & Partial<L.Path>) | undefined
+      if (!layer || typeof layer.setStyle !== 'function') continue
+      const feature = (layer as unknown as { feature?: NormalizedFieldFeature }).feature
+      if (feature) layer.setStyle(featureStyle(feature))
+    }
+    // featureStyle is a fresh closure each render but only depends on selectedFieldId/cropColorMap/
+    // safflowerProbabilities, which are already this effect's real dependencies.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [safflowerProbabilities])
 
   // Imperatively restyles just the previously- and newly-selected layers (at most two) via
   // Leaflet's own setStyle, instead of remounting the whole GeoJSON layer for a selection
