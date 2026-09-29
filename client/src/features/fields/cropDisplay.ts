@@ -356,13 +356,34 @@ export function colorForFeature(properties: NormalizedFieldProperties, colorMap:
 }
 
 /**
- * Same as colorForFeature, but renders a field gold when its Sunflower RF v0 probability
- * (already computed by the existing sunflower-rf service/endpoint — never recomputed here)
- * exceeds SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT. `sunflowerProbabilityPercent` is `null`/
- * `undefined` for a field that hasn't been checked yet (still uses its normal AMED color) or
- * that isn't eligible for a Sunflower check at all (see isEligibleForSunflowerCheck) — this
- * function never decides eligibility itself, only whether to apply the color once a real
- * probability is already known. AMED's own crop data is never touched; only the rendered color.
+ * Whether a real-time RF probability (Sunflower or Safflower) is strong enough to visually
+ * OVERRIDE AMED's own predicted crop — on the map's fill color and in FieldDetailsPanel's
+ * "Predicted Crop" banner alike. Both conditions are required, deliberately:
+ *   - the RF probability itself clears `thresholdPercent` ("50% or more" — inclusive, per the
+ *     product requirement, unlike the plain map-coloring convention elsewhere which historically
+ *     used a strict `>`);
+ *   - AND AMED's own crop confidence for this field is weak — below 80%, OR there's no AMED
+ *     prediction to be confident about at all (`amedConfidencePercent === null`).
+ * A field AMED is already confident about (>=80%) keeps showing AMED's own crop/color even if an
+ * RF model also fires on it (e.g. the Corn/Maize cross-check exception) — this function is the
+ * single place that decision is made, so the map and the banner can never disagree with each
+ * other about which fields are "override-active."
+ */
+export function isRfOverrideActive(
+  amedConfidencePercent: number | null,
+  rfProbabilityPercent: number | null | undefined,
+  thresholdPercent: number,
+): boolean {
+  if (rfProbabilityPercent == null || rfProbabilityPercent < thresholdPercent) return false
+  return amedConfidencePercent === null || amedConfidencePercent < 80
+}
+
+/**
+ * Same as colorForFeature, but renders a field gold when `isSunflowerLikely` is true — the
+ * override decision itself (real-time RF probability strong enough AND AMED not already
+ * confident — see isRfOverrideActive) is made once by the caller (MapView.tsx's featureStyle),
+ * never re-derived here, so this function and the "Predicted Crop" banner can never disagree
+ * about which fields qualify. AMED's own crop data is never touched; only the rendered color.
  *
  * Kept fully intact even while SUNFLOWER_UI_ENABLED is false (see lib/featureFlags.ts) — the
  * frontend hides Sunflower by simply not calling this function (using colorForFeature
@@ -371,12 +392,10 @@ export function colorForFeature(properties: NormalizedFieldProperties, colorMap:
 export function colorForFeatureWithSunflower(
   properties: NormalizedFieldProperties,
   colorMap: Map<string, string>,
-  sunflowerProbabilityPercent: number | null | undefined,
+  isSunflowerLikely: boolean,
   predictedCrop: string | null,
 ): string {
-  if (properties.aluType === 'field' && sunflowerProbabilityPercent != null && sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT) {
-    return SUNFLOWER_LIKELY_FILL_COLOR
-  }
+  if (properties.aluType === 'field' && isSunflowerLikely) return SUNFLOWER_LIKELY_FILL_COLOR
   return colorForFeature(properties, colorMap, predictedCrop)
 }
 
@@ -384,12 +403,10 @@ export function colorForFeatureWithSunflower(
 export function colorForFeatureWithSafflower(
   properties: NormalizedFieldProperties,
   colorMap: Map<string, string>,
-  safflowerProbabilityPercent: number | null | undefined,
+  isSafflowerLikely: boolean,
   predictedCrop: string | null,
 ): string {
-  if (properties.aluType === 'field' && safflowerProbabilityPercent != null && safflowerProbabilityPercent > SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT) {
-    return SAFFLOWER_LIKELY_FILL_COLOR
-  }
+  if (properties.aluType === 'field' && isSafflowerLikely) return SAFFLOWER_LIKELY_FILL_COLOR
   return colorForFeature(properties, colorMap, predictedCrop)
 }
 

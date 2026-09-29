@@ -2,7 +2,7 @@ import { useEffect, useId, useMemo, useState } from 'react'
 import { getSafflowerRf, getSunflowerLikelihood, getSunflowerRf } from '../../lib/api'
 import { SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 import type { NormalizedFieldFeature, SafflowerRfResponse, SunflowerLikelihoodResponse, SunflowerRfResponse } from '../../types/agricultural'
-import { CropOutlookCard } from './CropOutlookCard'
+import { CropOutlookCard, type CropOverride } from './CropOutlookCard'
 import {
   colorForCropLabel,
   formatAluType,
@@ -14,6 +14,11 @@ import {
   getCurrentSeasonHistory,
   isEligibleForSafflowerCheck,
   isEligibleForSunflowerCheck,
+  isRfOverrideActive,
+  SAFFLOWER_LIKELY_FILL_COLOR,
+  SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
+  SUNFLOWER_LIKELY_FILL_COLOR,
+  SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
 } from './cropDisplay'
 import { formatMonthName, predictCropOutlook } from './cropPrediction'
 
@@ -168,6 +173,28 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
   }, [feature, selectedMonth])
 
+  // Whether a Sunflower/Safflower RF result is strong enough to override the "Predicted Crop"
+  // banner above AMED's own answer — the SAME isRfOverrideActive predicate MapView.tsx's
+  // featureStyle uses for the map's fill color, so this panel and the map can never disagree
+  // about which fields are "override-active." When both RF models qualify at once, whichever
+  // has the higher probability wins (not a fixed Sunflower-vs-Safflower priority).
+  const cropOverride = useMemo((): CropOverride | null => {
+    const amedConfidencePercent = outlook?.confidencePercent ?? null
+    const sunflowerProbability =
+      sunflowerRfCheck.status === 'done' && sunflowerRfCheck.response.available ? sunflowerRfCheck.response.probabilityPercent : null
+    const safflowerProbability =
+      safflowerRfCheck.status === 'done' && safflowerRfCheck.response.available ? safflowerRfCheck.response.probabilityPercent : null
+
+    const sunflowerActive = isRfOverrideActive(amedConfidencePercent, sunflowerProbability, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT)
+    const safflowerActive = isRfOverrideActive(amedConfidencePercent, safflowerProbability, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT)
+    if (!sunflowerActive && !safflowerActive) return null
+
+    const useSafflower = safflowerActive && (!sunflowerActive || (safflowerProbability ?? 0) > (sunflowerProbability ?? 0))
+    return useSafflower
+      ? { label: 'Safflower', probabilityPercent: safflowerProbability as number, fillColor: SAFFLOWER_LIKELY_FILL_COLOR }
+      : { label: 'Sunflower', probabilityPercent: sunflowerProbability as number, fillColor: SUNFLOWER_LIKELY_FILL_COLOR }
+  }, [outlook, sunflowerRfCheck, safflowerRfCheck])
+
   if (!feature || !properties) {
     return (
       <p className="text-sm text-slate-500">
@@ -190,7 +217,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
         <div className="mb-2 flex items-center gap-2">
           <span
             className="h-3 w-3 shrink-0 rounded-sm"
-            style={{ backgroundColor: colorForCropLabel(outlook?.crop ?? null, cropColorMap) }}
+            style={{ backgroundColor: cropOverride ? cropOverride.fillColor : colorForCropLabel(outlook?.crop ?? null, cropColorMap) }}
             aria-hidden
           />
           <h3 className="truncate font-mono text-sm font-semibold text-slate-900">{String(feature.id)}</h3>
@@ -214,7 +241,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
           Crop monitoring only applies to field-type features.
         </p>
       ) : (
-        outlook && <CropOutlookCard outlook={outlook} cropColorSwatch={colorForCropLabel(outlook.crop, cropColorMap)} />
+        outlook && <CropOutlookCard outlook={outlook} cropColorSwatch={colorForCropLabel(outlook.crop, cropColorMap)} override={cropOverride} />
       )}
 
       {SUNFLOWER_UI_ENABLED && sunflowerCheck.status === 'checking' && (

@@ -6,13 +6,14 @@ import {
   colorForFeature,
   colorForFeatureWithSafflower,
   colorForFeatureWithSunflower,
+  isRfOverrideActive,
   SAFFLOWER_LIKELY_STROKE_COLOR,
   SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
   SUNFLOWER_LIKELY_STROKE_COLOR,
   SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
 } from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
-import { getPredictedCrop } from '../fields/cropPrediction'
+import { predictCropOutlook } from '../fields/cropPrediction'
 import { SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from '../fields/cropSummary'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
 import { SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
@@ -225,7 +226,14 @@ export function MapView({
     if (!normalized) return {}
 
     const isSelected = normalized.id === selectedFieldId
-    const predictedCrop = getPredictedCrop(normalized.properties, selectedMonth, selectedYear)
+    // Both the predicted crop AND AMED's own confidence in it are needed here — the RF layers
+    // below only visually override AMED's color when AMED itself is NOT confident (<80%, or no
+    // prediction at all) AND the RF probability clears its own threshold (see
+    // isRfOverrideActive) — a field AMED is already confident about keeps its own AMED color
+    // even if an RF model also fires on it (e.g. the Corn/Maize cross-check exception).
+    const outlook = predictCropOutlook(normalized.properties, selectedMonth, selectedYear)
+    const predictedCrop = outlook.crop
+    const amedConfidencePercent = outlook.confidencePercent
     // Sunflower temporarily hidden from the frontend (see lib/featureFlags.ts): when the flag
     // is off, skip colorForFeatureWithSunflower entirely and use the plain AMED coloring path —
     // that function itself is untouched and ready to resume the instant the flag flips back.
@@ -234,19 +242,17 @@ export function MapView({
     const isSunflowerLikely =
       SUNFLOWER_UI_ENABLED &&
       normalized.properties.aluType === 'field' &&
-      sunflowerProbabilityPercent != null &&
-      sunflowerProbabilityPercent > SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT
+      isRfOverrideActive(amedConfidencePercent, sunflowerProbabilityPercent, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT)
     // Same shape as the Sunflower probability above, for Safflower.
     const safflowerProbabilityPercent =
       SAFFLOWER_UI_ENABLED && normalized.id !== undefined ? (safflowerProbabilities.get(String(normalized.id)) ?? null) : null
     const isSafflowerLikely =
       SAFFLOWER_UI_ENABLED &&
       normalized.properties.aluType === 'field' &&
-      safflowerProbabilityPercent != null &&
-      safflowerProbabilityPercent > SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT
+      isRfOverrideActive(amedConfidencePercent, safflowerProbabilityPercent, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT)
 
     const baseColor = SUNFLOWER_UI_ENABLED
-      ? colorForFeatureWithSunflower(normalized.properties, cropColorMap, sunflowerProbabilityPercent, predictedCrop)
+      ? colorForFeatureWithSunflower(normalized.properties, cropColorMap, isSunflowerLikely, predictedCrop)
       : colorForFeature(normalized.properties, cropColorMap, predictedCrop)
     // Safflower is layered on top of the Sunflower-aware base color, not the other function's
     // own AMED fallback — a field could in principle clear both thresholds at once, and
@@ -254,7 +260,7 @@ export function MapView({
     // call order. Neither RF layer ever touches AMED's own data, only the rendered color.
     const color =
       SAFFLOWER_UI_ENABLED && isSafflowerLikely
-        ? colorForFeatureWithSafflower(normalized.properties, cropColorMap, safflowerProbabilityPercent, predictedCrop)
+        ? colorForFeatureWithSafflower(normalized.properties, cropColorMap, isSafflowerLikely, predictedCrop)
         : baseColor
 
     // Sunflower/Safflower fields get their own distinct dark stroke and a visibly thicker

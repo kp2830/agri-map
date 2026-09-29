@@ -2,8 +2,35 @@ import type { CropOutlook } from './cropPrediction'
 import { formatMonthName, formatMonthRange, formatOutlookBasis } from './cropPrediction'
 import { formatCropLabel } from './cropDisplay'
 
+/** A real-time RF result (Sunflower or Safflower) strong enough to visually override AMED's own
+ *  predicted crop for this field — see cropDisplay.ts's isRfOverrideActive, which is the single
+ *  place that decision is made (the same predicate MapView.tsx uses for the map's fill color),
+ *  so this banner and the map can never disagree about which fields are "override-active." */
+export interface CropOverride {
+  label: 'Sunflower' | 'Safflower'
+  probabilityPercent: number
+  fillColor: string
+}
+
 function SectionHeading({ children }: { children: string }) {
   return <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">{children}</h4>
+}
+
+/** The "AMED said X" box shown below an active override — the honest record of what AMED itself
+ *  predicted, kept visible rather than silently replaced by the RF result above it. */
+function AmedReferenceBox({ crop, confidencePercent }: { crop: string | null; confidencePercent: number | null }) {
+  return (
+    <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+      {crop === null ? (
+        <span>AMED had no crop prediction available for this field.</span>
+      ) : (
+        <span>
+          AMED's own prediction: <span className="font-semibold text-slate-800">{formatCropLabel(crop)}</span>
+          {confidencePercent !== null && <span className="font-semibold text-slate-800"> ({confidencePercent}%)</span>}
+        </span>
+      )}
+    </div>
+  )
 }
 
 function LifecycleCard({ label, value }: { label: string; value: string }) {
@@ -26,8 +53,20 @@ function LifecycleCard({ label, value }: { label: string; value: string }) {
  * the user-facing prediction is explicitly month-oriented, not year-oriented (see
  * formatOutlookBasis's own docstring for why the underlying reference year stays internal-only).
  */
-export function CropOutlookCard({ outlook, cropColorSwatch }: { outlook: CropOutlook; cropColorSwatch: string }) {
-  if (!outlook.dataAvailable || outlook.crop === null) {
+export function CropOutlookCard({
+  outlook,
+  cropColorSwatch,
+  override = null,
+}: {
+  outlook: CropOutlook
+  cropColorSwatch: string
+  /** When set, an experimental Sunflower/Safflower RF result is strong enough (and AMED isn't
+   *  confident enough) to take over this banner's headline — see cropDisplay.ts's
+   *  isRfOverrideActive. AMED's own crop/confidence are never discarded, just moved into the
+   *  AmedReferenceBox below instead of being the headline. */
+  override?: CropOverride | null
+}) {
+  if (!override && (!outlook.dataAvailable || outlook.crop === null)) {
     return (
       <div>
         <SectionHeading>Crop Outlook</SectionHeading>
@@ -42,37 +81,58 @@ export function CropOutlookCard({ outlook, cropColorSwatch }: { outlook: CropOut
       <SectionHeading>Crop Outlook</SectionHeading>
       <p className="text-sm font-medium text-slate-700">{formatMonthName(outlook.selectedMonth)}</p>
 
-      <div className="mt-3 rounded-lg border border-emerald-200 bg-emerald-50/60 p-3">
+      <div
+        className={
+          override
+            ? 'mt-3 rounded-lg border border-amber-300 bg-amber-50/60 p-3'
+            : 'mt-3 rounded-lg border border-emerald-200 bg-emerald-50/60 p-3'
+        }
+      >
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+          <span
+            className={
+              override
+                ? 'rounded-full bg-amber-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white'
+                : 'rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white'
+            }
+          >
             Predicted
           </span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Crop</span>
+          <span className={override ? 'text-xs font-semibold uppercase tracking-wide text-amber-700' : 'text-xs font-semibold uppercase tracking-wide text-emerald-700'}>
+            {override ? 'Crop (experimental model)' : 'Crop'}
+          </span>
         </div>
         <div className="mt-1.5 flex items-center gap-2">
-          <span className="h-4 w-4 shrink-0 rounded-sm" style={{ backgroundColor: cropColorSwatch }} aria-hidden />
-          <span className="text-xl font-bold text-slate-900">{formatCropLabel(outlook.crop)}</span>
+          <span className="h-4 w-4 shrink-0 rounded-sm" style={{ backgroundColor: override ? override.fillColor : cropColorSwatch }} aria-hidden />
+          <span className="text-xl font-bold text-slate-900">{override ? override.label : formatCropLabel(outlook.crop)}</span>
         </div>
       </div>
 
       <div className="mt-3">
         <div className="flex items-baseline justify-between text-sm">
-          <span className="text-slate-500">Predicted Crop Confidence</span>
+          <span className="text-slate-500">{override ? 'Predicted Crop Confidence (experimental model)' : 'Predicted Crop Confidence'}</span>
           <span className="font-semibold tabular-nums text-slate-900">
-            {outlook.confidencePercent !== null ? `${outlook.confidencePercent}%` : 'Confidence unavailable'}
+            {override
+              ? `${override.probabilityPercent}%`
+              : outlook.confidencePercent !== null
+                ? `${outlook.confidencePercent}%`
+                : 'Confidence unavailable'}
           </span>
         </div>
-        {outlook.confidencePercent !== null && (
+        {(override || outlook.confidencePercent !== null) && (
           <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-slate-100">
             <div
-              className="h-full rounded-full bg-emerald-600 transition-[width]"
-              style={{ width: `${Math.max(outlook.confidencePercent, 2)}%` }}
+              className={override ? 'h-full rounded-full bg-amber-600 transition-[width]' : 'h-full rounded-full bg-emerald-600 transition-[width]'}
+              style={{ width: `${Math.max(override ? override.probabilityPercent : (outlook.confidencePercent ?? 0), 2)}%` }}
             />
           </div>
         )}
       </div>
 
-      {outlook.sowing && outlook.harvest && (
+      {/* Sowing/Harvest is AMED-derived (real historical season dates) — an RF override has no
+          such data of its own, so this block is hidden rather than shown under the wrong crop's
+          headline. */}
+      {!override && outlook.sowing && outlook.harvest && (
         <div className="mt-3">
           <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-400">Predicted Crop Cycle</p>
           <div className="flex items-stretch gap-2">
@@ -83,7 +143,13 @@ export function CropOutlookCard({ outlook, cropColorSwatch }: { outlook: CropOut
         </div>
       )}
 
-      <p className="mt-3 text-xs text-slate-400">{formatOutlookBasis(outlook.basis)}</p>
+      <p className="mt-3 text-xs text-slate-400">
+        {override
+          ? 'Experimental satellite pattern-matching model — not an AMED classification.'
+          : formatOutlookBasis(outlook.basis)}
+      </p>
+
+      {override && <AmedReferenceBox crop={outlook.crop} confidencePercent={outlook.confidencePercent} />}
     </div>
   )
 }
