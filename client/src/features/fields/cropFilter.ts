@@ -1,7 +1,7 @@
 import type { NormalizedFieldCollection, NormalizedFieldProperties } from '../../types/agricultural'
-import { SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, formatCropLabel, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, formatCropLabel, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
 import { getPredictedCrop } from './cropPrediction'
-import { SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from './cropSummary'
+import { CORIANDER_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from './cropSummary'
 
 /** Sentinel meaning "no crop filter applied" — every field is shown, exactly as returned. */
 export const ALL_CROPS = 'ALL_CROPS' as const
@@ -80,6 +80,8 @@ export function filterFieldsByCrop(
   year: number = new Date().getFullYear(),
   safflowerProbabilities?: Map<string, number>,
   safflowerThresholdPercent: number = SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
+  corianderProbabilities?: Map<string, number>,
+  corianderThresholdPercent: number = CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
 ): NormalizedFieldCollection {
   if (selectedCrop === ALL_CROPS) return fieldCollection
 
@@ -101,6 +103,17 @@ export function filterFieldsByCrop(
         if (feature.properties.aluType !== 'field' || feature.id === undefined) return false
         const probabilityPercent = safflowerProbabilities?.get(String(feature.id))
         return probabilityPercent !== undefined && probabilityPercent > safflowerThresholdPercent
+      }),
+    }
+  }
+
+  if (selectedCrop === CORIANDER_CROP_KEY) {
+    return {
+      type: 'FeatureCollection',
+      features: fieldCollection.features.filter((feature) => {
+        if (feature.properties.aluType !== 'field' || feature.id === undefined) return false
+        const probabilityPercent = corianderProbabilities?.get(String(feature.id))
+        return probabilityPercent !== undefined && probabilityPercent > corianderThresholdPercent
       }),
     }
   }

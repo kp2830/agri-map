@@ -4,9 +4,12 @@ import { useEffect, useRef, useState } from 'react'
 import { Circle, CircleMarker, GeoJSON, MapContainer, TileLayer, Tooltip, useMap, useMapEvents, ZoomControl } from 'react-leaflet'
 import {
   colorForFeature,
+  colorForFeatureWithCoriander,
   colorForFeatureWithSafflower,
   colorForFeatureWithSunflower,
   isRfOverrideActive,
+  CORIANDER_LIKELY_STROKE_COLOR,
+  CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
   SAFFLOWER_LIKELY_STROKE_COLOR,
   SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
   SUNFLOWER_LIKELY_STROKE_COLOR,
@@ -14,9 +17,9 @@ import {
 } from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
 import { predictCropOutlook } from '../fields/cropPrediction'
-import { SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from '../fields/cropSummary'
+import { CORIANDER_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from '../fields/cropSummary'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
-import { SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
+import { CORIANDER_UI_ENABLED, SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 import { logPerfDelta, markPerf } from '../../lib/perf'
 import type { CoverageInfo, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
 
@@ -40,6 +43,9 @@ interface MapViewProps {
   /** Same as sunflowerProbabilities, for Safflower RF — see useSafflowerFieldColors. Empty
    *  while SAFFLOWER_UI_ENABLED is false. */
   safflowerProbabilities: Map<string, number>
+  /** Same as sunflowerProbabilities, for Coriander RF — see useCorianderFieldColors. Empty
+   *  while CORIANDER_UI_ENABLED is false. */
+  corianderProbabilities: Map<string, number>
   /** The reference month (1-12) and year driving each field's displayed AMED color — see
    *  cropPrediction.ts's predictCropOutlook, which primarily uses the corresponding month one
    *  year earlier as its evidence. Never affects Sunflower/Safflower's own coloring, which is
@@ -173,6 +179,7 @@ export function MapView({
   cropColorMap,
   sunflowerProbabilities,
   safflowerProbabilities,
+  corianderProbabilities,
   selectedMonth,
   selectedYear,
   resetToken,
@@ -213,7 +220,12 @@ export function MapView({
     SAFFLOWER_UI_ENABLED && selectedCrop === SAFFLOWER_CROP_KEY
       ? [...safflowerProbabilities.values()].filter((percent) => percent > SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT).length
       : 0
-  const geoJsonDataKey = `${searchToken}-${center?.lat}-${center?.lng}-${selectedCrop}-${qualifyingSunflowerCount}-${qualifyingSafflowerCount}`
+  // Same reasoning as qualifyingSunflowerCount above, for the Coriander filter.
+  const qualifyingCorianderCount =
+    CORIANDER_UI_ENABLED && selectedCrop === CORIANDER_CROP_KEY
+      ? [...corianderProbabilities.values()].filter((percent) => percent > CORIANDER_MAP_COLOR_THRESHOLD_PERCENT).length
+      : 0
+  const geoJsonDataKey = `${searchToken}-${center?.lat}-${center?.lng}-${selectedCrop}-${qualifyingSunflowerCount}-${qualifyingSafflowerCount}-${qualifyingCorianderCount}`
   const layersByIdRef = useRef(new Map<string, Layer>())
   const prevDataKeyRef = useRef(geoJsonDataKey)
   if (prevDataKeyRef.current !== geoJsonDataKey) {
@@ -251,6 +263,14 @@ export function MapView({
       normalized.properties.aluType === 'field' &&
       isRfOverrideActive(amedConfidencePercent, safflowerProbabilityPercent, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT)
 
+    // Same shape as the Sunflower/Safflower probabilities above, for Coriander.
+    const corianderProbabilityPercent =
+      CORIANDER_UI_ENABLED && normalized.id !== undefined ? (corianderProbabilities.get(String(normalized.id)) ?? null) : null
+    const isCorianderLikely =
+      CORIANDER_UI_ENABLED &&
+      normalized.properties.aluType === 'field' &&
+      isRfOverrideActive(amedConfidencePercent, corianderProbabilityPercent, CORIANDER_MAP_COLOR_THRESHOLD_PERCENT)
+
     const baseColor = SUNFLOWER_UI_ENABLED
       ? colorForFeatureWithSunflower(normalized.properties, cropColorMap, isSunflowerLikely, predictedCrop)
       : colorForFeature(normalized.properties, cropColorMap, predictedCrop)
@@ -258,10 +278,16 @@ export function MapView({
     // own AMED fallback — a field could in principle clear both thresholds at once, and
     // Safflower (checked second) wins that rare tie deterministically rather than leaving it to
     // call order. Neither RF layer ever touches AMED's own data, only the rendered color.
-    const color =
+    const safflowerAwareColor =
       SAFFLOWER_UI_ENABLED && isSafflowerLikely
         ? colorForFeatureWithSafflower(normalized.properties, cropColorMap, isSafflowerLikely, predictedCrop)
         : baseColor
+    // Coriander is layered last: if a field clears more than one RF threshold at once, Coriander
+    // (checked last) wins that rare tie deterministically.
+    const color =
+      CORIANDER_UI_ENABLED && isCorianderLikely
+        ? colorForFeatureWithCoriander(normalized.properties, cropColorMap, isCorianderLikely, predictedCrop)
+        : safflowerAwareColor
 
     // Sunflower/Safflower fields get their own distinct dark stroke and a visibly thicker
     // outline (not just a different fill hue) — a fill-color-only difference from the existing
@@ -269,12 +295,14 @@ export function MapView({
     // orange/amber landed close enough to an earlier gold choice to be mistaken for it).
     const strokeColor = isSelected
       ? '#0b0b0b'
-      : isSafflowerLikely
-        ? SAFFLOWER_LIKELY_STROKE_COLOR
-        : isSunflowerLikely
-          ? SUNFLOWER_LIKELY_STROKE_COLOR
-          : color
-    const weight = isSelected ? 3 : isSafflowerLikely || isSunflowerLikely ? 2.5 : 1.25
+      : isCorianderLikely
+        ? CORIANDER_LIKELY_STROKE_COLOR
+        : isSafflowerLikely
+          ? SAFFLOWER_LIKELY_STROKE_COLOR
+          : isSunflowerLikely
+            ? SUNFLOWER_LIKELY_STROKE_COLOR
+            : color
+    const weight = isSelected ? 3 : isCorianderLikely || isSafflowerLikely || isSunflowerLikely ? 2.5 : 1.25
 
     return {
       color: strokeColor,
@@ -331,6 +359,19 @@ export function MapView({
     // safflowerProbabilities, which are already this effect's real dependencies.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [safflowerProbabilities])
+
+  // Same as the Sunflower/Safflower-arrival effects above, for Coriander RF results.
+  useEffect(() => {
+    for (const fieldId of corianderProbabilities.keys()) {
+      const layer = layersByIdRef.current.get(fieldId) as (Layer & Partial<L.Path>) | undefined
+      if (!layer || typeof layer.setStyle !== 'function') continue
+      const feature = (layer as unknown as { feature?: NormalizedFieldFeature }).feature
+      if (feature) layer.setStyle(featureStyle(feature))
+    }
+    // featureStyle is a fresh closure each render but only depends on selectedFieldId/cropColorMap/
+    // corianderProbabilities, which are already this effect's real dependencies.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [corianderProbabilities])
 
   // Imperatively restyles just the previously- and newly-selected layers (at most two) via
   // Leaflet's own setStyle, instead of remounting the whole GeoJSON layer for a selection

@@ -21,7 +21,7 @@
  * models only represent one specific real cycle each, see the citations below).
  */
 
-export type ProjectCrop = 'sunflower' | 'safflower'
+export type ProjectCrop = 'sunflower' | 'safflower' | 'coriander'
 
 /**
  * Sunflower RF v0/v1 was trained on the Kurukshetra-Karnal, Haryana real fields (see
@@ -45,9 +45,17 @@ const SUNFLOWER_SEASON = { startMonth: 2, endMonth: 6 } // February - June
  */
 const SAFFLOWER_SEASON = { startMonth: 10, endMonth: 3 } // October - March (wraps the year boundary)
 
+/**
+ * Coriander RF v0 was trained on the rabi calendar: sown mid-October to mid-November, seed harvested
+ * February-March (ICAR/state crop calendars; see training/coriander/). Windows used by the model are
+ * Dec-Mar, so the gate allows the full sowing-to-harvest span.
+ */
+const CORIANDER_SEASON = { startMonth: 10, endMonth: 3 } // October - March (wraps the year boundary)
+
 const SEASONS: Record<ProjectCrop, { startMonth: number; endMonth: number }> = {
   sunflower: SUNFLOWER_SEASON,
   safflower: SAFFLOWER_SEASON,
+  coriander: CORIANDER_SEASON,
 }
 
 /** True if `month` (1-12) falls within [startMonth, endMonth], handling a range that wraps the

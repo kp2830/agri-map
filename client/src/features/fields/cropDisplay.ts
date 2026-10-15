@@ -53,6 +53,12 @@ export const SAFFLOWER_LIKELY_STROKE_COLOR = '#5c1a00'
 /** Same real product requirement as Sunflower's threshold above, reused verbatim (not a new
  *  arbitrary number). */
 export const SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT = 50
+/** Coriander's own map-color palette — a green distinct from Sunflower's yellow and Safflower's
+ *  orange, so the three experimental crop layers are never visually confusable. */
+export const CORIANDER_LIKELY_FILL_COLOR = '#12b886'
+export const CORIANDER_LIKELY_STROKE_COLOR = '#064e3b'
+/** Same product requirement as the Sunflower/Safflower thresholds above, reused verbatim. */
+export const CORIANDER_MAP_COLOR_THRESHOLD_PERCENT = 50
 /** AMED returned no monitoring data at all for this field. */
 const NO_PREDICTION_COLOR = '#c3c2b7'
 /** AMED explicitly returned the UNKNOWN_CROP sentinel. */
@@ -221,6 +227,19 @@ export function isEligibleForSafflowerCheck(outcome: ActiveCropOutcome, threshol
   if (outcome.kind === 'none' || outcome.kind === 'seasonal') return true
   const prediction = outcome.season.predictions[0]
   if (prediction && SAFFLOWER_NEVER_RUN_CROPS.has(prediction.crop.toUpperCase())) return false
+  return prediction === undefined || prediction.confidence < threshold
+}
+
+/** Coriander's documented confusion crops (see
+ *  server/src/services/agricultural/corianderRf/config.ts's CORIANDER_KNOWN_CONFUSION_CROPS): Mustard,
+ *  Wheat and Gram share its rabi calendar, so a confident AMED call of any of them is never eligible. */
+const CORIANDER_NEVER_RUN_CROPS = new Set(['MUSTARD', 'WHEAT', 'GRAM'])
+
+/** Same shape as isEligibleForSafflowerCheck, for Coriander's own confusion crops. */
+export function isEligibleForCorianderCheck(outcome: ActiveCropOutcome, threshold: number = AMED_STRONG_CONFIDENCE_THRESHOLD): boolean {
+  if (outcome.kind === 'none' || outcome.kind === 'seasonal') return true
+  const prediction = outcome.season.predictions[0]
+  if (prediction && CORIANDER_NEVER_RUN_CROPS.has(prediction.crop.toUpperCase())) return false
   return prediction === undefined || prediction.confidence < threshold
 }
 
@@ -407,6 +426,60 @@ export function colorForFeatureWithSafflower(
   predictedCrop: string | null,
 ): string {
   if (properties.aluType === 'field' && isSafflowerLikely) return SAFFLOWER_LIKELY_FILL_COLOR
+  return colorForFeature(properties, colorMap, predictedCrop)
+}
+
+export type RfCropKind = 'sunflower' | 'safflower' | 'coriander'
+
+/**
+ * Of the three experimental RF crops (none of which AMED knows), which one has the highest
+ * probability for a single field -- only that one should ever be shown for the field. Ties go to
+ * Coriander, then Safflower, then Sunflower (arbitrary but deterministic). Returns null when no
+ * model produced a probability. This only ranks the three RF models against each other; whether the
+ * winner is actually allowed to override AMED is still decided by isRfOverrideActive, unchanged.
+ */
+export function pickTopRfCrop(p: { sunflower?: number | null; safflower?: number | null; coriander?: number | null }): RfCropKind | null {
+  const order: RfCropKind[] = ['coriander', 'safflower', 'sunflower']
+  let best: RfCropKind | null = null
+  let bestValue = -1
+  for (const kind of order) {
+    const value = p[kind]
+    if (value == null) continue
+    if (value > bestValue) {
+      best = kind
+      bestValue = value
+    }
+  }
+  return best
+}
+
+/** Splits the three per-field probability maps so each field survives in only the map of its
+ *  highest-probability RF crop -- everything downstream (map color, crop dropdown, distribution,
+ *  crop filter) then shows at most one of the three experimental crops per field. */
+export function keepOnlyTopRfCropPerField(
+  sunflower: Map<string, number>,
+  safflower: Map<string, number>,
+  coriander: Map<string, number>,
+): { sunflower: Map<string, number>; safflower: Map<string, number>; coriander: Map<string, number> } {
+  const out = { sunflower: new Map<string, number>(), safflower: new Map<string, number>(), coriander: new Map<string, number>() }
+  const ids = new Set([...sunflower.keys(), ...safflower.keys(), ...coriander.keys()])
+  for (const id of ids) {
+    const top = pickTopRfCrop({ sunflower: sunflower.get(id), safflower: safflower.get(id), coriander: coriander.get(id) })
+    if (top === 'sunflower') out.sunflower.set(id, sunflower.get(id) as number)
+    else if (top === 'safflower') out.safflower.set(id, safflower.get(id) as number)
+    else if (top === 'coriander') out.coriander.set(id, coriander.get(id) as number)
+  }
+  return out
+}
+
+/** Same shape as colorForFeatureWithSafflower, for the Coriander RF layer. */
+export function colorForFeatureWithCoriander(
+  properties: NormalizedFieldProperties,
+  colorMap: Map<string, string>,
+  isCorianderLikely: boolean,
+  predictedCrop: string | null,
+): string {
+  if (properties.aluType === 'field' && isCorianderLikely) return CORIANDER_LIKELY_FILL_COLOR
   return colorForFeature(properties, colorMap, predictedCrop)
 }
 

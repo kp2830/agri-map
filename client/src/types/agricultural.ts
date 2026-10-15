@@ -89,6 +89,23 @@ export type SunflowerRfResponse =
  * tree/scrub cover, not cropland. Never display this as "confirmed" or as a calibrated
  * statistical accuracy.
  */
+/**
+ * Coriander RF v0 — same shape and honesty requirements as the Sunflower and Safflower RF
+ * responses above (server/src/services/agricultural/corianderRf/). Positives are 14 real,
+ * ground-collected AgriFieldNet fields from one season (rabi 2021-22); a region-transfer check was
+ * poor, so this is an experimental signal, never "confirmed Coriander" or a calibrated accuracy.
+ */
+export type CorianderRfResponse =
+  | {
+      available: true
+      probability: number
+      probabilityPercent: number
+      modelVersion: string
+      source: 'coriander_random_forest'
+      labelType: 'weakly_supervised_model'
+    }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
+
 export type SafflowerRfResponse =
   | {
       available: true

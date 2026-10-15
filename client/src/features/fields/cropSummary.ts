@@ -1,5 +1,5 @@
 import type { NormalizedFieldCollection } from '../../types/agricultural'
-import { SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
 import { getPredictedCrop } from './cropPrediction'
 
 export interface CropShare {
@@ -15,6 +15,9 @@ export const SUNFLOWER_CROP_KEY = 'SUNFLOWER'
 
 /** Same reasoning as SUNFLOWER_CROP_KEY, for Safflower RF (AMED has no Safflower class either). */
 export const SAFFLOWER_CROP_KEY = 'SAFFLOWER'
+
+/** Same reasoning as SUNFLOWER_CROP_KEY, for Coriander RF (AMED has no Coriander class either). */
+export const CORIANDER_CROP_KEY = 'CORIANDER'
 
 /** Percentage of total mapped field area associated with each predicted crop (fields only, not
  *  trees/water/wells). `month`/`year` default to the real current month/year but pass through
@@ -98,4 +101,28 @@ export function computeSafflowerShare(
 
   if (safflowerFieldCount === 0) return null
   return { crop: SAFFLOWER_CROP_KEY, areaSqM: safflowerAreaSqM, percentage: totalAreaSqM > 0 ? safflowerAreaSqM / totalAreaSqM : 0 }
+}
+
+/** Same shape as computeSunflowerShare, for Coriander RF. */
+export function computeCorianderShare(
+  fieldCollection: NormalizedFieldCollection,
+  corianderProbabilities: Map<string, number>,
+  thresholdPercent: number = CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
+): CropShare | null {
+  const fields = fieldCollection.features.filter((feature) => feature.properties.aluType === 'field')
+  const totalAreaSqM = fields.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
+
+  let corianderAreaSqM = 0
+  let corianderFieldCount = 0
+  for (const feature of fields) {
+    if (feature.id === undefined) continue
+    const probabilityPercent = corianderProbabilities.get(String(feature.id))
+    if (probabilityPercent !== undefined && probabilityPercent > thresholdPercent) {
+      corianderAreaSqM += feature.properties.areaSqM
+      corianderFieldCount++
+    }
+  }
+
+  if (corianderFieldCount === 0) return null
+  return { crop: CORIANDER_CROP_KEY, areaSqM: corianderAreaSqM, percentage: totalAreaSqM > 0 ? corianderAreaSqM / totalAreaSqM : 0 }
 }

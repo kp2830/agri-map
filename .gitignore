@@ -50,6 +50,7 @@ server/.worldcereal-research-cache/
 # safflowerRf/) — machine-generated, never committed.
 server/.sunflower-rf-cache/
 server/.safflower-rf-cache/
+server/.coriander-rf-cache/
 
 # Environment variables
 .env

@@ -2,12 +2,12 @@ import type { CropOutlook } from './cropPrediction'
 import { formatMonthName, formatMonthRange, formatOutlookBasis } from './cropPrediction'
 import { formatCropLabel } from './cropDisplay'
 
-/** A real-time RF result (Sunflower or Safflower) strong enough to visually override AMED's own
+/** A real-time RF result (Sunflower, Safflower or Coriander) strong enough to visually override AMED's own
  *  predicted crop for this field — see cropDisplay.ts's isRfOverrideActive, which is the single
  *  place that decision is made (the same predicate MapView.tsx uses for the map's fill color),
  *  so this banner and the map can never disagree about which fields are "override-active." */
 export interface CropOverride {
-  label: 'Sunflower' | 'Safflower'
+  label: 'Sunflower' | 'Safflower' | 'Coriander'
   probabilityPercent: number
   fillColor: string
 }

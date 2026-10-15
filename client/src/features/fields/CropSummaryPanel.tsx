@@ -6,12 +6,13 @@ import {
   formatAluType,
   formatCropLabel,
   formatHectares,
+  CORIANDER_LIKELY_FILL_COLOR,
   SAFFLOWER_LIKELY_FILL_COLOR,
   SUNFLOWER_LIKELY_FILL_COLOR,
 } from './cropDisplay'
 import { ALL_CROPS, filterFieldsByCrop, totalFieldAreaSqM, type CropFilterValue } from './cropFilter'
-import { computeSafflowerShare, computeSunflowerShare, summarizeCropShares, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY, type CropShare } from './cropSummary'
-import { SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
+import { computeCorianderShare, computeSafflowerShare, computeSunflowerShare, summarizeCropShares, CORIANDER_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY, type CropShare } from './cropSummary'
+import { CORIANDER_UI_ENABLED, SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 
 interface CropSummaryPanelProps {
   fieldCollection: NormalizedFieldCollection
@@ -24,6 +25,9 @@ interface CropSummaryPanelProps {
   /** Same as sunflowerProbabilities, for Safflower RF (see useSafflowerFieldColors). Always
    *  empty while SAFFLOWER_UI_ENABLED is false. */
   safflowerProbabilities: Map<string, number>
+  /** Same as sunflowerProbabilities, for Coriander RF (see useCorianderFieldColors). Always
+   *  empty while CORIANDER_UI_ENABLED is false. */
+  corianderProbabilities: Map<string, number>
   /** The reference month (1-12) and year for AMED crop grouping — see cropPrediction.ts's
    *  predictCropOutlook, which primarily uses the corresponding month one year earlier as its
    *  evidence. Never affects the Sunflower/Safflower rows/filters, which are driven purely by
@@ -38,6 +42,7 @@ interface CropSummaryPanelProps {
 function colorForShare(share: CropShare, colorMap: Map<string, string>): string {
   if (share.crop === SUNFLOWER_CROP_KEY) return SUNFLOWER_LIKELY_FILL_COLOR
   if (share.crop === SAFFLOWER_CROP_KEY) return SAFFLOWER_LIKELY_FILL_COLOR
+  if (share.crop === CORIANDER_CROP_KEY) return CORIANDER_LIKELY_FILL_COLOR
   return colorForCropLabel(share.crop, colorMap)
 }
 
@@ -57,11 +62,13 @@ function SelectedCropSummary({
   selectedCrop,
   sunflowerProbabilities,
   safflowerProbabilities,
+  corianderProbabilities,
   selectedMonth,
   selectedYear,
 }: CropSummaryPanelProps) {
   const isSunflowerFilter = SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY
   const isSafflowerFilter = SAFFLOWER_UI_ENABLED && selectedCrop === SAFFLOWER_CROP_KEY
+  const isCorianderFilter = CORIANDER_UI_ENABLED && selectedCrop === CORIANDER_CROP_KEY
   const matching = filterFieldsByCrop(
     fieldCollection,
     selectedCrop,
@@ -70,6 +77,8 @@ function SelectedCropSummary({
     selectedMonth,
     selectedYear,
     safflowerProbabilities,
+    undefined,
+    corianderProbabilities,
   )
   const areaSqM = matching.features.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
   const totalArea = totalFieldAreaSqM(fieldCollection)
@@ -78,7 +87,9 @@ function SelectedCropSummary({
     ? SUNFLOWER_LIKELY_FILL_COLOR
     : isSafflowerFilter
       ? SAFFLOWER_LIKELY_FILL_COLOR
-      : colorForCropLabel(selectedCrop, cropColorMap)
+      : isCorianderFilter
+        ? CORIANDER_LIKELY_FILL_COLOR
+        : colorForCropLabel(selectedCrop, cropColorMap)
 
   if (matching.features.length === 0) {
     return <p className="text-sm text-slate-500">No {formatCropLabel(selectedCrop)} fields in this area.</p>
@@ -119,6 +130,14 @@ function SelectedCropSummary({
           field here may also carry its own AMED crop; Safflower is additive, not a replacement.
         </p>
       )}
+      {isCorianderFilter && (
+        <p className="mt-2 rounded-md bg-emerald-50 px-3 py-2 text-xs text-emerald-800">
+          Experimental v0 RF signal (&gt;50% likelihood), trained on only 14 ground-collected
+          positives from a different season, and it often confuses wheat, mustard and gram — not an
+          AMED prediction. A field here may also carry its own AMED crop; Coriander is additive, not a
+          replacement.
+        </p>
+      )}
     </div>
   )
 }
@@ -129,6 +148,7 @@ export function CropSummaryPanel({
   selectedCrop,
   sunflowerProbabilities,
   safflowerProbabilities,
+  corianderProbabilities,
   selectedMonth,
   selectedYear,
 }: CropSummaryPanelProps) {
@@ -142,6 +162,7 @@ export function CropSummaryPanel({
         selectedCrop={selectedCrop}
         sunflowerProbabilities={sunflowerProbabilities}
         safflowerProbabilities={safflowerProbabilities}
+        corianderProbabilities={corianderProbabilities}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
       />
@@ -158,7 +179,8 @@ export function CropSummaryPanel({
   // Additive, not a replacement for any AMED row — inserted into the same ranked-by-area list
   // so Sunflower/Safflower read as normal categories (per the product requirement) while still
   // being visually flagged below as independent RF signals, not genuine AMED predictions.
-  const extraShares = [sunflowerShare, safflowerShare].filter((share): share is CropShare => share !== null)
+  const corianderShare = CORIANDER_UI_ENABLED ? computeCorianderShare(fieldCollection, corianderProbabilities) : null
+  const extraShares = [sunflowerShare, safflowerShare, corianderShare].filter((share): share is CropShare => share !== null)
   const shares = extraShares.length > 0 ? [...amedShares, ...extraShares].sort((a, b) => b.areaSqM - a.areaSqM) : amedShares
 
   const presentNonFieldTypes = NON_FIELD_TYPES.filter((type) =>
@@ -194,6 +216,7 @@ export function CropSummaryPanel({
           const percent = share.percentage * 100
           const isSunflower = share.crop === SUNFLOWER_CROP_KEY
           const isSafflower = share.crop === SAFFLOWER_CROP_KEY
+          const isCoriander = share.crop === CORIANDER_CROP_KEY
 
           return (
             <li key={share.crop ?? 'none'}>
@@ -214,6 +237,9 @@ export function CropSummaryPanel({
               )}
               {isSafflower && (
                 <p className="mt-1 text-xs text-slate-400">Experimental v0 RF signal (&gt;50% likelihood), unconfirmed ground truth — not an AMED prediction, may overlap with other crops above.</p>
+              )}
+              {isCoriander && (
+                <p className="mt-1 text-xs text-slate-400">Experimental v0 RF signal (&gt;50% likelihood), only 14 ground-collected positives and often confused with wheat, mustard and gram — not an AMED prediction, may overlap with other crops above.</p>
               )}
             </li>
           )

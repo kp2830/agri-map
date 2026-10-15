@@ -29,3 +29,13 @@ export const SUNFLOWER_UI_ENABLED = true
  * honest-state note before treating its output as more than an experimental signal.
  */
 export const SAFFLOWER_UI_ENABLED = true
+
+/**
+ * Coriander RF v0 — same shape as Safflower RF, gated the same way (AMED confidence, the selected
+ * month inside Coriander's real Oct-March rabi season, plus a Mustard/Wheat/Gram confusion-crop gate
+ * — see server/src/services/agricultural/corianderRf/). First experimental model: 14 real
+ * ground-collected AgriFieldNet positives against 66 wheat/mustard/gram fields, with a poor
+ * region-transfer check — read corianderRf/config.ts's honest-state note before treating its
+ * output as more than an experimental signal.
+ */
+export const CORIANDER_UI_ENABLED = true
