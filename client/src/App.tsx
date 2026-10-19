@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { StatusCard } from './components/StatusCard'
 import { CentroidForm } from './features/fields/CentroidForm'
 import { CropSummaryPanel } from './features/fields/CropSummaryPanel'
-import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, buildCropColorMap, keepOnlyTopRfCropPerField, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
+import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, FENNEL_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, buildCropColorMap, keepOnlyTopRfCropPerField, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
 import { ALL_CROPS, filterFieldsByCrop, getAvailableCrops, type CropFilterValue } from './features/fields/cropFilter'
-import { CORIANDER_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY, summarizeCropShares } from './features/fields/cropSummary'
+import { CORIANDER_CROP_KEY, FENNEL_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY, summarizeCropShares } from './features/fields/cropSummary'
 import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
 import { FieldIdSearch } from './features/fields/FieldIdSearch'
@@ -13,11 +13,12 @@ import { MonthSelector } from './features/fields/MonthSelector'
 import { useAgriculturalFields } from './features/fields/useAgriculturalFields'
 import { decodeFieldId } from './lib/api'
 import { defaultMapCenter } from './lib/config'
-import { CORIANDER_UI_ENABLED, SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from './lib/featureFlags'
+import { CORIANDER_UI_ENABLED, FENNEL_UI_ENABLED, SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from './lib/featureFlags'
 import { markPerf } from './lib/perf'
 import { MapView } from './features/map/MapView'
 import { useSafflowerFieldColors } from './features/map/useSafflowerFieldColors'
 import { useCorianderFieldColors } from './features/map/useCorianderFieldColors'
+import { useFennelFieldColors } from './features/map/useFennelFieldColors'
 import { useSunflowerFieldColors } from './features/map/useSunflowerFieldColors'
 import type { CoverageInfo, NormalizedFieldFeature } from './types/agricultural'
 
@@ -336,12 +337,14 @@ function App() {
   const rawSafflowerProbabilities = useSafflowerFieldColors(fieldCollection, submittedCenter, selectedMonth)
   // Coriander RF v0 — same reasoning again, checked against the full result independently.
   const rawCorianderProbabilities = useCorianderFieldColors(fieldCollection, submittedCenter, selectedMonth)
-  // Of the three experimental crops, each field keeps only the one with the highest probability, so
+  // Fennel RF v0 — same reasoning again, checked against the full result independently.
+  const rawFennelProbabilities = useFennelFieldColors(fieldCollection, submittedCenter, selectedMonth)
+  // Of the four experimental crops, each field keeps only the one with the highest probability, so
   // the map, crop dropdown, distribution and filter never show more than one of them per field.
   // How a winner compares with AMED (isRfOverrideActive) is unchanged.
-  const { sunflower: sunflowerProbabilities, safflower: safflowerProbabilities, coriander: corianderProbabilities } = useMemo(
-    () => keepOnlyTopRfCropPerField(rawSunflowerProbabilities, rawSafflowerProbabilities, rawCorianderProbabilities),
-    [rawSunflowerProbabilities, rawSafflowerProbabilities, rawCorianderProbabilities],
+  const { sunflower: sunflowerProbabilities, safflower: safflowerProbabilities, coriander: corianderProbabilities, fennel: fennelProbabilities } = useMemo(
+    () => keepOnlyTopRfCropPerField(rawSunflowerProbabilities, rawSafflowerProbabilities, rawCorianderProbabilities, rawFennelProbabilities),
+    [rawSunflowerProbabilities, rawSafflowerProbabilities, rawCorianderProbabilities, rawFennelProbabilities],
   )
 
   // Whether the "Sunflower"/"Safflower" options should even appear in the crop dropdown — only
@@ -360,6 +363,10 @@ function App() {
   const hasCorianderMatch = useMemo(
     () => CORIANDER_UI_ENABLED && [...corianderProbabilities.values()].some((percent) => percent > CORIANDER_MAP_COLOR_THRESHOLD_PERCENT),
     [corianderProbabilities],
+  )
+  const hasFennelMatch = useMemo(
+    () => FENNEL_UI_ENABLED && [...fennelProbabilities.values()].some((percent) => percent > FENNEL_MAP_COLOR_THRESHOLD_PERCENT),
+    [fennelProbabilities],
   )
 
   // Pure client-side filter over the already-loaded collection — no network request, no new
@@ -396,6 +403,13 @@ function App() {
         : null,
     [fieldCollection, selectedCrop, corianderProbabilities, selectedMonth, selectedYear],
   )
+  const fennelVisible = useMemo(
+    () =>
+      FENNEL_UI_ENABLED && fieldCollection && selectedCrop === FENNEL_CROP_KEY
+        ? filterFieldsByCrop(fieldCollection, selectedCrop, undefined, undefined, selectedMonth, selectedYear, undefined, undefined, undefined, undefined, fennelProbabilities)
+        : null,
+    [fieldCollection, selectedCrop, fennelProbabilities, selectedMonth, selectedYear],
+  )
   const visibleFieldCollection =
     SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY
       ? sunflowerVisible
@@ -403,7 +417,9 @@ function App() {
         ? safflowerVisible
         : CORIANDER_UI_ENABLED && selectedCrop === CORIANDER_CROP_KEY
           ? corianderVisible
-          : nonExperimentalVisible
+          : FENNEL_UI_ENABLED && selectedCrop === FENNEL_CROP_KEY
+            ? fennelVisible
+            : nonExperimentalVisible
 
   function handleCropChange(crop: CropFilterValue) {
     setSelectedCrop(crop)
@@ -459,6 +475,7 @@ function App() {
             sunflowerProbabilities={sunflowerProbabilities}
             safflowerProbabilities={safflowerProbabilities}
             corianderProbabilities={corianderProbabilities}
+            fennelProbabilities={fennelProbabilities}
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
             resetToken={mapResetToken}
@@ -521,7 +538,7 @@ function App() {
                 <section>
                   <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
                     <h2 className="text-sm font-semibold text-slate-900">Predicted crop distribution — {formatMonthName(selectedMonth)}</h2>
-                    {(cropOptions.length > 0 || hasSunflowerMatch || hasSafflowerMatch || hasCorianderMatch) && (
+                    {(cropOptions.length > 0 || hasSunflowerMatch || hasSafflowerMatch || hasCorianderMatch || hasFennelMatch) && (
                       <select
                         aria-label="Filter fields by crop"
                         value={selectedCrop}
@@ -538,6 +555,7 @@ function App() {
                         {hasSunflowerMatch && <option value={SUNFLOWER_CROP_KEY}>Sunflower</option>}
                         {hasSafflowerMatch && <option value={SAFFLOWER_CROP_KEY}>Safflower</option>}
                         {hasCorianderMatch && <option value={CORIANDER_CROP_KEY}>Coriander</option>}
+                        {hasFennelMatch && <option value={FENNEL_CROP_KEY}>Fennel</option>}
                         {cropOptions.map((option) => (
                           <option key={option.value} value={option.value}>
                             {option.label}
@@ -559,6 +577,7 @@ function App() {
                     sunflowerProbabilities={sunflowerProbabilities}
                     safflowerProbabilities={safflowerProbabilities}
                     corianderProbabilities={corianderProbabilities}
+                    fennelProbabilities={fennelProbabilities}
                     selectedMonth={selectedMonth}
                     selectedYear={selectedYear}
                   />

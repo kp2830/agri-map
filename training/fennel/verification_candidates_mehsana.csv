@@ -1,0 +1,102 @@
+field_id,lat,lon,area_ha,amed_2025_26,ndvi_sowing_window,ndvi_janfeb,ndvi_20mar_10apr,regreen_flag,to_verify
+7JMJH6JR+3PX9,23.58023,72.24187,0.31,none/low,0.32,0.62,0.49,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJHMJ3+QGQF,23.58196,72.65386,0.58,UNKNOWN_CROP,0.3,0.75,0.47,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJH6QW+3J6R,23.58767,72.24651,0.43,none/low,0.33,0.54,0.58,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJH8VF+8CR4,23.59335,72.32352,0.72,UNKNOWN_CROP,0.3,0.55,0.48,clean,crop? sowing month? bloom colour?
+7JMJMF3V+7FCP,23.65319,72.49365,0.32,none/low,0.23,0.65,0.49,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMF3V+9RWW,23.6535,72.49458,0.37,MUSTARD,0.3,0.61,0.46,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMF3W+M68X,23.65417,72.49559,0.31,MUSTARD,0.31,0.62,0.48,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMF3W+525X,23.6529,72.49512,0.38,MUSTARD,0.34,0.59,0.55,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJM67P+3HFJ,23.66269,72.23641,0.39,COTTON,0.32,0.75,0.48,clean,crop? sowing month? bloom colour?
+7JMJM84C+X35F,23.65739,72.32023,0.58,none/low,0.27,0.71,0.56,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJM85H+MWV7,23.65923,72.32979,0.52,UNKNOWN_CROP,0.31,0.8,0.71,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJM85G+VRF6,23.65968,72.32703,0.35,none/low,0.32,0.67,0.6,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMF4R+X7HP,23.65744,72.49074,0.35,MUSTARD,0.32,0.52,0.45,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMH7C+6WFW,23.66307,72.5723,0.45,MUSTARD,0.28,0.59,0.58,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMH6F+RPCH,23.66206,72.57428,0.42,none/low,0.29,0.66,0.58,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJM68R+6QJ9,23.66558,72.2419,0.61,UNKNOWN_CROP,0.28,0.67,0.56,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJM68Q+RPPR,23.6671,72.23932,0.3,none/low,0.22,0.71,0.45,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJM68Q+W6H8,23.66731,72.23811,0.39,none/low,0.24,0.65,0.58,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMM93+WP7X,23.6698,72.65431,0.31,none/low,0.33,0.64,0.72,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMM94+8F7Q,23.66829,72.65619,0.41,MUSTARD,0.34,0.58,0.65,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJMM84+R4H8,23.66706,72.65536,0.3,UNKNOWN_CROP,0.35,0.54,0.45,clean,crop? sowing month? bloom colour?
+7JMJP6MQ+QR98,23.73441,72.23962,0.41,none/low,0.33,0.54,0.47,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP6HV+R3H5,23.72955,72.24275,0.46,none/low,0.34,0.55,0.54,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP6MQ+R6VW,23.73462,72.23805,1.08,none/low,0.25,0.64,0.47,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP6HX+M4M7,23.72921,72.24779,0.42,none/low,0.33,0.55,0.48,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP6MW+P62M,23.73427,72.24551,1.01,none/low,0.28,0.56,0.51,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP6HX+F52P,23.72864,72.2479,0.45,none/low,0.31,0.53,0.45,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPCM3+H74H,23.73389,72.40321,0.49,UNKNOWN_CROP,0.32,0.61,0.52,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPFMQ+XP9P,23.73492,72.48937,0.48,MUSTARD,0.27,0.52,0.51,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPFMP+PMM9,23.73433,72.48668,0.4,none/low,0.25,0.7,0.57,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPHJF+GWRR,23.73137,72.57476,0.41,UNKNOWN_CROP,0.33,0.7,0.55,clean,crop? sowing month? bloom colour?
+7JMJPHMG+9WQ5,23.73345,72.57737,0.36,none/low,0.35,0.62,0.48,clean,crop? sowing month? bloom colour?
+7JMJP6PR+354H,23.73514,72.24046,0.49,MUSTARD,0.34,0.6,0.46,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP6PQ+J56W,23.73655,72.23789,0.34,none/low,0.24,0.67,0.49,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP6PQ+QP9X,23.73692,72.23937,0.32,none/low,0.22,0.69,0.55,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP6PQ+GMHX,23.73632,72.23925,0.54,none/low,0.25,0.57,0.53,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP8RH+J9RR,23.74162,72.32838,0.38,UNKNOWN_CROP,0.34,0.53,0.61,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJP8QG+G46H,23.73879,72.32528,0.45,none/low,0.3,0.68,0.56,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPCP3+VP6C,23.73716,72.40425,0.31,none/low,0.33,0.6,0.51,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPCQ3+VHM8,23.73971,72.40393,0.66,none/low,0.29,0.6,0.51,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPCP3+8H9G,23.73579,72.40399,0.35,none/low,0.29,0.67,0.47,clean,crop? sowing month? bloom colour?
+7JMJPCR4+2CW6,23.74011,72.40606,0.4,UNKNOWN_CROP,0.34,0.53,0.55,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPFPP+6VW4,23.7356,72.48721,0.4,UNKNOWN_CROP,0.34,0.71,0.61,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPFPP+62FP,23.73557,72.48505,0.39,MUSTARD,0.32,0.63,0.5,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPHPF+J8MF,23.73659,72.57329,0.34,MUSTARD,0.33,0.63,0.46,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPHPC+CQC9,23.73606,72.5719,0.33,MUSTARD,0.33,0.56,0.54,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPHQC+QP89,23.73941,72.57184,0.48,MUSTARD,0.32,0.63,0.64,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPHPC+7QHJ,23.73569,72.57197,0.69,MUSTARD,0.32,0.64,0.5,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPHRG+Q659,23.74188,72.57562,0.47,MUSTARD,0.33,0.52,0.68,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJPMQ6+753W,23.73815,72.66043,0.33,UNKNOWN_CROP,0.32,0.61,0.48,clean,crop? sowing month? bloom colour?
+7JMJP8XH+2CM7,23.74758,72.32854,0.42,COTTON,0.3,0.71,0.48,clean,crop? sowing month? bloom colour?
+7JMJRF3V+4QCV,23.80282,72.49438,0.35,UNKNOWN_CROP,0.31,0.72,0.5,clean,crop? sowing month? bloom colour?
+7JMJR67Q+6RGJ,23.81307,72.23957,0.41,none/low,0.21,0.65,0.5,clean,crop? sowing month? bloom colour?
+7JMJR65V+7P53,23.80813,72.24436,0.62,UNKNOWN_CROP,0.25,0.63,0.47,clean,crop? sowing month? bloom colour?
+7JMJR67Q+2MHQ,23.81257,72.23925,0.47,none/low,0.26,0.75,0.59,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR66Q+69HG,23.81056,72.23849,0.71,none/low,0.33,0.51,0.56,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR64Q+W4W7,23.80736,72.23782,0.41,UNKNOWN_CROP,0.34,0.78,0.72,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR65X+Q2FX,23.80945,72.24756,0.36,none/low,0.19,0.51,0.52,clean,crop? sowing month? bloom colour?
+7JMJR869+2PWR,23.81012,72.31932,0.41,UNKNOWN_CROP,0.26,0.78,0.52,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR85C+V4J7,23.80971,72.32026,0.32,none/low,0.28,0.79,0.46,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR87F+WJ9C,23.81479,72.3241,0.7,UNKNOWN_CROP,0.32,0.69,0.48,clean,crop? sowing month? bloom colour?
+7JMJR86H+29CH,23.81006,72.32841,0.34,UNKNOWN_CROP,0.35,0.61,0.52,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR86H+W34R,23.81227,72.32769,0.34,none/low,0.29,0.61,0.5,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR85H+54Q6,23.80796,72.32785,0.6,UNKNOWN_CROP,0.33,0.67,0.5,clean,crop? sowing month? bloom colour?
+7JMJR86G+F5XW,23.81125,72.32549,0.42,UNKNOWN_CROP,0.26,0.73,0.58,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR87H+CQRW,23.81362,72.32939,0.35,none/low,0.31,0.75,0.51,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR87G+W8MX,23.81485,72.32581,0.36,none/low,0.31,0.71,0.48,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJRC77+P84H,23.81426,72.41334,0.3,UNKNOWN_CROP,0.33,0.67,0.52,clean,crop? sowing month? bloom colour?
+7JMJRH7F+3HXH,23.81274,72.574,0.43,MUSTARD,0.34,0.57,0.62,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJRH7H+GC5C,23.81376,72.5786,0.35,none/low,0.31,0.7,0.5,clean,crop? sowing month? bloom colour?
+7JMJR88H+3R2R,23.81515,72.32951,0.39,none/low,0.28,0.64,0.59,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR88H+GRFR,23.81632,72.32953,0.48,UNKNOWN_CROP,0.35,0.65,0.66,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJR88H+7GG3,23.81568,72.32882,0.32,UNKNOWN_CROP,0.32,0.63,0.49,clean,crop? sowing month? bloom colour?
+7JMJRHCC+RC86,23.82203,72.57107,0.45,none/low,0.33,0.71,0.51,clean,crop? sowing month? bloom colour?
+7JMJRH9F+4J48,23.81776,72.57408,0.48,WHEAT,0.34,0.71,0.47,clean,crop? sowing month? bloom colour?
+7JMJRH9C+9HFQ,23.81844,72.57144,0.72,none/low,0.35,0.57,0.48,clean,crop? sowing month? bloom colour?
+7JMJRH8C+P726,23.81676,72.57063,0.34,none/low,0.34,0.55,0.78,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJRH8C+MCMQ,23.81672,72.57106,0.35,UNKNOWN_CROP,0.32,0.59,0.5,clean,crop? sowing month? bloom colour?
+7JMJRH89+XHPF,23.81746,72.56895,0.31,UNKNOWN_CROP,0.34,0.52,0.46,clean,crop? sowing month? bloom colour?
+7JMJRH8F+G7QF,23.81634,72.57323,0.51,none/low,0.31,0.61,0.56,clean,crop? sowing month? bloom colour?
+7JMJVFMP+CMP4,23.88358,72.48671,0.3,UNKNOWN_CROP,0.34,0.59,0.55,clean,crop? sowing month? bloom colour?
+7JMJVHJF+897X,23.8808,72.57343,0.34,UNKNOWN_CROP,0.35,0.78,0.64,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJVHMH+4CJM,23.88284,72.57851,0.32,UNKNOWN_CROP,0.29,0.62,0.47,clean,crop? sowing month? bloom colour?
+7JMJV6VV+G23V,23.89377,72.24254,0.36,MUSTARD,0.31,0.53,0.51,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJV8QH+8MWW,23.88837,72.32921,0.31,MUSTARD,0.29,0.5,0.71,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJVFQQ+CR4J,23.88852,72.48957,0.33,MUSTARD,0.32,0.55,0.49,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJVFQR+633W,23.88802,72.49017,0.46,MUSTARD,0.34,0.63,0.49,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJVFPR+H6H5,23.88643,72.49062,0.49,MUSTARD,0.31,0.68,0.46,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJVFQP+44FF,23.88781,72.48529,1.21,none/low,0.35,0.6,0.57,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJVFRQ+V7G8,23.89218,72.48821,0.56,MUSTARD,0.35,0.62,0.48,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJVFRQ+9CVC,23.89099,72.48854,0.38,MUSTARD,0.29,0.54,0.47,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJVHQH+99GW,23.88845,72.57846,0.41,MUSTARD,0.34,0.59,0.52,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJXF2P+9PHC,23.95094,72.48685,0.43,none/low,0.31,0.55,0.49,clean,crop? sowing month? bloom colour?
+7JMJX64V+MWR9,23.95673,72.24478,0.37,MUSTARD,0.31,0.64,0.64,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJXC53+GCVP,23.95887,72.40355,0.41,MUSTARD,0.34,0.53,0.51,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJXF6Q+CCXF,23.96111,72.4886,0.42,none/low,0.31,0.79,0.5,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJXH7H+PPF7,23.96431,72.57929,0.39,MUSTARD,0.34,0.52,0.65,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJXM76+JCQQ,23.96409,72.66112,0.48,none/low,0.31,0.56,0.46,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?
+7JMJX69W+2R9R,23.96755,72.2471,0.49,UNKNOWN_CROP,0.2,0.59,0.47,clean,crop? sowing month? bloom colour?
+7JMJX68X+J48P,23.96654,72.24783,0.53,UNKNOWN_CROP,0.21,0.67,0.47,clean,crop? sowing month? bloom colour?
+7JMJXHC9+8F6H,23.97079,72.56865,0.43,MUSTARD,0.32,0.68,0.51,REGREEN (likely 2nd crop),crop? sowing month? bloom colour?

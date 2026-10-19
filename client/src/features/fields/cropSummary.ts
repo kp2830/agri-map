@@ -1,5 +1,5 @@
 import type { NormalizedFieldCollection } from '../../types/agricultural'
-import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, FENNEL_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
 import { getPredictedCrop } from './cropPrediction'
 
 export interface CropShare {
@@ -18,6 +18,9 @@ export const SAFFLOWER_CROP_KEY = 'SAFFLOWER'
 
 /** Same reasoning as SUNFLOWER_CROP_KEY, for Coriander RF (AMED has no Coriander class either). */
 export const CORIANDER_CROP_KEY = 'CORIANDER'
+
+/** Same reasoning as SUNFLOWER_CROP_KEY, for Fennel RF (AMED has no Fennel class either). */
+export const FENNEL_CROP_KEY = 'FENNEL'
 
 /** Percentage of total mapped field area associated with each predicted crop (fields only, not
  *  trees/water/wells). `month`/`year` default to the real current month/year but pass through
@@ -125,4 +128,28 @@ export function computeCorianderShare(
 
   if (corianderFieldCount === 0) return null
   return { crop: CORIANDER_CROP_KEY, areaSqM: corianderAreaSqM, percentage: totalAreaSqM > 0 ? corianderAreaSqM / totalAreaSqM : 0 }
+}
+
+/** Same shape as computeSunflowerShare, for Fennel RF. */
+export function computeFennelShare(
+  fieldCollection: NormalizedFieldCollection,
+  fennelProbabilities: Map<string, number>,
+  thresholdPercent: number = FENNEL_MAP_COLOR_THRESHOLD_PERCENT,
+): CropShare | null {
+  const fields = fieldCollection.features.filter((feature) => feature.properties.aluType === 'field')
+  const totalAreaSqM = fields.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
+
+  let fennelAreaSqM = 0
+  let fennelFieldCount = 0
+  for (const feature of fields) {
+    if (feature.id === undefined) continue
+    const probabilityPercent = fennelProbabilities.get(String(feature.id))
+    if (probabilityPercent !== undefined && probabilityPercent > thresholdPercent) {
+      fennelAreaSqM += feature.properties.areaSqM
+      fennelFieldCount++
+    }
+  }
+
+  if (fennelFieldCount === 0) return null
+  return { crop: FENNEL_CROP_KEY, areaSqM: fennelAreaSqM, percentage: totalAreaSqM > 0 ? fennelAreaSqM / totalAreaSqM : 0 }
 }

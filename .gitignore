@@ -69,3 +69,12 @@ npm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+server/.fennel-rf-cache/
+
+# Fennel training intermediates (large, regenerable from training/fennel scripts)
+training/fennel/*_pool.json
+training/fennel/series_*.json
+training/fennel/s1_*.json
+training/fennel/tm_*.json
+training/fennel/cand_*.json
+training/fennel/*_feats.json

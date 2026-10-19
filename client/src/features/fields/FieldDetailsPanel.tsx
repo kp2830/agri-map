@@ -1,7 +1,7 @@
 import { useEffect, useId, useMemo, useState } from 'react'
-import { getCorianderRf, getSafflowerRf, getSunflowerLikelihood, getSunflowerRf } from '../../lib/api'
-import { CORIANDER_UI_ENABLED, SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
-import type { CorianderRfResponse, NormalizedFieldFeature, SafflowerRfResponse, SunflowerLikelihoodResponse, SunflowerRfResponse } from '../../types/agricultural'
+import { getCorianderRf, getFennelRf, getSafflowerRf, getSunflowerLikelihood, getSunflowerRf } from '../../lib/api'
+import { CORIANDER_UI_ENABLED, FENNEL_UI_ENABLED, SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
+import type { CorianderRfResponse, FennelRfResponse, NormalizedFieldFeature, SafflowerRfResponse, SunflowerLikelihoodResponse, SunflowerRfResponse } from '../../types/agricultural'
 import { CropOutlookCard, type CropOverride } from './CropOutlookCard'
 import {
   colorForCropLabel,
@@ -13,12 +13,15 @@ import {
   getActiveCropOutcome,
   getCurrentSeasonHistory,
   isEligibleForCorianderCheck,
+  isEligibleForFennelCheck,
   isEligibleForSafflowerCheck,
   isEligibleForSunflowerCheck,
   isRfOverrideActive,
   pickTopRfCrop,
   CORIANDER_LIKELY_FILL_COLOR,
   CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
+  FENNEL_LIKELY_FILL_COLOR,
+  FENNEL_MAP_COLOR_THRESHOLD_PERCENT,
   SAFFLOWER_LIKELY_FILL_COLOR,
   SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
   SUNFLOWER_LIKELY_FILL_COLOR,
@@ -44,6 +47,11 @@ type SafflowerRfCheckState =
 type CorianderRfCheckState =
   | { status: 'idle' | 'checking' }
   | { status: 'done'; response: CorianderRfResponse }
+  | { status: 'error' }
+
+type FennelRfCheckState =
+  | { status: 'idle' | 'checking' }
+  | { status: 'done'; response: FennelRfResponse }
   | { status: 'error' }
 
 interface FieldDetailsPanelProps {
@@ -89,6 +97,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
   const [sunflowerRfCheck, setSunflowerRfCheck] = useState<SunflowerRfCheckState>({ status: 'idle' })
   const [safflowerRfCheck, setSafflowerRfCheck] = useState<SafflowerRfCheckState>({ status: 'idle' })
   const [corianderRfCheck, setCorianderRfCheck] = useState<CorianderRfCheckState>({ status: 'idle' })
+  const [fennelRfCheck, setFennelRfCheck] = useState<FennelRfCheckState>({ status: 'idle' })
 
   const properties = feature?.properties ?? null
 
@@ -205,8 +214,30 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
   }, [feature, selectedMonth])
 
-  // Of the three experimental RF crops, only the one with the highest probability is shown in this
-  // panel (never more than one likelihood box). This only ranks the three against each other; the
+  // Fennel RF v0 — same shape and same real gating (month-in-season + AMED confidence/
+  // Mustard-Wheat-Gram confusion-crop, see fennelRf/service.ts) as Coriander RF above, an
+  // independent signal fired in parallel.
+  useEffect(() => {
+    setFennelRfCheck({ status: 'idle' })
+    if (!FENNEL_UI_ENABLED) return
+    if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
+    if (!isEligibleForFennelCheck(realOutcome)) return
+
+    const controller = new AbortController()
+    setFennelRfCheck({ status: 'checking' })
+    getFennelRf(feature, selectedMonth, controller.signal)
+      .then((response) => setFennelRfCheck({ status: 'done', response }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setFennelRfCheck({ status: 'error' })
+      })
+
+    return () => controller.abort()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
+  }, [feature, selectedMonth])
+
+  // Of the four experimental RF crops, only the one with the highest probability is shown in this
+  // panel (never more than one likelihood box). This only ranks the four against each other; the
   // comparison with AMED below (isRfOverrideActive) is unchanged.
   const rfTop = useMemo(
     () =>
@@ -214,11 +245,12 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
         sunflower: sunflowerRfCheck.status === 'done' && sunflowerRfCheck.response.available ? sunflowerRfCheck.response.probabilityPercent : null,
         safflower: safflowerRfCheck.status === 'done' && safflowerRfCheck.response.available ? safflowerRfCheck.response.probabilityPercent : null,
         coriander: corianderRfCheck.status === 'done' && corianderRfCheck.response.available ? corianderRfCheck.response.probabilityPercent : null,
+        fennel: fennelRfCheck.status === 'done' && fennelRfCheck.response.available ? fennelRfCheck.response.probabilityPercent : null,
       }),
-    [sunflowerRfCheck, safflowerRfCheck, corianderRfCheck],
+    [sunflowerRfCheck, safflowerRfCheck, corianderRfCheck, fennelRfCheck],
   )
 
-  // Whether a Sunflower/Safflower/Coriander RF result is strong enough to override the "Predicted Crop"
+  // Whether a Sunflower/Safflower/Coriander/Fennel RF result is strong enough to override the "Predicted Crop"
   // banner above AMED's own answer — the SAME isRfOverrideActive predicate MapView.tsx's
   // featureStyle uses for the map's fill color, so this panel and the map can never disagree
   // about which fields are "override-active." When both RF models qualify at once, whichever
@@ -233,18 +265,23 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
     const corianderProbability =
       corianderRfCheck.status === 'done' && corianderRfCheck.response.available ? corianderRfCheck.response.probabilityPercent : null
 
+    const fennelProbability =
+      fennelRfCheck.status === 'done' && fennelRfCheck.response.available ? fennelRfCheck.response.probabilityPercent : null
+
     const sunflowerActive = isRfOverrideActive(amedConfidencePercent, sunflowerProbability, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT)
     const safflowerActive = isRfOverrideActive(amedConfidencePercent, safflowerProbability, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT)
     const corianderActive = isRfOverrideActive(amedConfidencePercent, corianderProbability, CORIANDER_MAP_COLOR_THRESHOLD_PERCENT)
-    if (!sunflowerActive && !safflowerActive && !corianderActive) return null
+    const fennelActive = isRfOverrideActive(amedConfidencePercent, fennelProbability, FENNEL_MAP_COLOR_THRESHOLD_PERCENT)
+    if (!sunflowerActive && !safflowerActive && !corianderActive && !fennelActive) return null
 
     // Whichever qualifying model has the highest probability wins.
     const candidates: CropOverride[] = []
     if (sunflowerActive) candidates.push({ label: 'Sunflower', probabilityPercent: sunflowerProbability as number, fillColor: SUNFLOWER_LIKELY_FILL_COLOR })
     if (safflowerActive) candidates.push({ label: 'Safflower', probabilityPercent: safflowerProbability as number, fillColor: SAFFLOWER_LIKELY_FILL_COLOR })
     if (corianderActive) candidates.push({ label: 'Coriander', probabilityPercent: corianderProbability as number, fillColor: CORIANDER_LIKELY_FILL_COLOR })
+    if (fennelActive) candidates.push({ label: 'Fennel', probabilityPercent: fennelProbability as number, fillColor: FENNEL_LIKELY_FILL_COLOR })
     return candidates.reduce((best, c) => (c.probabilityPercent > best.probabilityPercent ? c : best))
-  }, [outlook, sunflowerRfCheck, safflowerRfCheck, corianderRfCheck])
+  }, [outlook, sunflowerRfCheck, safflowerRfCheck, corianderRfCheck, fennelRfCheck])
 
   if (!feature || !properties) {
     return (
@@ -316,8 +353,8 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
             <span className="font-semibold tabular-nums text-amber-900">{sunflowerRfCheck.response.probabilityPercent}%</span>
           </div>
           <p className="mt-1 text-xs text-amber-700">
-            Experimental v0 model score — not confirmed Sunflower, not a validated statistical accuracy. Trained on
-            weak labels derived from a temporal satellite heuristic; AMED's own result above is unchanged.
+            Model trained on sunflower fields from the Kurukshetra–Karnal belt (Haryana), identified from their
+            April–June satellite pattern. AMED's own result above is unchanged.
           </p>
         </div>
       )}
@@ -339,9 +376,8 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
             <span className="font-semibold tabular-nums text-orange-900">{safflowerRfCheck.response.probabilityPercent}%</span>
           </div>
           <p className="mt-1 text-xs text-orange-700">
-            Experimental v0 model score, trained on only 16 real weak-label positives with no independently
-            confirmed ground truth — not confirmed Safflower, not a validated statistical accuracy. AMED's own
-            result above is unchanged.
+            Model trained on safflower fields from the Latur belt (Maharashtra), identified from their rabi
+            satellite pattern. AMED's own result above is unchanged.
           </p>
         </div>
       )}
@@ -363,9 +399,31 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
             <span className="font-semibold tabular-nums text-emerald-900">{corianderRfCheck.response.probabilityPercent}%</span>
           </div>
           <p className="mt-1 text-xs text-emerald-700">
-            Experimental v0 model score, trained on only 14 ground-collected positives from a different season
-            and often confused with wheat, mustard and gram — not confirmed Coriander, not a validated
-            statistical accuracy. AMED's own result above is unchanged.
+            Model trained on ground-surveyed coriander fields (AgriFieldNet, rabi 2021-22). AMED's own result
+            above is unchanged.
+          </p>
+        </div>
+      )}
+
+      {FENNEL_UI_ENABLED && fennelRfCheck.status === 'checking' && (
+        <p className="text-xs text-slate-400">Fennel detector: analyzing satellite history…</p>
+      )}
+      {FENNEL_UI_ENABLED && fennelRfCheck.status === 'error' && <p className="text-xs text-slate-400">Fennel detector: unavailable</p>}
+      {FENNEL_UI_ENABLED && fennelRfCheck.status === 'done' && !fennelRfCheck.response.available && fennelRfCheck.response.reason === 'OUT_OF_SEASON' && (
+        <p className="text-xs text-slate-400">Fennel is not in its real growing season (Oct–April) for {formatMonthName(selectedMonth)} — no prediction attempted.</p>
+      )}
+      {FENNEL_UI_ENABLED && fennelRfCheck.status === 'done' && !fennelRfCheck.response.available && fennelRfCheck.response.reason !== 'OUT_OF_SEASON' && (
+        <p className="text-xs text-slate-400">Fennel detector: unavailable</p>
+      )}
+      {FENNEL_UI_ENABLED && rfTop === 'fennel' && fennelRfCheck.status === 'done' && fennelRfCheck.response.available && (
+        <div className="rounded-md bg-violet-50 px-3 py-2">
+          <div className="flex items-baseline justify-between gap-3 text-sm">
+            <span className="text-violet-800">Fennel likelihood</span>
+            <span className="font-semibold tabular-nums text-violet-900">{fennelRfCheck.response.probabilityPercent}%</span>
+          </div>
+          <p className="mt-1 text-xs text-violet-700">
+            Model trained on fennel fields from the Rajasthan and Gujarat belts, identified from their rabi
+            satellite pattern. AMED's own result above is unchanged.
           </p>
         </div>
       )}

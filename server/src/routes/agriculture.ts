@@ -3,6 +3,7 @@ import { getFields, getSunflowerLikelihood } from '../controllers/agriculturalCo
 import { getSunflowerRf } from '../controllers/sunflowerRfController.js'
 import { getSafflowerRf } from '../controllers/safflowerRfController.js'
 import { getCorianderRf } from '../controllers/corianderRfController.js'
+import { getFennelRf } from '../controllers/fennelRfController.js'
 
 export const agricultureRouter = Router()
 
@@ -18,3 +19,6 @@ agricultureRouter.post('/safflower-rf', getSafflowerRf)
 // Coriander RF v0 — same shape as Safflower RF, its own model/season. See
 // controllers/corianderRfController.ts.
 agricultureRouter.post('/coriander-rf', getCorianderRf)
+
+// Fennel RF v0 — same shape as Coriander RF, its own model/season. See controllers/fennelRfController.ts.
+agricultureRouter.post('/fennel-rf', getFennelRf)

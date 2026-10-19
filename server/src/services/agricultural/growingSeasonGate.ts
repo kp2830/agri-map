@@ -21,7 +21,7 @@
  * models only represent one specific real cycle each, see the citations below).
  */
 
-export type ProjectCrop = 'sunflower' | 'safflower' | 'coriander'
+export type ProjectCrop = 'sunflower' | 'safflower' | 'coriander' | 'fennel'
 
 /**
  * Sunflower RF v0/v1 was trained on the Kurukshetra-Karnal, Haryana real fields (see
@@ -52,10 +52,18 @@ const SAFFLOWER_SEASON = { startMonth: 10, endMonth: 3 } // October - March (wra
  */
 const CORIANDER_SEASON = { startMonth: 10, endMonth: 3 } // October - March (wraps the year boundary)
 
+/**
+ * Fennel RF v0 targets the rabi fennel cycle of the Rajasthan/Gujarat belts: sown from early October (Rajasthan) to
+ * mid-November (Gujarat), flowering January-March, seed pickings until ~April (ICAR-NRCSS Ajmer trials: first umbel
+ * 84-90 days after sowing, maturity 170-180 days; see training/fennel/). The gate allows the full October-April span.
+ */
+const FENNEL_SEASON = { startMonth: 10, endMonth: 4 } // October - April (wraps the year boundary)
+
 const SEASONS: Record<ProjectCrop, { startMonth: number; endMonth: number }> = {
   sunflower: SUNFLOWER_SEASON,
   safflower: SAFFLOWER_SEASON,
   coriander: CORIANDER_SEASON,
+  fennel: FENNEL_SEASON,
 }
 
 /** True if `month` (1-12) falls within [startMonth, endMonth], handling a range that wraps the

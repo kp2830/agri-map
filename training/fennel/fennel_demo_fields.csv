@@ -1,0 +1,21 @@
+region,belt,field_id,lat,lon,area_ha,amed_rabi,amed_conf,model_pct_training_pipeline,live_pct_local_server,ui_gate,training_role,ui_flow_pct_oct
+raj,nagaur,7JRMRRWX+WJJF,26.84734,73.84901,3.1,,0.0,100,95,fallback,positive,95
+raj,nagaur,7JRMVX34+782J,26.85314,73.95575,1.92,UNKNOWN_CROP,0.46,100,97,seasonal,positive,97
+raj,nagaur,7JRMVQ32+QF59,26.85438,73.75125,1.09,UNKNOWN_CROP,0.3,100,95,seasonal,positive,95
+raj,nagaur,7JRMPVV2+WRVR,26.74487,73.85204,0.71,UNKNOWN_CROP,0.39,99,99,seasonal,positive,99
+raj,sirohi,7JPJRH7W+3M5F,24.81264,72.59673,1.08,UNKNOWN_CROP,0.71,83,92,seasonal,not in training,92
+raj,sirohi,7JPJXQ99+QXMV,24.96947,72.76992,2.2,,0.0,73,71,seasonal,not in training,71
+raj,bilara,7JRM685X+3Q4Q,26.20764,73.34946,2.14,UNKNOWN_CROP,0.3,91,78,seasonal,positive,78
+raj,bilara,7JRM6P6X+XF3X,26.2124,73.74868,0.52,UNKNOWN_CROP,0.76,83,73,fallback,not in training,73
+raj,bilara,7JRM6Q34+27CX,26.20257,73.75565,0.91,GROUNDNUT,0.41,67,69,seasonal,not in training,69
+guj,mehsana,7JMJP6PP+7J8C,23.73566,72.23656,0.55,COTTON,0.56,94,72,seasonal,not in training,72
+guj,mehsana,7JMJH8VF+8CR4,23.59335,72.32352,0.72,UNKNOWN_CROP,0.7,94,93,seasonal,positive,93
+guj,mehsana,7JMJR87F+WJ9C,23.81479,72.3241,0.7,UNKNOWN_CROP,0.66,87,63,seasonal,positive,63
+guj,mehsana,7JMJVFJP+RG5Q,23.88202,72.48637,0.65,UNKNOWN_CROP,0.69,66,60,seasonal,not in training,60
+guj,banaskantha,7JPJ29M3+X8CJ,24.03494,72.35325,0.52,UNKNOWN_CROP,0.39,90,90,seasonal,positive,90
+guj,banaskantha,7JPJ4H62+8P46,24.11076,72.55182,0.58,UNKNOWN_CROP,0.52,75,79,seasonal,not in training,79
+guj,banaskantha,7JPJ488V+HWC7,24.11643,72.34476,0.64,COTTON,0.42,75,79,seasonal,not in training,79
+guj,sabarkantha,7JMMH2XW+CRW6,23.59861,73.04707,0.57,UNKNOWN_CROP,0.42,95,94,seasonal,positive,94
+guj,sabarkantha,7JMJQR3X+4JWP,23.75287,72.84908,0.87,UNKNOWN_CROP,0.78,92,87,seasonal,positive,87
+guj,sabarkantha,7JMMQ25V+C943,23.7585,73.04345,0.89,UNKNOWN_CROP,0.47,87,83,seasonal,not in training,83
+raj,nagaur,7JRMVQ44+7W9Q,26.85567,73.75737,1.06,UNKNOWN_CROP,0.29,99,94,seasonal,positive,94

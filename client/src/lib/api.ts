@@ -3,6 +3,7 @@ import type {
   NormalizedFieldFeature,
   SafflowerRfResponse,
   CorianderRfResponse,
+  FennelRfResponse,
   SunflowerLikelihoodResponse,
   SunflowerRfResponse,
 } from '../types/agricultural'
@@ -94,6 +95,16 @@ export async function getCorianderRf(
   signal?: AbortSignal,
 ): Promise<CorianderRfResponse> {
   return apiPost<CorianderRfResponse>('/agriculture/coriander-rf', { feature, selectedMonth }, signal)
+}
+
+/** Fennel RF v0 — same shape and same month-gating as Coriander RF above. See
+ *  server/src/services/agricultural/growingSeasonGate.ts for Fennel's Oct-April season. */
+export async function getFennelRf(
+  feature: NormalizedFieldFeature,
+  selectedMonth: number,
+  signal?: AbortSignal,
+): Promise<FennelRfResponse> {
+  return apiPost<FennelRfResponse>('/agriculture/fennel-rf', { feature, selectedMonth }, signal)
 }
 
 /** Decodes a real ALU field ID (a standard Open Location Code) to its center lat/lng — powers

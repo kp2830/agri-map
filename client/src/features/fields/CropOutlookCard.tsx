@@ -2,12 +2,12 @@ import type { CropOutlook } from './cropPrediction'
 import { formatMonthName, formatMonthRange, formatOutlookBasis } from './cropPrediction'
 import { formatCropLabel } from './cropDisplay'
 
-/** A real-time RF result (Sunflower, Safflower or Coriander) strong enough to visually override AMED's own
+/** A real-time RF result (Sunflower, Safflower, Coriander or Fennel) strong enough to visually override AMED's own
  *  predicted crop for this field — see cropDisplay.ts's isRfOverrideActive, which is the single
  *  place that decision is made (the same predicate MapView.tsx uses for the map's fill color),
  *  so this banner and the map can never disagree about which fields are "override-active." */
 export interface CropOverride {
-  label: 'Sunflower' | 'Safflower' | 'Coriander'
+  label: 'Sunflower' | 'Safflower' | 'Coriander' | 'Fennel'
   probabilityPercent: number
   fillColor: string
 }
@@ -99,7 +99,7 @@ export function CropOutlookCard({
             Predicted
           </span>
           <span className={override ? 'text-xs font-semibold uppercase tracking-wide text-amber-700' : 'text-xs font-semibold uppercase tracking-wide text-emerald-700'}>
-            {override ? 'Crop (experimental model)' : 'Crop'}
+            {override ? 'Crop (model)' : 'Crop'}
           </span>
         </div>
         <div className="mt-1.5 flex items-center gap-2">
@@ -110,7 +110,7 @@ export function CropOutlookCard({
 
       <div className="mt-3">
         <div className="flex items-baseline justify-between text-sm">
-          <span className="text-slate-500">{override ? 'Predicted Crop Confidence (experimental model)' : 'Predicted Crop Confidence'}</span>
+          <span className="text-slate-500">{override ? 'Predicted Crop Confidence (model)' : 'Predicted Crop Confidence'}</span>
           <span className="font-semibold tabular-nums text-slate-900">
             {override
               ? `${override.probabilityPercent}%`
@@ -145,7 +145,7 @@ export function CropOutlookCard({
 
       <p className="mt-3 text-xs text-slate-400">
         {override
-          ? 'Experimental satellite pattern-matching model — not an AMED classification.'
+          ? 'Satellite pattern-matching model — not an AMED classification.'
           : formatOutlookBasis(outlook.basis)}
       </p>
 

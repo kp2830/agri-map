@@ -1,7 +1,7 @@
 import type { NormalizedFieldCollection, NormalizedFieldProperties } from '../../types/agricultural'
-import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, formatCropLabel, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
+import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, FENNEL_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, formatCropLabel, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
 import { getPredictedCrop } from './cropPrediction'
-import { CORIANDER_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from './cropSummary'
+import { CORIANDER_CROP_KEY, FENNEL_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from './cropSummary'
 
 /** Sentinel meaning "no crop filter applied" — every field is shown, exactly as returned. */
 export const ALL_CROPS = 'ALL_CROPS' as const
@@ -82,6 +82,8 @@ export function filterFieldsByCrop(
   safflowerThresholdPercent: number = SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
   corianderProbabilities?: Map<string, number>,
   corianderThresholdPercent: number = CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
+  fennelProbabilities?: Map<string, number>,
+  fennelThresholdPercent: number = FENNEL_MAP_COLOR_THRESHOLD_PERCENT,
 ): NormalizedFieldCollection {
   if (selectedCrop === ALL_CROPS) return fieldCollection
 
@@ -114,6 +116,17 @@ export function filterFieldsByCrop(
         if (feature.properties.aluType !== 'field' || feature.id === undefined) return false
         const probabilityPercent = corianderProbabilities?.get(String(feature.id))
         return probabilityPercent !== undefined && probabilityPercent > corianderThresholdPercent
+      }),
+    }
+  }
+
+  if (selectedCrop === FENNEL_CROP_KEY) {
+    return {
+      type: 'FeatureCollection',
+      features: fieldCollection.features.filter((feature) => {
+        if (feature.properties.aluType !== 'field' || feature.id === undefined) return false
+        const probabilityPercent = fennelProbabilities?.get(String(feature.id))
+        return probabilityPercent !== undefined && probabilityPercent > fennelThresholdPercent
       }),
     }
   }

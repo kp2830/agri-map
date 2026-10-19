@@ -106,6 +106,23 @@ export type CorianderRfResponse =
     }
   | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
 
+/**
+ * Fennel RF v0 — same shape and honesty requirements as the Sunflower, Safflower and Coriander RF responses
+ * (server/src/services/agricultural/fennelRf/). Only one confirmed fennel field exists (Kotra, Udaipur); all other
+ * positives are weak labels from documented fennel belts, so this is an experimental signal, never "confirmed
+ * Fennel" or a calibrated accuracy.
+ */
+export type FennelRfResponse =
+  | {
+      available: true
+      probability: number
+      probabilityPercent: number
+      modelVersion: string
+      source: 'fennel_random_forest'
+      labelType: 'weakly_supervised_model'
+    }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
+
 export type SafflowerRfResponse =
   | {
       available: true

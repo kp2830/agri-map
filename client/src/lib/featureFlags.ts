@@ -39,3 +39,12 @@ export const SAFFLOWER_UI_ENABLED = true
  * output as more than an experimental signal.
  */
 export const CORIANDER_UI_ENABLED = true
+
+/**
+ * Fennel RF v0 — same shape as Coriander RF, gated the same way (AMED confidence, the selected month
+ * inside Fennel's Oct-April rabi season, plus a Mustard/Wheat/Gram confusion-crop gate — see
+ * server/src/services/agricultural/fennelRf/). First experimental model: there is no public ground-truth fennel
+ * dataset; one confirmed field plus weak-label positives from the documented Rajasthan/Gujarat fennel belts —
+ * read fennelRf/config.ts's honest-state note before treating its output as more than an experimental signal.
+ */
+export const FENNEL_UI_ENABLED = true

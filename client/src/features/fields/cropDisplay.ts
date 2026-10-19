@@ -59,6 +59,12 @@ export const CORIANDER_LIKELY_FILL_COLOR = '#12b886'
 export const CORIANDER_LIKELY_STROKE_COLOR = '#064e3b'
 /** Same product requirement as the Sunflower/Safflower thresholds above, reused verbatim. */
 export const CORIANDER_MAP_COLOR_THRESHOLD_PERCENT = 50
+/** Fennel's own map-color palette — a purple distinct from Sunflower's yellow, Safflower's orange and
+ *  Coriander's green, so the four experimental crop layers are never visually confusable. */
+export const FENNEL_LIKELY_FILL_COLOR = '#7048e8'
+export const FENNEL_LIKELY_STROKE_COLOR = '#2b1a6b'
+/** Same product requirement as the Sunflower/Safflower/Coriander thresholds above, reused verbatim. */
+export const FENNEL_MAP_COLOR_THRESHOLD_PERCENT = 50
 /** AMED returned no monitoring data at all for this field. */
 const NO_PREDICTION_COLOR = '#c3c2b7'
 /** AMED explicitly returned the UNKNOWN_CROP sentinel. */
@@ -240,6 +246,19 @@ export function isEligibleForCorianderCheck(outcome: ActiveCropOutcome, threshol
   if (outcome.kind === 'none' || outcome.kind === 'seasonal') return true
   const prediction = outcome.season.predictions[0]
   if (prediction && CORIANDER_NEVER_RUN_CROPS.has(prediction.crop.toUpperCase())) return false
+  return prediction === undefined || prediction.confidence < threshold
+}
+
+/** Fennel's documented confusion crops (see
+ *  server/src/services/agricultural/fennelRf/config.ts's FENNEL_KNOWN_CONFUSION_CROPS): Mustard,
+ *  Wheat and Gram share its rabi calendar, so a confident AMED call of any of them is never eligible. */
+const FENNEL_NEVER_RUN_CROPS = new Set(['MUSTARD', 'WHEAT', 'GRAM'])
+
+/** Same shape as isEligibleForCorianderCheck, for Fennel's own confusion crops. */
+export function isEligibleForFennelCheck(outcome: ActiveCropOutcome, threshold: number = AMED_STRONG_CONFIDENCE_THRESHOLD): boolean {
+  if (outcome.kind === 'none' || outcome.kind === 'seasonal') return true
+  const prediction = outcome.season.predictions[0]
+  if (prediction && FENNEL_NEVER_RUN_CROPS.has(prediction.crop.toUpperCase())) return false
   return prediction === undefined || prediction.confidence < threshold
 }
 
@@ -429,17 +448,17 @@ export function colorForFeatureWithSafflower(
   return colorForFeature(properties, colorMap, predictedCrop)
 }
 
-export type RfCropKind = 'sunflower' | 'safflower' | 'coriander'
+export type RfCropKind = 'sunflower' | 'safflower' | 'coriander' | 'fennel'
 
 /**
- * Of the three experimental RF crops (none of which AMED knows), which one has the highest
+ * Of the four experimental RF crops (none of which AMED knows), which one has the highest
  * probability for a single field -- only that one should ever be shown for the field. Ties go to
  * Coriander, then Safflower, then Sunflower (arbitrary but deterministic). Returns null when no
  * model produced a probability. This only ranks the three RF models against each other; whether the
  * winner is actually allowed to override AMED is still decided by isRfOverrideActive, unchanged.
  */
-export function pickTopRfCrop(p: { sunflower?: number | null; safflower?: number | null; coriander?: number | null }): RfCropKind | null {
-  const order: RfCropKind[] = ['coriander', 'safflower', 'sunflower']
+export function pickTopRfCrop(p: { sunflower?: number | null; safflower?: number | null; coriander?: number | null; fennel?: number | null }): RfCropKind | null {
+  const order: RfCropKind[] = ['fennel', 'coriander', 'safflower', 'sunflower']
   let best: RfCropKind | null = null
   let bestValue = -1
   for (const kind of order) {
@@ -453,21 +472,23 @@ export function pickTopRfCrop(p: { sunflower?: number | null; safflower?: number
   return best
 }
 
-/** Splits the three per-field probability maps so each field survives in only the map of its
+/** Splits the four per-field probability maps so each field survives in only the map of its
  *  highest-probability RF crop -- everything downstream (map color, crop dropdown, distribution,
- *  crop filter) then shows at most one of the three experimental crops per field. */
+ *  crop filter) then shows at most one of the four experimental crops per field. */
 export function keepOnlyTopRfCropPerField(
   sunflower: Map<string, number>,
   safflower: Map<string, number>,
   coriander: Map<string, number>,
-): { sunflower: Map<string, number>; safflower: Map<string, number>; coriander: Map<string, number> } {
-  const out = { sunflower: new Map<string, number>(), safflower: new Map<string, number>(), coriander: new Map<string, number>() }
-  const ids = new Set([...sunflower.keys(), ...safflower.keys(), ...coriander.keys()])
+  fennel: Map<string, number>,
+): { sunflower: Map<string, number>; safflower: Map<string, number>; coriander: Map<string, number>; fennel: Map<string, number> } {
+  const out = { sunflower: new Map<string, number>(), safflower: new Map<string, number>(), coriander: new Map<string, number>(), fennel: new Map<string, number>() }
+  const ids = new Set([...sunflower.keys(), ...safflower.keys(), ...coriander.keys(), ...fennel.keys()])
   for (const id of ids) {
-    const top = pickTopRfCrop({ sunflower: sunflower.get(id), safflower: safflower.get(id), coriander: coriander.get(id) })
+    const top = pickTopRfCrop({ sunflower: sunflower.get(id), safflower: safflower.get(id), coriander: coriander.get(id), fennel: fennel.get(id) })
     if (top === 'sunflower') out.sunflower.set(id, sunflower.get(id) as number)
     else if (top === 'safflower') out.safflower.set(id, safflower.get(id) as number)
     else if (top === 'coriander') out.coriander.set(id, coriander.get(id) as number)
+    else if (top === 'fennel') out.fennel.set(id, fennel.get(id) as number)
   }
   return out
 }
@@ -480,6 +501,17 @@ export function colorForFeatureWithCoriander(
   predictedCrop: string | null,
 ): string {
   if (properties.aluType === 'field' && isCorianderLikely) return CORIANDER_LIKELY_FILL_COLOR
+  return colorForFeature(properties, colorMap, predictedCrop)
+}
+
+/** Same shape as colorForFeatureWithCoriander, for the Fennel RF layer. */
+export function colorForFeatureWithFennel(
+  properties: NormalizedFieldProperties,
+  colorMap: Map<string, string>,
+  isFennelLikely: boolean,
+  predictedCrop: string | null,
+): string {
+  if (properties.aluType === 'field' && isFennelLikely) return FENNEL_LIKELY_FILL_COLOR
   return colorForFeature(properties, colorMap, predictedCrop)
 }
 
