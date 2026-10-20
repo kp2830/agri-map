@@ -1,5 +1,7 @@
 """Weak-label rules used to pick fennel-LIKE fields in the popular belts (unvalidated hypotheses -- see ref_commons_fennel_2020.json and notes).
 Rajasthan rule v1b: derived from the one confirmed fennel field (Kotra, Udaipur, 2019-20) + ICAR calendar (early-Oct sowing, Dec-Feb plateau, harvested by mid/late March).
+MP (Malwa/Dhar) rule v0: early-sown calendar. Research: Mandsaur (Malwa) sowing trial 15 Sep / 30 Sep / 15 Oct, mid-Sept sowing gave the highest seed yield (so the crop is already standing in Oct);
+fields near Dhar/Manawar show NDVI >=0.6 from 1 Oct, plateau 0.7-0.85 until mid-Jan, decline from late Jan, harvested by early March.
 Gujarat rule v0: Nov sowing / Mar-Apr harvest calendar: bare around sowing, green Jan-Feb, still green 20 Mar-10 Apr, and NOT re-greening after a March dip (2nd crop)."""
 import numpy as np
 from datetime import date, timedelta
@@ -30,3 +32,14 @@ def gujarat_pass(series, y0=2025):
     lm = _win(nd, g, date(y0 + 1, 3, 20), date(y0 + 1, 4, 10)); a2 = _win(nd, g, date(y0 + 1, 4, 20), date(y0 + 1, 4, 29)); mar = _win(nd, g, date(y0 + 1, 3, 1), date(y0 + 1, 3, 10))
     if not (oc <= 0.35 and jf >= 0.5 and lm >= 0.45): return False
     return not (mar < lm - 0.05 or a2 >= 0.45)
+
+def mp_pass(series, y0=2025):
+    """Early-sown fennel (mid-Sept/early-Oct sowing): standing crop from Oct, green through Feb, harvested by early March, bare by April."""
+    g = GRID(y0); nd = interp(despike(series), 'ndvi', g)
+    if nd is None: return False
+    oct_dec = _win(nd, g, date(y0, 10, 1), date(y0, 12, 31)); feb = _win(nd, g, date(y0 + 1, 2, 1), date(y0 + 1, 2, 20))
+    mar = _win(nd, g, date(y0 + 1, 3, 1), date(y0 + 1, 3, 15)); apr = _win(nd, g, date(y0 + 1, 4, 1), date(y0 + 1, 4, 29))
+    run = best = 0
+    for x in nd:
+        run = run + 1 if x >= 0.6 else 0; best = max(best, run)
+    return best >= 10 and oct_dec >= 0.62 and nd.max() >= 0.72 and feb >= 0.42 and mar <= 0.45 and apr <= 0.25

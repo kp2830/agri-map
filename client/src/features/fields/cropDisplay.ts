@@ -250,9 +250,9 @@ export function isEligibleForCorianderCheck(outcome: ActiveCropOutcome, threshol
 }
 
 /** Fennel's documented confusion crops (see
- *  server/src/services/agricultural/fennelRf/config.ts's FENNEL_KNOWN_CONFUSION_CROPS): Mustard,
- *  Wheat and Gram share its rabi calendar, so a confident AMED call of any of them is never eligible. */
-const FENNEL_NEVER_RUN_CROPS = new Set(['MUSTARD', 'WHEAT', 'GRAM'])
+ *  server/src/services/agricultural/fennelRf/config.ts's FENNEL_KNOWN_CONFUSION_CROPS): Mustard, Wheat and Gram share its rabi
+ *  calendar and rabi Corn/Maize has the same long plateau, so an AMED call of any of them is never eligible. */
+const FENNEL_NEVER_RUN_CROPS = new Set(['MUSTARD', 'WHEAT', 'GRAM', 'CORN', 'MAIZE'])
 
 /** Same shape as isEligibleForCorianderCheck, for Fennel's own confusion crops. */
 export function isEligibleForFennelCheck(outcome: ActiveCropOutcome, threshold: number = AMED_STRONG_CONFIDENCE_THRESHOLD): boolean {

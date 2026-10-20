@@ -3,25 +3,28 @@
  * (its 12 crops: Bajra, Chilli, Corn, Cotton, Gram, Groundnut, Mustard, Rice, Sorghum, Soybeans, Sugarcane, Wheat),
  * so this is an ADDITIVE, isolated signal that never overrides or modifies AMED.
  *
- * v0 (first experimental model) -- HONEST STATE: there is no public ground-truth fennel dataset for India.
- * Exactly ONE real, geotagged fennel field was found (Wikimedia Commons "Fennel farming", 13 Jan 2020, Kotra tehsil,
- * Udaipur; training/fennel/ref_commons_fennel_2020.json) and it was NOT a training row; it is used only as a check
- * (the model scores it 0.64). All 91 training positives are WEAK LABELS: fields in documented fennel belts whose
- * rabi-2025-26 NDVI curve matches fennel's calendar (training/fennel/fennel_rules.py): Gujarat 61 (Sabarkantha 31,
- * Mehsana 19, Banaskantha 11, Morbi 0) and Rajasthan only 30 (Nagaur 25, Sirohi 4, Bilara 1). Negatives (728) are
- * AMED-confident other-crop fields (mustard/wheat/gram/cotton/...) plus ordinary fields from the same belts; fields near
- * the rule boundary were excluded. The model therefore learns "fennel-like curve", NOT verified fennel.
+ * v0 -- HONEST STATE: there is no public ground-truth fennel dataset for India. Exactly ONE real, geotagged fennel field was
+ * found (Wikimedia Commons "Fennel farming", 13 Jan 2020, Kotra tehsil, Udaipur; training/fennel/ref_commons_fennel_2020.json); it
+ * was NOT a training row and the model scores it 0.64. All 113 training positives are WEAK LABELS: fields in documented fennel belts
+ * whose rabi-2025-26 NDVI curve matches a fennel calendar (training/fennel/fennel_rules.py), three regional rules:
+ *   - Rajasthan (30 positives: Nagaur 25, Sirohi 4, Bilara 1): early-October sowing, plateau Dec-Feb, harvested by mid-March.
+ *   - Gujarat (37: Mehsana 19, Banaskantha 8, Sabarkantha 10): November sowing, green through late March.
+ *   - Madhya Pradesh (46, Dhar/Manawar): early-sown (Malwa trials sow from mid-September), standing crop from October, harvested by early
+ *     March. Chosen from the cropping pattern found near Manawar tehsil, which also matches a farmer sheet for that area (Aug-Sep sowing,
+ *     Feb-Mar harvest); the sheet has no coordinates, so it was not used as labels. MP is trained on the Dhar belt only.
+ * Negatives are AMED-confident other-crop fields plus ordinary fields from the same belts; borderline fields were excluded.
+ * AMED Corn/Maize is gated like mustard/wheat/gram: rabi maize has the same long plateau (82 of 132 Dhar fields flagged by an earlier
+ * version were AMED-Corn, and 24 of the first 91 positives were AMED-Corn; those were removed).
  *
- * What the checks show (training/fennel/assemble_and_train.py, leave-one-belt-out; labels are the weak rules, so this
- * measures consistency, not accuracy against real fennel): Gujarat belts precision 0.92-0.94 and recall 0.63-1.0 at the
- * 0.5 UI threshold, flagging 2.3-3.6% of eligible fields (official fennel share is roughly 1-3%); Rajasthan belts recall
- * only ~0.2 (too few Rajasthan positives), so Rajasthan fennel is under-detected. Gram, castor and other late-rabi crops
- * can produce similar curves. Sentinel-1 radar (not used at inference) separated the candidates from AMED mustard
- * strongly and from wheat/gram only modestly. Scores are not calibrated probabilities. Inference features come from
- * the production Statistical API while training used per-cell chips; the measured difference in model score was 0.00-0.09.
- * Do not treat a result as more than an experimental signal until fields are verified on the ground.
+ * What the checks show (training/fennel/assemble_and_train.py, leave-one-belt-out; labels are the weak rules, so this measures
+ * consistency, not accuracy against real fennel): Gujarat and Rajasthan belts AUC 0.96-1.0; Dhar AUC ~0.5 when trained WITHOUT MP
+ * positives (the MP pattern is new, hence the MP rule and MP positives). At the 0.5 threshold the model flags 0.2-4.2% of eligible
+ * fields per belt. Rajasthan recall is low (~0.2-0.5). Gram, castor, cotton and other long-season crops can produce similar curves.
+ * Scores are not calibrated probabilities. Inference features come from the production Statistical API while training used per-cell
+ * chips (measured score difference 0.00-0.09). Do not treat a result as more than a model signal until fields are verified on the ground.
  */
-export const FENNEL_RF_MODEL_VERSION = 'fennel-rf-v0'
+/** Part of the prediction-cache key (resultStore.ts): bump it whenever the model file changes, or stale scores are served. */
+export const FENNEL_RF_MODEL_VERSION = 'fennel-rf-v1'
 
 /** AMED confidence at or above this is "strong" and the RF is not run (same value as Sunflower/Safflower/Coriander). */
 export const AMED_STRONG_CONFIDENCE_THRESHOLD = 0.8
@@ -51,9 +54,10 @@ export const MAX_EMPTY_WINDOWS = 3
 
 export const FEATURE_WINDOW_VERSION = '2025-26-rabi-13win-ndvi-ndre-v0-unvalidated'
 
-/** Crops AMED already knows that Fennel is spectrally confusable with on this calendar (same set as Coriander's gate):
- *  a confident AMED call of any of these is the strongest disambiguating signal, so the RF is not run for them. */
-export const FENNEL_KNOWN_CONFUSION_CROPS = ['MUSTARD', 'WHEAT', 'GRAM'] as const
+/** Crops AMED already knows that Fennel is spectrally confusable with on this calendar: mustard/wheat/gram (rabi) and corn/maize
+ *  (rabi maize has the same long late-rabi plateau; in the Dhar belt 82 of 132 fields the model flagged were AMED-Corn). A call of any
+ *  of these by AMED (at any confidence) is the strongest disambiguating signal, so the RF is not run for them. */
+export const FENNEL_KNOWN_CONFUSION_CROPS = ['MUSTARD', 'WHEAT', 'GRAM', 'CORN', 'MAIZE'] as const
 
 /** Ordered feature vector the model expects: ndvi_<13 windows> then ndre_<13 windows>. */
 export const EXPECTED_FEATURE_ORDER = [

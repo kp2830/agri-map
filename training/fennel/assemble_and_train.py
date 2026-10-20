@@ -8,11 +8,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GroupKFold
 from sklearn.metrics import roc_auc_score
 from fennel_features import window_vector, FEATURE_ORDER, despike
-from fennel_rules import rajasthan_pass, gujarat_pass, GRID, _win
+from fennel_rules import rajasthan_pass, gujarat_pass, mp_pass, GRID, _win
 from analyze_series import interp
 
-BELTS = {'nagaur': 'raj', 'sirohi': 'raj', 'bilara': 'raj', 'mehsana': 'guj', 'banaskantha': 'guj', 'sabarkantha': 'guj', 'morbi': 'guj'}
-CONFUSION = {'MUSTARD', 'WHEAT', 'GRAM'}
+BELTS = {'nagaur': 'raj', 'sirohi': 'raj', 'bilara': 'raj', 'mehsana': 'guj', 'banaskantha': 'guj', 'sabarkantha': 'guj', 'morbi': 'guj', 'dhar': 'mp'}
+CONFUSION = {'MUSTARD', 'WHEAT', 'GRAM', 'CORN', 'MAIZE'}
 RS = 42
 NEG_RATIO = int(os.environ.get('NEG_RATIO', 6)); CLASS_WEIGHT = os.environ.get('CLASS_WEIGHT', 'balanced_subsample'); CLASS_WEIGHT = None if CLASS_WEIGHT == 'none' else CLASS_WEIGHT
 RAJ_WEIGHT = float(os.environ.get('RAJ_WEIGHT', 1)); MIN_LEAF = int(os.environ.get('MIN_LEAF', 3)); QUIET = os.environ.get('QUIET') == '1'
@@ -31,13 +31,18 @@ def ambiguous(series, region):
     if nd is None: return False
     if region == 'raj':
         n = int((nd >= 0.74).sum()); return n >= 4 and nd.max() >= 0.8
+    if region == 'mp':
+        run = best = 0
+        for x in nd:
+            run = run + 1 if x >= 0.55 else 0; best = max(best, run)
+        return best >= 8 and nd.max() >= 0.68
     jf = _win(nd, g, date(2026, 1, 15), date(2026, 2, 15)); lm = _win(nd, g, date(2026, 3, 20), date(2026, 4, 10)); oc = _win(nd, g, date(2025, 10, 20), date(2025, 11, 10))
     return oc <= 0.42 and jf >= 0.45 and lm >= 0.38
 
 rows = []
 belts = sys.argv[1:] or [b for b in BELTS if os.path.exists(f'series_{b}_all_2526.json')]
 for belt in belts:
-    d = json.load(open(f'series_{belt}_all_2526.json')); region = BELTS[belt]; rule = rajasthan_pass if region == 'raj' else gujarat_pass
+    d = json.load(open(f'series_{belt}_all_2526.json')); region = BELTS[belt]; rule = {'raj': rajasthan_pass, 'guj': gujarat_pass, 'mp': mp_pass}[region]
     n = 0
     for fid, v in d.items():
         if len(v['series']) < 10: continue
