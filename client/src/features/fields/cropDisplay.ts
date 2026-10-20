@@ -251,14 +251,19 @@ export function isEligibleForCorianderCheck(outcome: ActiveCropOutcome, threshol
 
 /** Fennel's documented confusion crops (see
  *  server/src/services/agricultural/fennelRf/config.ts's FENNEL_KNOWN_CONFUSION_CROPS): Mustard, Wheat and Gram share its rabi
- *  calendar and rabi Corn/Maize has the same long plateau, so an AMED call of any of them is never eligible. */
-const FENNEL_NEVER_RUN_CROPS = new Set(['MUSTARD', 'WHEAT', 'GRAM', 'CORN', 'MAIZE'])
+ *  calendar, so an AMED call of any of them is never eligible; rabi Corn/Maize has the same long plateau and is gated from 60% AMED
+ *  confidence up. */
+const FENNEL_NEVER_RUN_CROPS = new Set(['MUSTARD', 'WHEAT', 'GRAM'])
+/** Rabi Corn/Maize is gated only when AMED is at least this sure (mirrors fennelRf/config.ts's FENNEL_CORN_GATE_CONFIDENCE). */
+const FENNEL_CORN_CROPS = new Set(['CORN', 'MAIZE'])
+const FENNEL_CORN_GATE_CONFIDENCE = 0.6
 
 /** Same shape as isEligibleForCorianderCheck, for Fennel's own confusion crops. */
 export function isEligibleForFennelCheck(outcome: ActiveCropOutcome, threshold: number = AMED_STRONG_CONFIDENCE_THRESHOLD): boolean {
   if (outcome.kind === 'none' || outcome.kind === 'seasonal') return true
   const prediction = outcome.season.predictions[0]
   if (prediction && FENNEL_NEVER_RUN_CROPS.has(prediction.crop.toUpperCase())) return false
+  if (prediction && FENNEL_CORN_CROPS.has(prediction.crop.toUpperCase()) && prediction.confidence >= FENNEL_CORN_GATE_CONFIDENCE) return false
   return prediction === undefined || prediction.confidence < threshold
 }
 

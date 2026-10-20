@@ -13,8 +13,9 @@
  *     March. Chosen from the cropping pattern found near Manawar tehsil, which also matches a farmer sheet for that area (Aug-Sep sowing,
  *     Feb-Mar harvest); the sheet has no coordinates, so it was not used as labels. MP is trained on the Dhar belt only.
  * Negatives are AMED-confident other-crop fields plus ordinary fields from the same belts; borderline fields were excluded.
- * AMED Corn/Maize is gated like mustard/wheat/gram: rabi maize has the same long plateau (82 of 132 Dhar fields flagged by an earlier
- * version were AMED-Corn, and 24 of the first 91 positives were AMED-Corn; those were removed).
+ * AMED Corn/Maize is gated when AMED's confidence is 60% or more: rabi maize has the same long plateau (82 of 132 Dhar fields flagged
+ * by an earlier version were AMED-Corn, and 26 of the first 91 positives were AMED-Corn with ~70% mean confidence). Below 60% the fennel
+ * model still runs and such fields can be positives.
  *
  * What the checks show (training/fennel/assemble_and_train.py, leave-one-belt-out; labels are the weak rules, so this measures
  * consistency, not accuracy against real fennel): Gujarat and Rajasthan belts AUC 0.96-1.0; Dhar AUC ~0.5 when trained WITHOUT MP
@@ -24,7 +25,7 @@
  * chips (measured score difference 0.00-0.09). Do not treat a result as more than a model signal until fields are verified on the ground.
  */
 /** Part of the prediction-cache key (resultStore.ts): bump it whenever the model file changes, or stale scores are served. */
-export const FENNEL_RF_MODEL_VERSION = 'fennel-rf-v1'
+export const FENNEL_RF_MODEL_VERSION = 'fennel-rf-v2'
 
 /** AMED confidence at or above this is "strong" and the RF is not run (same value as Sunflower/Safflower/Coriander). */
 export const AMED_STRONG_CONFIDENCE_THRESHOLD = 0.8
@@ -54,10 +55,14 @@ export const MAX_EMPTY_WINDOWS = 3
 
 export const FEATURE_WINDOW_VERSION = '2025-26-rabi-13win-ndvi-ndre-v0-unvalidated'
 
-/** Crops AMED already knows that Fennel is spectrally confusable with on this calendar: mustard/wheat/gram (rabi) and corn/maize
- *  (rabi maize has the same long late-rabi plateau; in the Dhar belt 82 of 132 fields the model flagged were AMED-Corn). A call of any
- *  of these by AMED (at any confidence) is the strongest disambiguating signal, so the RF is not run for them. */
-export const FENNEL_KNOWN_CONFUSION_CROPS = ['MUSTARD', 'WHEAT', 'GRAM', 'CORN', 'MAIZE'] as const
+/** Crops AMED already knows that Fennel is spectrally confusable with on this calendar. Mustard/wheat/gram (rabi): a call of any of them
+ *  by AMED, at any confidence, is the strongest disambiguating signal, so the RF is not run. Corn/Maize (rabi maize has the same long
+ *  late-rabi plateau; in the Dhar belt 82 of 132 flagged fields were AMED-Corn) is gated only from FENNEL_CORN_GATE_CONFIDENCE up. */
+export const FENNEL_KNOWN_CONFUSION_CROPS = ['MUSTARD', 'WHEAT', 'GRAM'] as const
+
+/** Corn/Maize is gated only when AMED is at least this sure: below it the fennel model still runs. */
+export const FENNEL_CORN_CROPS = ['CORN', 'MAIZE'] as const
+export const FENNEL_CORN_GATE_CONFIDENCE = 0.6
 
 /** Ordered feature vector the model expects: ndvi_<13 windows> then ndre_<13 windows>. */
 export const EXPECTED_FEATURE_ORDER = [

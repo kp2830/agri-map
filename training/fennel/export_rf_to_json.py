@@ -24,7 +24,7 @@ def predict_json(trees, x):
 
 d = pickle.load(open("fennel_rf_v0_model.pkl", "rb")); model, features = d["model"], d["features"]
 trees = [export_tree(est.tree_) for est in model.estimators_]
-json.dump({"model_version": "fennel-rf-v1", "features": features, "n_trees": len(trees), "trees": trees}, open("fennel_rf_v0_candidate.json", "w"))
+json.dump({"model_version": "fennel-rf-v2", "features": features, "n_trees": len(trees), "trees": trees}, open("fennel_rf_v0_candidate.json", "w"))
 rows = json.load(open("fennel_training_table.json"))["rows"]
 X = np.array([[r[f] for f in features] for r in rows])
 sk = model.predict_proba(X)[:, 1]; js = np.array([predict_json(trees, x) for x in X])

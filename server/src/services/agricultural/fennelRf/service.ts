@@ -8,7 +8,7 @@
  */
 import type { MultiPolygon, Polygon } from 'geojson'
 import { isCropInSeasonForMonth } from '../growingSeasonGate.js'
-import { AMED_STRONG_CONFIDENCE_THRESHOLD, FENNEL_KNOWN_CONFUSION_CROPS, FEATURE_WINDOW_VERSION, FENNEL_RF_MODEL_VERSION } from './config.js'
+import { AMED_STRONG_CONFIDENCE_THRESHOLD, FENNEL_CORN_CROPS, FENNEL_CORN_GATE_CONFIDENCE, FENNEL_KNOWN_CONFUSION_CROPS, FEATURE_WINDOW_VERSION, FENNEL_RF_MODEL_VERSION } from './config.js'
 import { extractFennelRfFeatures } from './featureExtraction.js'
 import { predictFennelProbability } from './rfInference.js'
 import { buildCacheKey, getCachedRecord, saveRecord } from './resultStore.js'
@@ -18,6 +18,7 @@ import type { FennelRfResult } from './types.js'
 export { AMED_STRONG_CONFIDENCE_THRESHOLD }
 
 const CONFUSION_CROPS = new Set(FENNEL_KNOWN_CONFUSION_CROPS.map((c) => c.toUpperCase()))
+const CORN_CROPS = new Set(FENNEL_CORN_CROPS.map((c) => c.toUpperCase()))
 
 /** Pure gate logic, exported separately so the controller (and tests) can check eligibility
  *  without touching the cache/CDSE/inference machinery.
@@ -29,11 +30,14 @@ const CONFUSION_CROPS = new Set(FENNEL_KNOWN_CONFUSION_CROPS.map((c) => c.toUppe
  *    ./config.ts's FENNEL_KNOWN_CONFUSION_CROPS) -> NOT eligible, regardless of confidence level,
  *    since all three share Fennel's rabi calendar and a call of any of them is the strongest real
  *    disambiguating signal available.
+ *  - AMED names Corn/Maize (rabi maize has the same long plateau) -> NOT eligible only when its confidence is
+ *    FENNEL_CORN_GATE_CONFIDENCE (0.60) or more; below that the model still runs.
  *  - Every other crop: eligible only below the 0.80 strong-confidence threshold. */
 export function isEligibleForFennelRf(amedTop: AmedHypothesis | null, selectedMonth: number): { eligible: boolean; reason?: 'OUT_OF_SEASON' | 'AMED_HIGH_CONFIDENCE' } {
   if (!isCropInSeasonForMonth('fennel', selectedMonth)) return { eligible: false, reason: 'OUT_OF_SEASON' }
   if (!amedTop) return { eligible: true }
   if (CONFUSION_CROPS.has(amedTop.crop.toUpperCase())) return { eligible: false, reason: 'AMED_HIGH_CONFIDENCE' }
+  if (CORN_CROPS.has(amedTop.crop.toUpperCase()) && amedTop.confidence >= FENNEL_CORN_GATE_CONFIDENCE) return { eligible: false, reason: 'AMED_HIGH_CONFIDENCE' }
   if (amedTop.confidence >= AMED_STRONG_CONFIDENCE_THRESHOLD) return { eligible: false, reason: 'AMED_HIGH_CONFIDENCE' }
   return { eligible: true }
 }

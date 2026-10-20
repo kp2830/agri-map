@@ -12,7 +12,9 @@ from fennel_rules import rajasthan_pass, gujarat_pass, mp_pass, GRID, _win
 from analyze_series import interp
 
 BELTS = {'nagaur': 'raj', 'sirohi': 'raj', 'bilara': 'raj', 'mehsana': 'guj', 'banaskantha': 'guj', 'sabarkantha': 'guj', 'morbi': 'guj', 'dhar': 'mp'}
-CONFUSION = {'MUSTARD', 'WHEAT', 'GRAM', 'CORN', 'MAIZE'}
+CONFUSION = {'MUSTARD', 'WHEAT', 'GRAM'}
+CORN_GATE = 0.6   # AMED Corn/Maize at or above this confidence is gated (below it the model runs)
+def gated(r): return (r['amed'] in CONFUSION) or (r['amed'] in ('CORN', 'MAIZE') and r['conf'] >= CORN_GATE) or (r['conf'] >= 0.8)
 RS = 42
 NEG_RATIO = int(os.environ.get('NEG_RATIO', 6)); CLASS_WEIGHT = os.environ.get('CLASS_WEIGHT', 'balanced_subsample'); CLASS_WEIGHT = None if CLASS_WEIGHT == 'none' else CLASS_WEIGHT
 RAJ_WEIGHT = float(os.environ.get('RAJ_WEIGHT', 1)); MIN_LEAF = int(os.environ.get('MIN_LEAF', 3)); QUIET = os.environ.get('QUIET') == '1'
@@ -54,7 +56,7 @@ for belt in belts:
     print(f'{belt}: {n} scoreable fields', flush=True)
 
 def label(r):
-    inelig = (r['amed'] in CONFUSION) or (r['conf'] >= 0.8)   # at inference these fields are never scored
+    inelig = gated(r)   # at inference these fields are never scored
     if r['strict'] and not inelig: return 1
     if r['strict']: return None          # strict-rule pass but AMED is confident of another crop -> unusable
     if r['ambiguous']: return None
@@ -79,7 +81,7 @@ for belt in sorted(set(grp)):
     if y[tr].sum() < 10 or y[te].sum() < 3: print(f'  {belt}: skipped (too few positives)'); continue
     m = mk().fit(X[tr], y[tr], sample_weight=SW[tr]); p = m.predict_proba(X[te])[:, 1]
     auc = roc_auc_score(y[te], p); pred = p > 0.5; tp = int((pred & (y[te] == 1)).sum()); prec = tp / max(1, pred.sum()); rec = tp / y[te].sum()
-    allb = [r for r in rows if r['belt'] == belt and not ((r['amed'] in CONFUSION) or r['conf'] >= 0.8)]
+    allb = [r for r in rows if r['belt'] == belt and not gated(r)]
     pa = m.predict_proba(np.array([r['vec'] for r in allb]))[:, 1]
     cv.append((belt, auc, prec, rec)); print(f'  {belt:12s} AUC {auc:.2f} | @0.5 precision {prec:.2f} recall {rec:.2f} | flags {100*np.mean(pa>0.5):.1f}% of {len(allb)} eligible fields in belt')
 if cv: print(f'  mean AUC {np.mean([c[1] for c in cv]):.2f}, precision {np.mean([c[2] for c in cv]):.2f}, recall {np.mean([c[3] for c in cv]):.2f}')
