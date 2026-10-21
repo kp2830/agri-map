@@ -119,18 +119,31 @@ export async function decodeFieldId(fieldId: string, signal?: AbortSignal): Prom
 }
 
 // Shared "satellite (CDSE) is failing" signal for the four satellite crop checks, read by the
-// banner in App.tsx. Set when a check comes back SATELLITE_BUSY / errors; cleared by any success
-// and after a short expiry so a stale banner can't stick around.
-const SATELLITE_BUSY_EXPIRY_MS = 2 * 60 * 1000
-let satelliteBusyUntil = 0
+// banner in App.tsx. It is only raised when the satellite is really down: at least
+// SATELLITE_MIN_FAILURES failures and no success at all within the last SATELLITE_WINDOW_MS.
+// A single failed field (or one model failing while others work) never shows the banner.
+const SATELLITE_WINDOW_MS = 2 * 60 * 1000
+const SATELLITE_MIN_FAILURES = 3
+let satelliteFailureTimes: number[] = []
+let lastSatelliteSuccessAt = 0
+let satelliteBusyShown = false
 const satelliteListeners = new Set<() => void>()
 
-function setSatelliteBusy(busy: boolean): void {
-  const next = busy ? Date.now() + SATELLITE_BUSY_EXPIRY_MS : 0
-  const changed = (next > 0) !== (satelliteBusyUntil > Date.now())
-  satelliteBusyUntil = next
-  if (changed) satelliteListeners.forEach((listener) => listener())
-  if (busy) setTimeout(() => { if (satelliteBusyUntil <= Date.now()) satelliteListeners.forEach((listener) => listener()) }, SATELLITE_BUSY_EXPIRY_MS + 50)
+function evaluateSatelliteBusy(): void {
+  const now = Date.now()
+  satelliteFailureTimes = satelliteFailureTimes.filter((time) => now - time < SATELLITE_WINDOW_MS)
+  const next = satelliteFailureTimes.length >= SATELLITE_MIN_FAILURES && now - lastSatelliteSuccessAt >= SATELLITE_WINDOW_MS
+  if (next !== satelliteBusyShown) {
+    satelliteBusyShown = next
+    satelliteListeners.forEach((listener) => listener())
+  }
+  if (next) setTimeout(evaluateSatelliteBusy, SATELLITE_WINDOW_MS + 50)
+}
+
+function recordSatelliteOutcome(ok: boolean): void {
+  if (ok) lastSatelliteSuccessAt = Date.now()
+  else satelliteFailureTimes.push(Date.now())
+  evaluateSatelliteBusy()
 }
 
 export function subscribeSatelliteStatus(listener: () => void): () => void {
@@ -139,18 +152,18 @@ export function subscribeSatelliteStatus(listener: () => void): () => void {
 }
 
 export function getSatelliteBusySnapshot(): boolean {
-  return satelliteBusyUntil > Date.now()
+  return satelliteBusyShown
 }
 
 async function trackSatellite<T extends { available: boolean }>(request: Promise<T>): Promise<T> {
   try {
     const response = await request
     const reason = (response as { reason?: string }).reason
-    if (response.available) setSatelliteBusy(false)
-    else if (reason === 'SATELLITE_BUSY') setSatelliteBusy(true)
+    if (response.available) recordSatelliteOutcome(true)
+    else if (reason === 'SATELLITE_BUSY') recordSatelliteOutcome(false)
     return response
   } catch (error) {
-    if (!(error instanceof DOMException && error.name === 'AbortError')) setSatelliteBusy(true)
+    if (!(error instanceof DOMException && error.name === 'AbortError')) recordSatelliteOutcome(false)
     throw error
   }
 }
