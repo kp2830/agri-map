@@ -1,3 +1,4 @@
+import { getCdseStatus } from '../services/google/cdseClient.js'
 import { Router } from 'express'
 import { getFields, getSunflowerLikelihood } from '../controllers/agriculturalController.js'
 import { getSunflowerRf } from '../controllers/sunflowerRfController.js'
@@ -8,6 +9,7 @@ import { getFennelRf } from '../controllers/fennelRfController.js'
 export const agricultureRouter = Router()
 
 agricultureRouter.get('/fields', getFields)
+agricultureRouter.get('/satellite-status', (_req, res) => { res.json(getCdseStatus()) })
 agricultureRouter.post('/sunflower-likelihood', getSunflowerLikelihood)
 // Sunflower RF v0 (India-native, weakly-supervised) — a SEPARATE experimental signal from the
 // EuroCrops-trained likeness model above. See controllers/sunflowerRfController.ts.

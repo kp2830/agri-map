@@ -51,12 +51,21 @@ const MIN_GAP_BETWEEN_STARTS_MS = 400
 const MAX_QUEUED_REQUESTS = 150
 const SHORT_RETRY_MAX_SECONDS = 20
 const MAX_SHORT_RETRIES = 2
-const MAX_COOLDOWN_SECONDS = 20 * 60
+const MAX_COOLDOWN_SECONDS = 2 * 60
 
 let cooldownUntilMs = 0
+let lastCdseError: { message: string; atIso: string } | null = null
 let activeRequests = 0
 let lastStartMs = 0
 const waiting: Array<() => void> = []
+
+export function recordCdseError(error: unknown): void {
+  lastCdseError = { message: error instanceof Error ? error.message.slice(0, 300) : String(error), atIso: new Date().toISOString() }
+}
+
+export function getCdseStatus(): { cooldownSeconds: number; lastError: typeof lastCdseError } {
+  return { cooldownSeconds: getCdseCooldownSeconds(), lastError: lastCdseError }
+}
 
 export function getCdseCooldownSeconds(): number {
   return Math.max(0, Math.ceil((cooldownUntilMs - Date.now()) / 1000))
