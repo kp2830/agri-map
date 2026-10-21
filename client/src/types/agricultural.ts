@@ -79,7 +79,7 @@ export type SunflowerRfResponse =
       source: 'sunflower_random_forest'
       labelType: 'weakly_supervised_model'
     }
-  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'SATELLITE_BUSY' | 'PREDICTION_FAILED' }
 
 /**
  * Safflower RF v0 — same shape and same honesty requirements as Sunflower RF above
@@ -104,7 +104,7 @@ export type CorianderRfResponse =
       source: 'coriander_random_forest'
       labelType: 'weakly_supervised_model'
     }
-  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'SATELLITE_BUSY' | 'PREDICTION_FAILED' }
 
 /**
  * Fennel RF v0 — same shape and honesty requirements as the Sunflower, Safflower and Coriander RF responses
@@ -121,7 +121,7 @@ export type FennelRfResponse =
       source: 'fennel_random_forest'
       labelType: 'weakly_supervised_model'
     }
-  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'SATELLITE_BUSY' | 'PREDICTION_FAILED' }
 
 export type SafflowerRfResponse =
   | {
@@ -132,4 +132,4 @@ export type SafflowerRfResponse =
       source: 'safflower_random_forest'
       labelType: 'weakly_supervised_model'
     }
-  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'PREDICTION_FAILED' }
+  | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'SATELLITE_BUSY' | 'PREDICTION_FAILED' }

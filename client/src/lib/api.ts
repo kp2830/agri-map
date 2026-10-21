@@ -73,7 +73,7 @@ export async function getSunflowerRf(
   selectedMonth: number,
   signal?: AbortSignal,
 ): Promise<SunflowerRfResponse> {
-  return apiPost<SunflowerRfResponse>('/agriculture/sunflower-rf', { feature, selectedMonth }, signal)
+  return trackSatellite(apiPost<SunflowerRfResponse>('/agriculture/sunflower-rf', { feature, selectedMonth }, signal))
 }
 
 /** Safflower RF v0 — same shape and same month-gating as Sunflower RF above. See
@@ -84,7 +84,7 @@ export async function getSafflowerRf(
   selectedMonth: number,
   signal?: AbortSignal,
 ): Promise<SafflowerRfResponse> {
-  return apiPost<SafflowerRfResponse>('/agriculture/safflower-rf', { feature, selectedMonth }, signal)
+  return trackSatellite(apiPost<SafflowerRfResponse>('/agriculture/safflower-rf', { feature, selectedMonth }, signal))
 }
 
 /** Coriander RF v0 — same shape and same month-gating as Safflower RF above. See
@@ -94,7 +94,7 @@ export async function getCorianderRf(
   selectedMonth: number,
   signal?: AbortSignal,
 ): Promise<CorianderRfResponse> {
-  return apiPost<CorianderRfResponse>('/agriculture/coriander-rf', { feature, selectedMonth }, signal)
+  return trackSatellite(apiPost<CorianderRfResponse>('/agriculture/coriander-rf', { feature, selectedMonth }, signal))
 }
 
 /** Fennel RF v0 — same shape and same month-gating as Coriander RF above. See
@@ -104,7 +104,7 @@ export async function getFennelRf(
   selectedMonth: number,
   signal?: AbortSignal,
 ): Promise<FennelRfResponse> {
-  return apiPost<FennelRfResponse>('/agriculture/fennel-rf', { feature, selectedMonth }, signal)
+  return trackSatellite(apiPost<FennelRfResponse>('/agriculture/fennel-rf', { feature, selectedMonth }, signal))
 }
 
 /** Decodes a real ALU field ID (a standard Open Location Code) to its center lat/lng — powers
@@ -115,5 +115,42 @@ export async function decodeFieldId(fieldId: string, signal?: AbortSignal): Prom
     return await apiGet<{ lat: number; lng: number }>(`/geo/plus-code/${encodeURIComponent(fieldId.trim())}`, signal)
   } catch {
     return null
+  }
+}
+
+// Shared "satellite (CDSE) is failing" signal for the four satellite crop checks, read by the
+// banner in App.tsx. Set when a check comes back SATELLITE_BUSY / errors; cleared by any success
+// and after a short expiry so a stale banner can't stick around.
+const SATELLITE_BUSY_EXPIRY_MS = 2 * 60 * 1000
+let satelliteBusyUntil = 0
+const satelliteListeners = new Set<() => void>()
+
+function setSatelliteBusy(busy: boolean): void {
+  const next = busy ? Date.now() + SATELLITE_BUSY_EXPIRY_MS : 0
+  const changed = (next > 0) !== (satelliteBusyUntil > Date.now())
+  satelliteBusyUntil = next
+  if (changed) satelliteListeners.forEach((listener) => listener())
+  if (busy) setTimeout(() => { if (satelliteBusyUntil <= Date.now()) satelliteListeners.forEach((listener) => listener()) }, SATELLITE_BUSY_EXPIRY_MS + 50)
+}
+
+export function subscribeSatelliteStatus(listener: () => void): () => void {
+  satelliteListeners.add(listener)
+  return () => { satelliteListeners.delete(listener) }
+}
+
+export function getSatelliteBusySnapshot(): boolean {
+  return satelliteBusyUntil > Date.now()
+}
+
+async function trackSatellite<T extends { available: boolean }>(request: Promise<T>): Promise<T> {
+  try {
+    const response = await request
+    const reason = (response as { reason?: string }).reason
+    if (response.available) setSatelliteBusy(false)
+    else if (reason === 'SATELLITE_BUSY') setSatelliteBusy(true)
+    return response
+  } catch (error) {
+    if (!(error instanceof DOMException && error.name === 'AbortError')) setSatelliteBusy(true)
+    throw error
   }
 }

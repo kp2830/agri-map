@@ -138,3 +138,17 @@ export function filterFieldsByCrop(
     ),
   }
 }
+
+/** The 12 AMED crops, always offered in the filter whether or not the searched area has them. */
+export const AMED_CROP_KEYS = [
+  'BAJRA', 'CHILLI', 'CORN', 'COTTON', 'GRAM', 'GROUNDNUT',
+  'MUSTARD', 'RICE', 'SORGHUM', 'SOYBEANS', 'SUGARCANE', 'WHEAT',
+] as const
+
+/** Fixed AMED list plus any other category actually present (e.g. "Unknown crop"), sorted by label. */
+export function withAllAmedCrops(present: CropOption[]): CropOption[] {
+  const byValue = new Map<string, CropOption>()
+  for (const key of AMED_CROP_KEYS) byValue.set(key, { value: key, label: formatCropLabel(key) })
+  for (const option of present) if (!byValue.has(option.value)) byValue.set(option.value, option)
+  return [...byValue.values()].sort((a, b) => a.label.localeCompare(b.label))
+}

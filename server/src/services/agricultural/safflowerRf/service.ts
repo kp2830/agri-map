@@ -6,6 +6,7 @@
  * controller) has already determined AMED is Unknown/low-confidence for this field AND the
  * selected month is one Safflower could plausibly be in the ground for.
  */
+import { CdseApiError } from '../../google/cdseClient.js'
 import type { MultiPolygon, Polygon } from 'geojson'
 import { isCropInSeasonForMonth } from '../growingSeasonGate.js'
 import { SAFFLOWER_KNOWN_CONFUSION_CROPS } from '../safflower/config.js'
@@ -81,7 +82,7 @@ export async function getSafflowerRfPrediction(fieldId: string, geometry: Polygo
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') throw error
       console.error('[safflower-rf] feature extraction failed (transient -- not cached):', error instanceof Error ? error.message : error)
-      result = { available: false, reason: 'SATELLITE_DATA_UNAVAILABLE' }
+      result = { available: false, reason: error instanceof CdseApiError ? 'SATELLITE_BUSY' : 'SATELLITE_DATA_UNAVAILABLE' }
       cacheable = false
     }
 

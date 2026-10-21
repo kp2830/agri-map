@@ -6,6 +6,7 @@
  * controller) has already determined AMED is Unknown/low-confidence for this field AND the
  * selected month is one Fennel could plausibly be in the ground for.
  */
+import { CdseApiError } from '../../google/cdseClient.js'
 import type { MultiPolygon, Polygon } from 'geojson'
 import { isCropInSeasonForMonth } from '../growingSeasonGate.js'
 import { AMED_STRONG_CONFIDENCE_THRESHOLD, FENNEL_CORN_CROPS, FENNEL_CORN_GATE_CONFIDENCE, FENNEL_KNOWN_CONFUSION_CROPS, FEATURE_WINDOW_VERSION, FENNEL_RF_MODEL_VERSION } from './config.js'
@@ -83,7 +84,7 @@ export async function getFennelRfPrediction(fieldId: string, geometry: Polygon |
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') throw error
       console.error('[fennel-rf] feature extraction failed (transient -- not cached):', error instanceof Error ? error.message : error)
-      result = { available: false, reason: 'SATELLITE_DATA_UNAVAILABLE' }
+      result = { available: false, reason: error instanceof CdseApiError ? 'SATELLITE_BUSY' : 'SATELLITE_DATA_UNAVAILABLE' }
       cacheable = false
     }
 

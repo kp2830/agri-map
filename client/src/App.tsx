@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useSyncExternalStore } from 'react'
+import { getSatelliteBusySnapshot, subscribeSatelliteStatus } from './lib/api'
 import { StatusCard } from './components/StatusCard'
 import { CentroidForm } from './features/fields/CentroidForm'
 import { CropSummaryPanel } from './features/fields/CropSummaryPanel'
 import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, FENNEL_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, buildCropColorMap, keepOnlyTopRfCropPerField, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './features/fields/cropDisplay'
-import { ALL_CROPS, filterFieldsByCrop, getAvailableCrops, type CropFilterValue } from './features/fields/cropFilter'
+import { ALL_CROPS, filterFieldsByCrop, getAvailableCrops, withAllAmedCrops, type CropFilterValue } from './features/fields/cropFilter'
 import { CORIANDER_CROP_KEY, FENNEL_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY, summarizeCropShares } from './features/fields/cropSummary'
 import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
@@ -317,8 +319,9 @@ function App() {
 
   // Crop options are always derived from the complete result (never the filtered view),
   // so picking "Mustard" doesn't shrink the dropdown down to just "Mustard" afterward.
+  const satelliteBusy = useSyncExternalStore(subscribeSatelliteStatus, getSatelliteBusySnapshot)
   const cropOptions = useMemo(
-    () => (fieldCollection ? getAvailableCrops(fieldCollection, selectedMonth, selectedYear) : []),
+    () => (fieldCollection ? withAllAmedCrops(getAvailableCrops(fieldCollection, selectedMonth, selectedYear)) : []),
     [fieldCollection, selectedMonth, selectedYear],
   )
 
@@ -535,6 +538,16 @@ function App() {
               <div className="space-y-6">
                 {coverage && coverage.status === 'found_nearby' && <section>{coverageStatusCard(coverage)}</section>}
 
+                {satelliteBusy && (
+                  <div role="alert" className="rounded-lg border-2 border-red-600 bg-red-50 p-4 text-red-900">
+                    <p className="text-base font-bold">⚠ Satellite data is currently failing</p>
+                    <p className="mt-1 text-sm">
+                      Sunflower, Safflower, Coriander and Fennel cannot be checked right now, so they will not show on the map or
+                      in the results. All other crops are unaffected. This usually clears within a few minutes — search again shortly.
+                    </p>
+                  </div>
+                )}
+
                 <section>
                   <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
                     <h2 className="text-sm font-semibold text-slate-900">Predicted crop distribution — {formatMonthName(selectedMonth)}</h2>
@@ -552,10 +565,10 @@ function App() {
                             cleared the threshold. Only ever rendered when their own UI_ENABLED
                             flag is true (hasSunflowerMatch/hasSafflowerMatch are hard-gated on it
                             — see their own definitions above). */}
-                        {hasSunflowerMatch && <option value={SUNFLOWER_CROP_KEY}>Sunflower</option>}
-                        {hasSafflowerMatch && <option value={SAFFLOWER_CROP_KEY}>Safflower</option>}
-                        {hasCorianderMatch && <option value={CORIANDER_CROP_KEY}>Coriander</option>}
-                        {hasFennelMatch && <option value={FENNEL_CROP_KEY}>Fennel</option>}
+                        <option value={SUNFLOWER_CROP_KEY}>Sunflower</option>
+                        <option value={SAFFLOWER_CROP_KEY}>Safflower</option>
+                        <option value={CORIANDER_CROP_KEY}>Coriander</option>
+                        <option value={FENNEL_CROP_KEY}>Fennel</option>
                         {cropOptions.map((option) => (
                           <option key={option.value} value={option.value}>
                             {option.label}

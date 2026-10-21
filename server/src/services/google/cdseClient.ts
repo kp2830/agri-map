@@ -31,6 +31,64 @@ export class CdseApiError extends Error {
   }
 }
 
+/** Raised without touching the network while CDSE has told us to back off (HTTP 429), or when the
+ *  local queue is saturated. Extends CdseApiError with status 429 so existing "transient, never
+ *  cache" handling in every caller treats it exactly like a real 429. */
+export class CdseRateLimitedError extends CdseApiError {
+  readonly retryAfterSeconds: number
+  constructor(retryAfterSeconds: number) {
+    super(`CDSE rate limit active — satellite requests paused for ~${retryAfterSeconds}s`, 429)
+    this.name = 'CdseRateLimitedError'
+    this.retryAfterSeconds = retryAfterSeconds
+  }
+}
+
+// Shared by every RF model: CDSE allows ~300 requests/min per account, and the four client
+// hooks used to burst well past it. Requests now go through one queue with a concurrency cap and
+// a minimum gap (~150/min, half the documented limit), and a 429 pauses ALL callers.
+const MAX_CONCURRENT_REQUESTS = 2
+const MIN_GAP_BETWEEN_STARTS_MS = 400
+const MAX_QUEUED_REQUESTS = 150
+const SHORT_RETRY_MAX_SECONDS = 20
+const MAX_SHORT_RETRIES = 2
+const MAX_COOLDOWN_SECONDS = 20 * 60
+
+let cooldownUntilMs = 0
+let activeRequests = 0
+let lastStartMs = 0
+const waiting: Array<() => void> = []
+
+export function getCdseCooldownSeconds(): number {
+  return Math.max(0, Math.ceil((cooldownUntilMs - Date.now()) / 1000))
+}
+
+function startCooldown(retryAfterSeconds: number): void {
+  const seconds = Math.min(Math.max(retryAfterSeconds, 1), MAX_COOLDOWN_SECONDS)
+  cooldownUntilMs = Math.max(cooldownUntilMs, Date.now() + seconds * 1000)
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+async function acquireSlot(): Promise<void> {
+  if (waiting.length >= MAX_QUEUED_REQUESTS) throw new CdseRateLimitedError(30)
+  if (activeRequests >= MAX_CONCURRENT_REQUESTS) {
+    await new Promise<void>((resolve) => waiting.push(resolve))
+  } else {
+    activeRequests += 1
+  }
+  const wait = lastStartMs + MIN_GAP_BETWEEN_STARTS_MS - Date.now()
+  lastStartMs = Math.max(Date.now(), lastStartMs) + (wait > 0 ? MIN_GAP_BETWEEN_STARTS_MS : 0)
+  if (wait > 0) await sleep(wait)
+}
+
+function releaseSlot(): void {
+  const next = waiting.shift()
+  if (next) next()
+  else activeRequests -= 1
+}
+
 let cachedToken: { accessToken: string; expiresAtMs: number } | null = null
 
 /** Real OAuth2 client-credentials token exchange, cached in-memory until shortly before real
@@ -157,15 +215,34 @@ export async function requestPolygonStatistics(
     },
   }
 
-  const response = await fetch(STATISTICAL_API_URL, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-    signal,
-  })
+  let response: Response | undefined
+  let processingUnitsSpent: number | null = null
+  for (let attempt = 0; ; attempt += 1) {
+    const remaining = getCdseCooldownSeconds()
+    if (remaining > 0) throw new CdseRateLimitedError(remaining)
+
+    await acquireSlot()
+    try {
+      if (getCdseCooldownSeconds() > 0) throw new CdseRateLimitedError(getCdseCooldownSeconds())
+      response = await fetch(STATISTICAL_API_URL, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal,
+      })
+    } finally {
+      releaseSlot()
+    }
+
+    if (response.status !== 429) break
+    const retryAfter = Number(response.headers.get('retry-after')) || 60
+    startCooldown(retryAfter)
+    if (retryAfter > SHORT_RETRY_MAX_SECONDS || attempt >= MAX_SHORT_RETRIES) throw new CdseRateLimitedError(retryAfter)
+    await sleep(retryAfter * 1000)
+  }
 
   const puHeader = response.headers.get('x-processingunits-spent')
-  const processingUnitsSpent = puHeader ? Number(puHeader) : null
+  processingUnitsSpent = puHeader ? Number(puHeader) : null
 
   if (!response.ok) {
     const errorBody = await response.text().catch(() => '')

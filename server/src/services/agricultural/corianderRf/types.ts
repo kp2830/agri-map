@@ -2,6 +2,7 @@ export type CorianderRfUnavailableReason =
   | 'AMED_HIGH_CONFIDENCE' // gate: RF intentionally not run
   | 'OUT_OF_SEASON' // gate: the selected month is outside Coriander's real growing season
   | 'SATELLITE_DATA_UNAVAILABLE'
+  | 'SATELLITE_BUSY' // CDSE rate-limited / failing: no check possible right now
   | 'PREDICTION_FAILED'
 
 export interface CorianderRfAvailableResult {
