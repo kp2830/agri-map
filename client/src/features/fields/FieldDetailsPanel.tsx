@@ -17,7 +17,6 @@ import {
   isEligibleForSafflowerCheck,
   isEligibleForSunflowerCheck,
   isRfOverrideActive,
-  pickTopRfCrop,
   CORIANDER_LIKELY_FILL_COLOR,
   CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
   FENNEL_LIKELY_FILL_COLOR,
@@ -27,7 +26,9 @@ import {
   SUNFLOWER_LIKELY_FILL_COLOR,
   SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
 } from './cropDisplay'
-import { formatMonthName, predictCropOutlook } from './cropPrediction'
+import { predictCropOutlook, type ViewMode } from './cropPrediction'
+import { PastRecordCard } from './PastRecordCard'
+import { ModelSignalCard } from './ModelSignalCard'
 
 type SunflowerCheckState =
   | { status: 'idle' | 'checking' }
@@ -63,6 +64,8 @@ interface FieldDetailsPanelProps {
    *  stay anchored to the real current AMED state regardless of which month is being viewed. */
   selectedMonth: number
   selectedYear: number
+  /** 'past' shows AMED's recorded crop for the exact month/year and never runs the RF checks. */
+  viewMode: ViewMode
 }
 
 type HistoryView = 'current' | 'complete'
@@ -83,7 +86,7 @@ function SectionHeading({ children }: { children: string }) {
   return <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">{children}</h4>
 }
 
-export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, selectedYear }: FieldDetailsPanelProps) {
+export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, selectedYear, viewMode }: FieldDetailsPanelProps) {
   // Hooks must run unconditionally on every render, so these come before the `!feature` early
   // return below. The parent keys this component by field id, so a newly-selected field mounts
   // a fresh instance and this always starts back at the default, Complete History — the user
@@ -103,8 +106,8 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
 
   // The predictive Crop Outlook shown at the top of this panel — see cropPrediction.ts.
   const outlook = useMemo(
-    () => (properties ? predictCropOutlook(properties, selectedMonth, selectedYear) : null),
-    [properties, selectedMonth, selectedYear],
+    () => (properties ? predictCropOutlook(properties, selectedMonth, selectedYear, viewMode) : null),
+    [properties, selectedMonth, selectedYear, viewMode],
   )
   const currentSeasonHistory = useMemo(
     () => (properties ? getCurrentSeasonHistory(properties, outlook?.matchedSeason ?? null) : []),
@@ -128,6 +131,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
   useEffect(() => {
     setSunflowerCheck({ status: 'idle' })
     if (!SUNFLOWER_UI_ENABLED) return
+    if (viewMode === 'past') return // Past data is AMED-only: no satellite (CDSE) checks
     if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
     if (!isEligibleForSunflowerCheck(realOutcome)) return
 
@@ -142,7 +146,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
 
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity; realOutcome is derived from the same properties, deliberately real-time
-  }, [feature])
+  }, [feature, viewMode])
 
   // Sunflower RF v0 — a SEPARATE model/signal from the likeness check above (see
   // server/src/services/agricultural/sunflowerRf/). Same eligibility gate
@@ -154,6 +158,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
   useEffect(() => {
     setSunflowerRfCheck({ status: 'idle' })
     if (!SUNFLOWER_UI_ENABLED) return
+    if (viewMode === 'past') return // Past data is AMED-only: no satellite (CDSE) checks
     if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
     if (!isEligibleForSunflowerCheck(realOutcome)) return
 
@@ -168,7 +173,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
 
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
-  }, [feature, selectedMonth])
+  }, [feature, selectedMonth, viewMode])
 
   // Safflower RF v0 — same shape and same real gating (month-in-season + AMED
   // confidence/Mustard-conflict, see safflowerRf/service.ts) as Sunflower RF above, an
@@ -176,6 +181,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
   useEffect(() => {
     setSafflowerRfCheck({ status: 'idle' })
     if (!SAFFLOWER_UI_ENABLED) return
+    if (viewMode === 'past') return // Past data is AMED-only: no satellite (CDSE) checks
     if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
     if (!isEligibleForSafflowerCheck(realOutcome)) return
 
@@ -190,7 +196,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
 
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
-  }, [feature, selectedMonth])
+  }, [feature, selectedMonth, viewMode])
 
   // Coriander RF v0 — same shape and same real gating (month-in-season + AMED confidence/
   // Mustard-Wheat-Gram confusion-crop, see corianderRf/service.ts) as Safflower RF above, an
@@ -198,6 +204,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
   useEffect(() => {
     setCorianderRfCheck({ status: 'idle' })
     if (!CORIANDER_UI_ENABLED) return
+    if (viewMode === 'past') return // Past data is AMED-only: no satellite (CDSE) checks
     if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
     if (!isEligibleForCorianderCheck(realOutcome)) return
 
@@ -212,7 +219,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
 
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
-  }, [feature, selectedMonth])
+  }, [feature, selectedMonth, viewMode])
 
   // Fennel RF v0 — same shape and same real gating (month-in-season + AMED confidence/
   // Mustard-Wheat-Gram confusion-crop, see fennelRf/service.ts) as Coriander RF above, an
@@ -220,6 +227,7 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
   useEffect(() => {
     setFennelRfCheck({ status: 'idle' })
     if (!FENNEL_UI_ENABLED) return
+    if (viewMode === 'past') return // Past data is AMED-only: no satellite (CDSE) checks
     if (!feature || !properties || properties.aluType !== 'field' || !realOutcome) return
     if (!isEligibleForFennelCheck(realOutcome)) return
 
@@ -234,21 +242,8 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
 
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on feature identity + selectedMonth; realOutcome is derived from the same properties, deliberately real-time
-  }, [feature, selectedMonth])
+  }, [feature, selectedMonth, viewMode])
 
-  // Of the four experimental RF crops, only the one with the highest probability is shown in this
-  // panel (never more than one likelihood box). This only ranks the four against each other; the
-  // comparison with AMED below (isRfOverrideActive) is unchanged.
-  const rfTop = useMemo(
-    () =>
-      pickTopRfCrop({
-        sunflower: sunflowerRfCheck.status === 'done' && sunflowerRfCheck.response.available ? sunflowerRfCheck.response.probabilityPercent : null,
-        safflower: safflowerRfCheck.status === 'done' && safflowerRfCheck.response.available ? safflowerRfCheck.response.probabilityPercent : null,
-        coriander: corianderRfCheck.status === 'done' && corianderRfCheck.response.available ? corianderRfCheck.response.probabilityPercent : null,
-        fennel: fennelRfCheck.status === 'done' && fennelRfCheck.response.available ? fennelRfCheck.response.probabilityPercent : null,
-      }),
-    [sunflowerRfCheck, safflowerRfCheck, corianderRfCheck, fennelRfCheck],
-  )
 
   // Whether a Sunflower/Safflower/Coriander/Fennel RF result is strong enough to override the "Predicted Crop"
   // banner above AMED's own answer — the SAME isRfOverrideActive predicate MapView.tsx's
@@ -329,103 +324,26 @@ export function FieldDetailsPanel({ feature, cropColorMap, selectedMonth, select
           Crop monitoring only applies to field-type features.
         </p>
       ) : (
-        outlook && <CropOutlookCard outlook={outlook} cropColorSwatch={colorForCropLabel(outlook.crop, cropColorMap)} override={cropOverride} />
+        outlook &&
+        (viewMode === 'past' ? (
+          <PastRecordCard outlook={outlook} cropColorSwatch={colorForCropLabel(outlook.crop, cropColorMap)} />
+        ) : (
+          <CropOutlookCard outlook={outlook} cropColorSwatch={colorForCropLabel(outlook.crop, cropColorMap)} override={cropOverride} />
+        ))
       )}
 
       {SUNFLOWER_UI_ENABLED && sunflowerCheck.status === 'checking' && (
         <p className="text-xs text-slate-400">Checking Sentinel-2 signature for a Sunflower likelihood…</p>
       )}
 
-      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'checking' && (
-        <p className="text-xs text-slate-400">Sunflower detector: analyzing satellite history…</p>
-      )}
-      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'error' && <p className="text-xs text-slate-400">Sunflower detector: unavailable</p>}
-      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'done' && !sunflowerRfCheck.response.available && sunflowerRfCheck.response.reason === 'OUT_OF_SEASON' && (
-        <p className="text-xs text-slate-400">Sunflower is not in its real growing season (Feb–June) for {formatMonthName(selectedMonth)} — no prediction attempted.</p>
-      )}
-      {SUNFLOWER_UI_ENABLED && sunflowerRfCheck.status === 'done' && !sunflowerRfCheck.response.available && sunflowerRfCheck.response.reason !== 'OUT_OF_SEASON' && (
-        <p className="text-xs text-slate-400">Sunflower detector: unavailable</p>
-      )}
-      {SUNFLOWER_UI_ENABLED && rfTop === 'sunflower' && sunflowerRfCheck.status === 'done' && sunflowerRfCheck.response.available && (
-        <div className="rounded-md bg-amber-50 px-3 py-2">
-          <div className="flex items-baseline justify-between gap-3 text-sm">
-            <span className="text-amber-800">Sunflower likelihood</span>
-            <span className="font-semibold tabular-nums text-amber-900">{sunflowerRfCheck.response.probabilityPercent}%</span>
-          </div>
-          <p className="mt-1 text-xs text-amber-700">
-            Model trained on sunflower fields from the Kurukshetra–Karnal belt (Haryana), identified from their
-            April–June satellite pattern. AMED's own result above is unchanged.
-          </p>
-        </div>
-      )}
-
-      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'checking' && (
-        <p className="text-xs text-slate-400">Safflower detector: analyzing satellite history…</p>
-      )}
-      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'error' && <p className="text-xs text-slate-400">Safflower detector: unavailable</p>}
-      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'done' && !safflowerRfCheck.response.available && safflowerRfCheck.response.reason === 'OUT_OF_SEASON' && (
-        <p className="text-xs text-slate-400">Safflower is not in its real growing season (Oct–March) for {formatMonthName(selectedMonth)} — no prediction attempted.</p>
-      )}
-      {SAFFLOWER_UI_ENABLED && safflowerRfCheck.status === 'done' && !safflowerRfCheck.response.available && safflowerRfCheck.response.reason !== 'OUT_OF_SEASON' && (
-        <p className="text-xs text-slate-400">Safflower detector: unavailable</p>
-      )}
-      {SAFFLOWER_UI_ENABLED && rfTop === 'safflower' && safflowerRfCheck.status === 'done' && safflowerRfCheck.response.available && (
-        <div className="rounded-md bg-orange-50 px-3 py-2">
-          <div className="flex items-baseline justify-between gap-3 text-sm">
-            <span className="text-orange-800">Safflower likelihood</span>
-            <span className="font-semibold tabular-nums text-orange-900">{safflowerRfCheck.response.probabilityPercent}%</span>
-          </div>
-          <p className="mt-1 text-xs text-orange-700">
-            Model trained on safflower fields from the Latur belt (Maharashtra), identified from their rabi
-            satellite pattern. AMED's own result above is unchanged.
-          </p>
-        </div>
-      )}
-
-      {CORIANDER_UI_ENABLED && corianderRfCheck.status === 'checking' && (
-        <p className="text-xs text-slate-400">Coriander detector: analyzing satellite history…</p>
-      )}
-      {CORIANDER_UI_ENABLED && corianderRfCheck.status === 'error' && <p className="text-xs text-slate-400">Coriander detector: unavailable</p>}
-      {CORIANDER_UI_ENABLED && corianderRfCheck.status === 'done' && !corianderRfCheck.response.available && corianderRfCheck.response.reason === 'OUT_OF_SEASON' && (
-        <p className="text-xs text-slate-400">Coriander is not in its real growing season (Oct–March) for {formatMonthName(selectedMonth)} — no prediction attempted.</p>
-      )}
-      {CORIANDER_UI_ENABLED && corianderRfCheck.status === 'done' && !corianderRfCheck.response.available && corianderRfCheck.response.reason !== 'OUT_OF_SEASON' && (
-        <p className="text-xs text-slate-400">Coriander detector: unavailable</p>
-      )}
-      {CORIANDER_UI_ENABLED && rfTop === 'coriander' && corianderRfCheck.status === 'done' && corianderRfCheck.response.available && (
-        <div className="rounded-md bg-emerald-50 px-3 py-2">
-          <div className="flex items-baseline justify-between gap-3 text-sm">
-            <span className="text-emerald-800">Coriander likelihood</span>
-            <span className="font-semibold tabular-nums text-emerald-900">{corianderRfCheck.response.probabilityPercent}%</span>
-          </div>
-          <p className="mt-1 text-xs text-emerald-700">
-            Model trained on ground-surveyed coriander fields (AgriFieldNet, rabi 2021-22). AMED's own result
-            above is unchanged.
-          </p>
-        </div>
-      )}
-
-      {FENNEL_UI_ENABLED && fennelRfCheck.status === 'checking' && (
-        <p className="text-xs text-slate-400">Fennel detector: analyzing satellite history…</p>
-      )}
-      {FENNEL_UI_ENABLED && fennelRfCheck.status === 'error' && <p className="text-xs text-slate-400">Fennel detector: unavailable</p>}
-      {FENNEL_UI_ENABLED && fennelRfCheck.status === 'done' && !fennelRfCheck.response.available && fennelRfCheck.response.reason === 'OUT_OF_SEASON' && (
-        <p className="text-xs text-slate-400">Fennel is not in its real growing season (Oct–April) for {formatMonthName(selectedMonth)} — no prediction attempted.</p>
-      )}
-      {FENNEL_UI_ENABLED && fennelRfCheck.status === 'done' && !fennelRfCheck.response.available && fennelRfCheck.response.reason !== 'OUT_OF_SEASON' && (
-        <p className="text-xs text-slate-400">Fennel detector: unavailable</p>
-      )}
-      {FENNEL_UI_ENABLED && rfTop === 'fennel' && fennelRfCheck.status === 'done' && fennelRfCheck.response.available && (
-        <div className="rounded-md bg-violet-50 px-3 py-2">
-          <div className="flex items-baseline justify-between gap-3 text-sm">
-            <span className="text-violet-800">Fennel likelihood</span>
-            <span className="font-semibold tabular-nums text-violet-900">{fennelRfCheck.response.probabilityPercent}%</span>
-          </div>
-          <p className="mt-1 text-xs text-violet-700">
-            Model trained on fennel fields from the Rajasthan and Gujarat belts, identified from their rabi
-            satellite pattern. AMED's own result above is unchanged.
-          </p>
-        </div>
+      {/* A crop model's percentage is shown only when that crop is actually our predicted crop here — the same
+          isRfOverrideActive rule the map and the headline above use. Below-threshold results, models that were
+          not run, and unavailable ones are not shown at all. */}
+      {cropOverride && (
+        <ModelSignalCard
+          signal={cropOverride.label.toLowerCase() as 'sunflower' | 'safflower' | 'coriander' | 'fennel'}
+          percent={cropOverride.probabilityPercent}
+        />
       )}
 
       {sortedSeasons.length > 0 && (

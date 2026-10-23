@@ -9,7 +9,14 @@ export interface MonthRange {
   endMonth: number
 }
 
-export type CropOutlookBasis = 'previous_year_exact' | 'seasonal_fallback' | 'insufficient_data'
+/** 'predictive' (the default) estimates what is likely to grow from earlier seasons; 'past' shows
+ *  only what AMED actually recorded for the exact month and year picked — never an estimate. */
+export type ViewMode = 'predictive' | 'past'
+
+/** First calendar year of AMED's monitoring history offered in the Past data view. */
+export const PAST_DATA_FIRST_YEAR = 2022
+
+export type CropOutlookBasis = 'previous_year_exact' | 'seasonal_fallback' | 'past_record' | 'insufficient_data'
 
 export interface CropOutlook {
   selectedMonth: number
@@ -100,6 +107,66 @@ function circularMonthRange(months: number[]): MonthRange {
 }
 
 /**
+ * Past data view: what AMED actually recorded for this field in `month` of `year` — no
+ * seasonal inference, no fallback to other years. Among the field's real monitoring seasons it
+ * takes the one that overlaps the month the most (a season covering the whole month wins over
+ * one that only touches its edge). No overlapping season means AMED has no record for that
+ * month: the result is an honest empty one, never a guessed crop.
+ *
+ * Confidence is AMED's own for that season's top crop; sowing/harvest are the recorded start and
+ * end months of that same season.
+ */
+export function lookupPastCrop(properties: NormalizedFieldProperties, month: number, year: number): CropOutlook {
+  const base = { selectedMonth: month, selectedYear: year }
+  const monthStartSec = Date.UTC(year, month - 1, 1) / 1000
+  const monthEndSec = Date.UTC(year, month, 1) / 1000 - 1
+
+  let best: MonitoringSeason | null = null
+  let bestOverlapSec = 0
+  for (const season of properties.monitoring ?? []) {
+    if (season.predictions[0]?.crop === undefined || !Number.isFinite(season.startTimestampSec)) continue
+    const seasonEndSec = Number.isFinite(season.endTimestampSec) ? season.endTimestampSec : Number.POSITIVE_INFINITY
+    const overlapSec = Math.min(seasonEndSec, monthEndSec) - Math.max(season.startTimestampSec, monthStartSec)
+    if (overlapSec < 0) continue
+    if (best === null || overlapSec > bestOverlapSec || (overlapSec === bestOverlapSec && season.startTimestampSec > best.startTimestampSec)) {
+      best = season
+      bestOverlapSec = overlapSec
+    }
+  }
+
+  if (!best) {
+    return {
+      ...base,
+      crop: null,
+      confidencePercent: null,
+      sowing: null,
+      harvest: null,
+      historicalReferenceYear: null,
+      historicalSeasonRange: null,
+      matchedSeason: null,
+      basis: 'insufficient_data',
+      dataAvailable: false,
+    }
+  }
+
+  const prediction = best.predictions[0]
+  const startMonth = monthOf(best.startTimestampSec)
+  const endMonth = Number.isFinite(best.endTimestampSec) ? monthOf(best.endTimestampSec) : null
+  return {
+    ...base,
+    crop: prediction.crop,
+    confidencePercent: Math.round(100 * Math.max(0, Math.min(1, prediction.confidence))),
+    sowing: { startMonth, endMonth: startMonth },
+    harvest: endMonth === null ? null : { startMonth: endMonth, endMonth },
+    historicalReferenceYear: year,
+    historicalSeasonRange: { startSec: best.startTimestampSec, endSec: best.endTimestampSec },
+    matchedSeason: best,
+    basis: 'past_record',
+    dataAvailable: true,
+  }
+}
+
+/**
  * The single source of truth for AgriMap's predictive crop outlook — used for the Crop Outlook
  * card, and (via getPredictedCrop below) for map coloring, crop distribution, and crop
  * filtering, so the whole UI stays consistent for whichever month is selected.
@@ -130,7 +197,10 @@ export function predictCropOutlook(
   properties: NormalizedFieldProperties,
   selectedMonth: number,
   selectedYear: number = new Date().getFullYear(),
+  mode: ViewMode = 'predictive',
 ): CropOutlook {
+  if (mode === 'past') return lookupPastCrop(properties, selectedMonth, selectedYear)
+
   const base = { selectedMonth, selectedYear }
   const insufficient: CropOutlook = {
     ...base,
@@ -204,8 +274,9 @@ export function getPredictedCrop(
   properties: NormalizedFieldProperties,
   selectedMonth: number,
   selectedYear: number = new Date().getFullYear(),
+  mode: ViewMode = 'predictive',
 ): string | null {
-  return predictCropOutlook(properties, selectedMonth, selectedYear).crop
+  return predictCropOutlook(properties, selectedMonth, selectedYear, mode).crop
 }
 
 const MONTH_NAMES = [
@@ -239,5 +310,6 @@ export function formatMonthRange(range: MonthRange): string {
  *  here). */
 export function formatOutlookBasis(basis: CropOutlookBasis): string {
   if (basis === 'insufficient_data') return 'Insufficient historical data'
+  if (basis === 'past_record') return 'Recorded by AMED satellite monitoring'
   return 'Based on historical crop-season data'
 }

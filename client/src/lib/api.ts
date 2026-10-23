@@ -1,4 +1,5 @@
 import type {
+  CropObservationsResponse,
   FieldsResponse,
   NormalizedFieldFeature,
   SafflowerRfResponse,
@@ -166,4 +167,9 @@ async function trackSatellite<T extends { available: boolean }>(request: Promise
     if (!(error instanceof DOMException && error.name === 'AbortError')) recordSatelliteOutcome(false)
     throw error
   }
+}
+
+/** The team's logged crop observations (production FieldView), for the Compare view. */
+export async function getCropObservations(signal?: AbortSignal): Promise<CropObservationsResponse> {
+  return apiGet<CropObservationsResponse>('/agriculture/observations', signal)
 }

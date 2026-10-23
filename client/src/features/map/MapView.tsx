@@ -19,12 +19,12 @@ import {
   SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
 } from '../fields/cropDisplay'
 import type { CropFilterValue } from '../fields/cropFilter'
-import { predictCropOutlook } from '../fields/cropPrediction'
+import { predictCropOutlook, type ViewMode } from '../fields/cropPrediction'
 import { CORIANDER_CROP_KEY, FENNEL_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from '../fields/cropSummary'
 import { defaultMapCenter, defaultMapZoom } from '../../lib/config'
 import { CORIANDER_UI_ENABLED, FENNEL_UI_ENABLED, SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
 import { logPerfDelta, markPerf } from '../../lib/perf'
-import type { CoverageInfo, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
+import type { CoverageInfo, CropObservation, NormalizedFieldCollection, NormalizedFieldFeature } from '../../types/agricultural'
 
 interface MapViewProps {
   center: { lat: number; lng: number } | null
@@ -58,8 +58,16 @@ interface MapViewProps {
    *  driven purely by sunflowerProbabilities/safflowerProbabilities regardless of this value. */
   selectedMonth: number
   selectedYear: number
+  /** 'predictive' (default) or 'past' (AMED's recorded crop for the exact month/year). */
+  viewMode: ViewMode
   /** Bumped by App's "New Search" action to explicitly return the map to its default view. */
   resetToken: number
+  /** Compare view: the team's logged crop observations, drawn as blue dots (omit outside Compare). */
+  /** Compare: the field the observation was logged in — drawn much stronger than every other field. */
+  highlightFieldId?: string | null
+  observations?: CropObservation[]
+  selectedObservationId?: string | null
+  onSelectObservation?: (observation: CropObservation) => void
   /**
    * The field-coverage grid side length (km) actually used for the current search — the
    * user-selected value captured at the moment Analyze/map-click ran, not the live dropdown
@@ -88,6 +96,20 @@ function boundsAroundPoint(lat: number, lng: number, sideKm: number): L.LatLngBo
   const cosLat = Math.max(Math.cos((lat * Math.PI) / 180), 0.01)
   const dLng = halfKm / (KM_PER_DEGREE_LAT * cosLat)
   return L.latLngBounds([lat - dLat, lng - dLng], [lat + dLat, lng + dLng])
+}
+
+/** Frames every observation when Compare opens and nothing is selected yet. */
+function FitToObservations({ observations }: { observations: CropObservation[] }) {
+  const map = useMap()
+  const key = observations.map((o) => o.id).join(',')
+
+  useEffect(() => {
+    if (observations.length === 0) return
+    map.fitBounds(L.latLngBounds(observations.map((o) => [o.lat, o.lng] as [number, number])), { padding: [60, 60], maxZoom: 12 })
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- re-fit only when the set of observations changes
+  }, [key, map])
+
+  return null
 }
 
 function FitToData({
@@ -189,6 +211,11 @@ export function MapView({
   fennelProbabilities,
   selectedMonth,
   selectedYear,
+  viewMode,
+  highlightFieldId,
+  observations,
+  selectedObservationId,
+  onSelectObservation,
   resetToken,
   gridKm,
   searchToken,
@@ -250,12 +277,13 @@ export function MapView({
     if (!normalized) return {}
 
     const isSelected = normalized.id === selectedFieldId
+    const isObserved = highlightFieldId != null && String(normalized.id) === highlightFieldId
     // Both the predicted crop AND AMED's own confidence in it are needed here — the RF layers
     // below only visually override AMED's color when AMED itself is NOT confident (<80%, or no
     // prediction at all) AND the RF probability clears its own threshold (see
     // isRfOverrideActive) — a field AMED is already confident about keeps its own AMED color
     // even if an RF model also fires on it (e.g. the Corn/Maize cross-check exception).
-    const outlook = predictCropOutlook(normalized.properties, selectedMonth, selectedYear)
+    const outlook = predictCropOutlook(normalized.properties, selectedMonth, selectedYear, viewMode)
     const predictedCrop = outlook.crop
     const amedConfidencePercent = outlook.confidencePercent
     // Sunflower temporarily hidden from the frontend (see lib/featureFlags.ts): when the flag
@@ -320,7 +348,9 @@ export function MapView({
     // outline (not just a different fill hue) — a fill-color-only difference from the existing
     // categorical crop palette read as ambiguous in practice (a real Corn field's assigned
     // orange/amber landed close enough to an earlier gold choice to be mistaken for it).
-    const strokeColor = isSelected
+    const strokeColor = isObserved
+      ? '#0369a1'
+      : isSelected
       ? '#0b0b0b'
       : isFennelLikely
         ? FENNEL_LIKELY_STROKE_COLOR
@@ -331,14 +361,15 @@ export function MapView({
           : isSunflowerLikely
             ? SUNFLOWER_LIKELY_STROKE_COLOR
             : color
-    const weight = isSelected ? 3 : isFennelLikely || isCorianderLikely || isSafflowerLikely || isSunflowerLikely ? 2.5 : 1.25
+    const weight = isObserved ? 5 : isSelected ? 3 : isFennelLikely || isCorianderLikely || isSafflowerLikely || isSunflowerLikely ? 2.5 : 1.25
 
     return {
       color: strokeColor,
       weight,
       fillColor: color,
-      fillOpacity: isSelected ? 0.8 : 0.55,
-      className: isSelected ? 'field-selected' : undefined,
+      // With an observed field highlighted, every other field is dimmed so it reads at a glance.
+      fillOpacity: isObserved ? 0.9 : isSelected ? 0.8 : highlightFieldId ? 0.3 : 0.55,
+      className: isObserved ? 'field-observed' : isSelected ? 'field-selected' : undefined,
     }
   }
 
@@ -358,7 +389,15 @@ export function MapView({
     // sunflowerProbabilities/safflowerProbabilities/selectedMonth/selectedYear, which are already
     // this effect's real deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedMonth, selectedYear])
+  }, [selectedMonth, selectedYear, viewMode, highlightFieldId])
+
+  // Keep the observed field on top of its neighbours.
+  useEffect(() => {
+    if (!highlightFieldId) return
+    const layer = layersByIdRef.current.get(highlightFieldId) as (Layer & Partial<L.Path>) | undefined
+    layer?.bringToFront?.()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [highlightFieldId, geoJsonDataKey])
 
   // As each field's Sunflower RF result arrives (sunflowerProbabilities grows one entry at a
   // time — see useSunflowerFieldColors), imperatively restyle just that field's already-mounted
@@ -511,6 +550,30 @@ export function MapView({
             }}
           />
         )}
+
+        {observations && !center && <FitToObservations observations={observations} />}
+
+        {observations?.map((o) => {
+          const active = o.id === selectedObservationId
+          return (
+            <CircleMarker
+              key={o.id}
+              center={[o.lat, o.lng]}
+              radius={active ? 11 : 8}
+              pathOptions={{ color: '#ffffff', weight: 2, fillColor: active ? '#0369a1' : '#0ea5e9', fillOpacity: 1 }}
+              eventHandlers={{
+                click: (event) => {
+                  L.DomEvent.stopPropagation(event)
+                  onSelectObservation?.(o)
+                },
+              }}
+            >
+              <Tooltip direction="top" offset={[0, -8]}>
+                {o.cropName ?? 'Observation'} · {new Date(o.capturedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })}
+              </Tooltip>
+            </CircleMarker>
+          )
+        })}
 
         {center && (
           <CircleMarker

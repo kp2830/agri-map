@@ -1,6 +1,6 @@
 import type { NormalizedFieldCollection } from '../../types/agricultural'
 import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, FENNEL_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
-import { getPredictedCrop } from './cropPrediction'
+import { getPredictedCrop, type ViewMode } from './cropPrediction'
 
 export interface CropShare {
   crop: string | null
@@ -30,13 +30,14 @@ export function summarizeCropShares(
   fieldCollection: NormalizedFieldCollection,
   month: number = new Date().getMonth() + 1,
   year: number = new Date().getFullYear(),
+  mode: ViewMode = 'predictive',
 ): CropShare[] {
   const fields = fieldCollection.features.filter((feature) => feature.properties.aluType === 'field')
   const totalAreaSqM = fields.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
 
   const areaByCrop = new Map<string | null, number>()
   for (const feature of fields) {
-    const crop = getPredictedCrop(feature.properties, month, year)
+    const crop = getPredictedCrop(feature.properties, month, year, mode)
     areaByCrop.set(crop, (areaByCrop.get(crop) ?? 0) + feature.properties.areaSqM)
   }
 

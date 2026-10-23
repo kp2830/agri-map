@@ -4,6 +4,9 @@ interface MonthSelectorProps {
   /** 1-12. */
   month: number
   onMonthChange: (month: number) => void
+  /** Latest selectable month (1-12) — Past data can't offer months that haven't happened yet. */
+  maxMonth?: number
+  label?: string
 }
 
 const MONTH_LABELS = [
@@ -31,13 +34,13 @@ const selectClasses =
  * having searched a location yet, so it's already set before the very first Analyze/click —
  * exactly like the existing Field Coverage/Max Search selectors it sits alongside.
  */
-export function MonthSelector({ month, onMonthChange }: MonthSelectorProps) {
+export function MonthSelector({ month, onMonthChange, maxMonth = 12, label = 'Reference Month' }: MonthSelectorProps) {
   const selectId = useId()
 
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={selectId} className="text-xs font-medium text-slate-500">
-        Reference Month
+        {label}
       </label>
       <select
         id={selectId}
@@ -45,9 +48,9 @@ export function MonthSelector({ month, onMonthChange }: MonthSelectorProps) {
         onChange={(event) => onMonthChange(Number(event.target.value))}
         className={selectClasses}
       >
-        {MONTH_LABELS.map((label, index) => (
-          <option key={label} value={index + 1}>
-            {label}
+        {MONTH_LABELS.map((monthLabel, index) => (
+          <option key={monthLabel} value={index + 1} disabled={index + 1 > maxMonth}>
+            {monthLabel}
           </option>
         ))}
       </select>

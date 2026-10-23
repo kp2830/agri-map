@@ -11,6 +11,8 @@ import {
   SAFFLOWER_LIKELY_FILL_COLOR,
   SUNFLOWER_LIKELY_FILL_COLOR,
 } from './cropDisplay'
+import type { ViewMode } from './cropPrediction'
+import { MODEL_SIGNALS, type ModelSignalKey } from './modelSignals'
 import { ALL_CROPS, filterFieldsByCrop, totalFieldAreaSqM, type CropFilterValue } from './cropFilter'
 import { computeCorianderShare, computeFennelShare, computeSafflowerShare, computeSunflowerShare, summarizeCropShares, CORIANDER_CROP_KEY, FENNEL_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY, type CropShare } from './cropSummary'
 import { CORIANDER_UI_ENABLED, FENNEL_UI_ENABLED, SAFFLOWER_UI_ENABLED, SUNFLOWER_UI_ENABLED } from '../../lib/featureFlags'
@@ -38,6 +40,8 @@ interface CropSummaryPanelProps {
    *  sunflowerProbabilities/safflowerProbabilities. */
   selectedMonth: number
   selectedYear: number
+  /** 'past' groups by AMED's recorded crop for the exact month/year and ignores the RF models. */
+  viewMode: ViewMode
 }
 
 /** The color swatch for a share row — Sunflower/Safflower aren't real AMED crop labels (never
@@ -71,6 +75,7 @@ function SelectedCropSummary({
   fennelProbabilities,
   selectedMonth,
   selectedYear,
+  viewMode,
 }: CropSummaryPanelProps) {
   const isSunflowerFilter = SUNFLOWER_UI_ENABLED && selectedCrop === SUNFLOWER_CROP_KEY
   const isSafflowerFilter = SAFFLOWER_UI_ENABLED && selectedCrop === SAFFLOWER_CROP_KEY
@@ -88,6 +93,8 @@ function SelectedCropSummary({
     corianderProbabilities,
     undefined,
     fennelProbabilities,
+    undefined,
+    viewMode,
   )
   const areaSqM = matching.features.reduce((sum, feature) => sum + feature.properties.areaSqM, 0)
   const totalArea = totalFieldAreaSqM(fieldCollection)
@@ -102,15 +109,18 @@ function SelectedCropSummary({
           ? FENNEL_LIKELY_FILL_COLOR
           : colorForCropLabel(selectedCrop, cropColorMap)
 
+  const selectedLabel =
+    viewMode === 'past' && selectedCrop === 'NO_PREDICTION' ? 'No AMED record' : formatCropLabel(selectedCrop)
+
   if (matching.features.length === 0) {
-    return <p className="text-sm text-slate-500">No {formatCropLabel(selectedCrop)} fields in this area.</p>
+    return <p className="text-sm text-slate-500">No {selectedLabel} fields in this area.</p>
   }
 
   return (
     <div>
       <div className="mb-2 flex items-center gap-2">
         <span className="h-3 w-3 shrink-0 rounded-sm" style={{ backgroundColor: color }} aria-hidden />
-        <h3 className="text-sm font-semibold text-slate-900">{formatCropLabel(selectedCrop)}</h3>
+        <h3 className="text-sm font-semibold text-slate-900">{selectedLabel}</h3>
       </div>
       <dl className="divide-y divide-slate-50">
         <div className="flex items-baseline justify-between py-1 text-sm">
@@ -170,6 +180,7 @@ export function CropSummaryPanel({
   fennelProbabilities,
   selectedMonth,
   selectedYear,
+  viewMode,
 }: CropSummaryPanelProps) {
   const [showAll, setShowAll] = useState(false)
 
@@ -185,22 +196,23 @@ export function CropSummaryPanel({
         fennelProbabilities={fennelProbabilities}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
+        viewMode={viewMode}
       />
     )
   }
 
-  const amedShares = summarizeCropShares(fieldCollection, selectedMonth, selectedYear)
+  const amedShares = summarizeCropShares(fieldCollection, selectedMonth, selectedYear, viewMode)
   // Sunflower/Safflower are computed only while their respective UI flag is on — computing a
   // share is skipped outright rather than computed-then-hidden, so it can never leak into
   // `shares` below. computeSunflowerShare/computeSafflowerShare themselves, and everything
   // feeding them, are untouched.
-  const sunflowerShare = SUNFLOWER_UI_ENABLED ? computeSunflowerShare(fieldCollection, sunflowerProbabilities) : null
-  const safflowerShare = SAFFLOWER_UI_ENABLED ? computeSafflowerShare(fieldCollection, safflowerProbabilities) : null
+  const sunflowerShare = SUNFLOWER_UI_ENABLED && viewMode === 'predictive' ? computeSunflowerShare(fieldCollection, sunflowerProbabilities) : null
+  const safflowerShare = SAFFLOWER_UI_ENABLED && viewMode === 'predictive' ? computeSafflowerShare(fieldCollection, safflowerProbabilities) : null
   // Additive, not a replacement for any AMED row — inserted into the same ranked-by-area list
   // so Sunflower/Safflower read as normal categories (per the product requirement) while still
   // being visually flagged below as independent RF signals, not genuine AMED predictions.
-  const corianderShare = CORIANDER_UI_ENABLED ? computeCorianderShare(fieldCollection, corianderProbabilities) : null
-  const fennelShare = FENNEL_UI_ENABLED ? computeFennelShare(fieldCollection, fennelProbabilities) : null
+  const corianderShare = CORIANDER_UI_ENABLED && viewMode === 'predictive' ? computeCorianderShare(fieldCollection, corianderProbabilities) : null
+  const fennelShare = FENNEL_UI_ENABLED && viewMode === 'predictive' ? computeFennelShare(fieldCollection, fennelProbabilities) : null
   const extraShares = [sunflowerShare, safflowerShare, corianderShare, fennelShare].filter((share): share is CropShare => share !== null)
   const shares = extraShares.length > 0 ? [...amedShares, ...extraShares].sort((a, b) => b.areaSqM - a.areaSqM) : amedShares
 
@@ -235,15 +247,17 @@ export function CropSummaryPanel({
         {visibleShares.map((share) => {
           const color = colorForShare(share, cropColorMap)
           const percent = share.percentage * 100
-          const isSunflower = share.crop === SUNFLOWER_CROP_KEY
-          const isSafflower = share.crop === SAFFLOWER_CROP_KEY
-          const isCoriander = share.crop === CORIANDER_CROP_KEY
-          const isFennel = share.crop === FENNEL_CROP_KEY
+          const modelKey: ModelSignalKey | null =
+            share.crop === SUNFLOWER_CROP_KEY ? 'sunflower'
+            : share.crop === SAFFLOWER_CROP_KEY ? 'safflower'
+            : share.crop === CORIANDER_CROP_KEY ? 'coriander'
+            : share.crop === FENNEL_CROP_KEY ? 'fennel'
+            : null
 
           return (
             <li key={share.crop ?? 'none'}>
               <div className="flex items-baseline justify-between gap-2 text-sm">
-                <span className="truncate font-medium text-slate-800">{formatCropLabel(share.crop)}</span>
+                <span className="truncate font-medium text-slate-800">{viewMode === 'past' && share.crop === null ? 'No AMED record' : formatCropLabel(share.crop)}</span>
                 <span className="shrink-0 tabular-nums text-slate-500">
                   {percent.toFixed(1)}% · {formatHectares(share.areaSqM)}
                 </span>
@@ -254,17 +268,10 @@ export function CropSummaryPanel({
                   style={{ width: `${Math.max(percent, 1.5)}%`, backgroundColor: color }}
                 />
               </div>
-              {isSunflower && (
-                <p className="mt-1 text-xs text-slate-400">Model signal (&gt;50% likelihood), trained on sunflower fields from Haryana — not an AMED prediction, may overlap with other crops above.</p>
-              )}
-              {isSafflower && (
-                <p className="mt-1 text-xs text-slate-400">Model signal (&gt;50% likelihood), trained on safflower fields from Maharashtra — not an AMED prediction, may overlap with other crops above.</p>
-              )}
-              {isCoriander && (
-                <p className="mt-1 text-xs text-slate-400">Model signal (&gt;50% likelihood), trained on ground-surveyed coriander fields — not an AMED prediction, may overlap with other crops above.</p>
-              )}
-              {isFennel && (
-                <p className="mt-1 text-xs text-slate-400">Model signal (&gt;50% likelihood), trained on fennel fields from the Rajasthan and Gujarat belts — not an AMED prediction, may overlap with other crops above.</p>
+              {modelKey && (
+                <p className="mt-1 text-xs text-slate-400">
+                  Predictive model trained by us on fields from {MODEL_SIGNALS[modelKey].trainedOn} (&gt;50% likelihood) — not an AMED prediction, may overlap with other crops above.
+                </p>
               )}
             </li>
           )

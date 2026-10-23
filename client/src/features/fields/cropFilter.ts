@@ -1,6 +1,6 @@
 import type { NormalizedFieldCollection, NormalizedFieldProperties } from '../../types/agricultural'
 import { CORIANDER_MAP_COLOR_THRESHOLD_PERCENT, FENNEL_MAP_COLOR_THRESHOLD_PERCENT, SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT, formatCropLabel, SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT } from './cropDisplay'
-import { getPredictedCrop } from './cropPrediction'
+import { getPredictedCrop, type ViewMode } from './cropPrediction'
 import { CORIANDER_CROP_KEY, FENNEL_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP_KEY } from './cropSummary'
 
 /** Sentinel meaning "no crop filter applied" — every field is shown, exactly as returned. */
@@ -23,8 +23,9 @@ export function cropFilterKey(
   properties: NormalizedFieldProperties,
   month: number = new Date().getMonth() + 1,
   year: number = new Date().getFullYear(),
+  mode: ViewMode = 'predictive',
 ): string {
-  return getPredictedCrop(properties, month, year) ?? 'NO_PREDICTION'
+  return getPredictedCrop(properties, month, year, mode) ?? 'NO_PREDICTION'
 }
 
 export interface CropOption {
@@ -37,12 +38,13 @@ export function getAvailableCrops(
   fieldCollection: NormalizedFieldCollection,
   month: number = new Date().getMonth() + 1,
   year: number = new Date().getFullYear(),
+  mode: ViewMode = 'predictive',
 ): CropOption[] {
   const labelByValue = new Map<string, string>()
 
   for (const feature of fieldCollection.features) {
     if (feature.properties.aluType !== 'field') continue
-    const value = cropFilterKey(feature.properties, month, year)
+    const value = cropFilterKey(feature.properties, month, year, mode)
     if (!labelByValue.has(value)) labelByValue.set(value, formatCropLabel(value))
   }
 
@@ -84,6 +86,7 @@ export function filterFieldsByCrop(
   corianderThresholdPercent: number = CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
   fennelProbabilities?: Map<string, number>,
   fennelThresholdPercent: number = FENNEL_MAP_COLOR_THRESHOLD_PERCENT,
+  mode: ViewMode = 'predictive',
 ): NormalizedFieldCollection {
   if (selectedCrop === ALL_CROPS) return fieldCollection
 
@@ -134,7 +137,7 @@ export function filterFieldsByCrop(
   return {
     type: 'FeatureCollection',
     features: fieldCollection.features.filter(
-      (feature) => feature.properties.aluType === 'field' && cropFilterKey(feature.properties, month, year) === selectedCrop,
+      (feature) => feature.properties.aluType === 'field' && cropFilterKey(feature.properties, month, year, mode) === selectedCrop,
     ),
   }
 }

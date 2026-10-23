@@ -145,7 +145,7 @@ export function CropOutlookCard({
 
       <p className="mt-3 text-xs text-slate-400">
         {override
-          ? 'Satellite pattern-matching model — not an AMED classification.'
+          ? 'Predictive model trained by us — not an AMED classification.'
           : formatOutlookBasis(outlook.basis)}
       </p>
 

@@ -10,8 +10,14 @@ import { CORIANDER_CROP_KEY, FENNEL_CROP_KEY, SAFFLOWER_CROP_KEY, SUNFLOWER_CROP
 import { featureCentroid } from './features/fields/fieldGeometry'
 import { FieldDetailsPanel } from './features/fields/FieldDetailsPanel'
 import { FieldIdSearch } from './features/fields/FieldIdSearch'
-import { formatMonthName } from './features/fields/cropPrediction'
+import { formatMonthName, type ViewMode } from './features/fields/cropPrediction'
+import { ModeBanner } from './features/fields/ModeBanner'
 import { MonthSelector } from './features/fields/MonthSelector'
+import { ViewModeToggle } from './features/fields/ViewModeToggle'
+import { ComparePanel } from './features/compare/ComparePanel'
+import { useCropObservations } from './features/compare/useCropObservations'
+import { useObservationComparison } from './features/compare/useObservationComparison'
+import { captureMonthYear } from './features/compare/compareLogic'
 import { useAgriculturalFields } from './features/fields/useAgriculturalFields'
 import { decodeFieldId } from './lib/api'
 import { defaultMapCenter } from './lib/config'
@@ -22,7 +28,7 @@ import { useSafflowerFieldColors } from './features/map/useSafflowerFieldColors'
 import { useCorianderFieldColors } from './features/map/useCorianderFieldColors'
 import { useFennelFieldColors } from './features/map/useFennelFieldColors'
 import { useSunflowerFieldColors } from './features/map/useSunflowerFieldColors'
-import type { CoverageInfo, NormalizedFieldFeature } from './types/agricultural'
+import type { CoverageInfo, CropObservation, NormalizedFieldFeature } from './types/agricultural'
 
 function formatDistanceKm(km: number): string {
   if (km < 1) {
@@ -67,6 +73,12 @@ function BrandMark() {
 /** Mirrors server's DEFAULT_GRID_KM/DEFAULT_MAX_SEARCH_KM (server/src/services/agricultural/areaSearch.ts). */
 const DEFAULT_GRID_KM = 3
 const DEFAULT_MAX_SEARCH_KM = 10
+
+/** Experimental model crops — predictive mode only. */
+/** Compare never colors the map from the four crop models. */
+const EMPTY_PROBABILITIES = new Map<string, number>()
+
+const RF_CROP_KEYS = [SUNFLOWER_CROP_KEY, SAFFLOWER_CROP_KEY, CORIANDER_CROP_KEY, FENNEL_CROP_KEY]
 
 /**
  * Shown after a map click, before any agricultural API call is made — an accidental click
@@ -188,7 +200,68 @@ function App() {
   // Not user-selectable (only the month is, per product scope) — always the real current year.
   // predictCropOutlook always looks at selectedYear - 1 as its primary evidence, so this alone
   // is enough to fully determine "which historical year counts as last year" for any month.
-  const selectedYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear()
+  // 'predictive' (default) estimates what is likely to grow from earlier seasons; 'past' shows
+  // only what AMED recorded for the exact month + pastYear. Past data never runs the RF models.
+  const [viewMode, setViewMode] = useState<ViewMode>('predictive')
+  const [pastYear, setPastYear] = useState(currentYear - 1)
+  // Every downstream component already takes (selectedMonth, selectedYear) — in Past data the
+  // year simply comes from the picker instead of being the real current year.
+  const selectedYear = viewMode === 'past' ? pastYear : currentYear
+  // Past data can't show months that haven't happened yet.
+  const maxPastMonth = pastYear === currentYear ? new Date().getMonth() + 1 : 12
+  const isPast = viewMode === 'past'
+
+  // Compare: the team's logged crop observations lined up against AMED + our models. Nothing is
+  // requested (no observations, no satellite checks) until Compare is opened / an observation chosen.
+  const [compareOpen, setCompareOpen] = useState(false)
+  const [selectedObservationId, setSelectedObservationId] = useState<string | null>(null)
+  const { state: observationsState, reload: reloadObservations } = useCropObservations(compareOpen)
+  const selectedObservation: CropObservation | null =
+    observationsState.status === 'ready' ? (observationsState.observations.find((o) => o.id === selectedObservationId) ?? null) : null
+  // Month being compared (null = the month the observation was captured) and the size of the nearby-fields area.
+  const [compareMonthOverride, setCompareMonthOverride] = useState<number | null>(null)
+  const [compareGridKm, setCompareGridKm] = useState(0.5)
+  const comparison = useObservationComparison(compareOpen ? selectedObservation : null, compareMonthOverride, compareGridKm)
+  // In Compare the map shows AMED's recorded crop for the month the observation was captured.
+  const compareData = compareOpen && comparison.status === 'ready' ? comparison.data : null
+  // Compare runs on the predictive module, for the picked month in the observation's capture year.
+  const compareCapture = selectedObservation ? captureMonthYear(selectedObservation.capturedAt) : null
+  const viewMonth = compareOpen && compareCapture ? (compareMonthOverride ?? compareCapture.month) : selectedMonth
+  // The predictive model always runs as of today, whatever year the observation is from.
+  const viewYear = compareOpen ? currentYear : selectedYear
+  const viewKind: ViewMode = compareOpen ? 'predictive' : viewMode
+
+  function handleSelectObservation(id: string | null) {
+    setSelectedObservationId(id)
+    setCompareMonthOverride(null)
+    setSelectedFeature(null)
+    setSelectedCrop(ALL_CROPS)
+  }
+
+  function handleToggleCompare() {
+    setCompareOpen((open) => !open)
+    setSelectedObservationId(null)
+    setCompareMonthOverride(null)
+    setSelectedCrop(ALL_CROPS)
+    setSelectedFeature(null)
+    setPendingClick(null)
+  }
+
+  function handleViewModeChange(mode: ViewMode) {
+    setViewMode(mode)
+    setSelectedFeature(null)
+    if (mode === 'past') {
+      setSelectedMonth((month) => Math.min(month, maxPastMonth))
+      // Sunflower/Safflower/Coriander/Fennel don't exist in Past data.
+      setSelectedCrop((crop) => (RF_CROP_KEYS.includes(crop) ? ALL_CROPS : crop))
+    }
+  }
+
+  function handlePastYearChange(year: number) {
+    setPastYear(year)
+    if (year === currentYear) setSelectedMonth((month) => Math.min(month, new Date().getMonth() + 1))
+  }
 
   useEffect(() => {
     if (state.status !== 'loading') return
@@ -226,6 +299,7 @@ function App() {
   // a second one, and confirming it then supersedes the old search via the existing
   // request-id/AbortController machinery in useAgriculturalFields (unchanged).
   function handleMapClick(lat: number, lng: number) {
+    if (compareOpen) return
     markPerf('click')
     setLatInput(String(lat))
     setLngInput(String(lng))
@@ -304,8 +378,8 @@ function App() {
     setFieldIdSearchStatus('idle')
   }
 
-  const fieldCollection = state.status === 'success' ? state.data.fieldCollection : null
-  const coverage = state.status === 'success' ? state.data.coverage : null
+  const fieldCollection = compareOpen ? (compareData?.fieldCollection ?? null) : state.status === 'success' ? state.data.fieldCollection : null
+  const coverage = compareOpen ? (compareData?.coverage ?? null) : state.status === 'success' ? state.data.coverage : null
   const isEmpty = fieldCollection !== null && fieldCollection.features.length === 0
 
   // Recomputing this means re-walking every field feature — memoized so it only happens
@@ -313,16 +387,16 @@ function App() {
   // in the lat/lng inputs, or selecting a field). Also recomputes when the reference month
   // changes, since a different month can shift which crop groups are largest by area.
   const cropColorMap = useMemo(
-    () => (fieldCollection ? buildCropColorMap(summarizeCropShares(fieldCollection, selectedMonth, selectedYear)) : new Map<string, string>()),
-    [fieldCollection, selectedMonth, selectedYear],
+    () => (fieldCollection ? buildCropColorMap(summarizeCropShares(fieldCollection, viewMonth, viewYear, viewKind)) : new Map<string, string>()),
+    [fieldCollection, viewMonth, viewYear, viewKind],
   )
 
   // Crop options are always derived from the complete result (never the filtered view),
   // so picking "Mustard" doesn't shrink the dropdown down to just "Mustard" afterward.
   const satelliteBusy = useSyncExternalStore(subscribeSatelliteStatus, getSatelliteBusySnapshot)
   const cropOptions = useMemo(
-    () => (fieldCollection ? withAllAmedCrops(getAvailableCrops(fieldCollection, selectedMonth, selectedYear)) : []),
-    [fieldCollection, selectedMonth, selectedYear],
+    () => (fieldCollection ? withAllAmedCrops(getAvailableCrops(fieldCollection, viewMonth, viewYear, viewKind)) : []),
+    [fieldCollection, viewMonth, viewYear, viewKind],
   )
 
   // Sunflower RF v0 — checked against the FULL search result (fieldCollection), not the
@@ -334,14 +408,14 @@ function App() {
   // arrives — no click on an individual field required (see the hook's own docstring for why
   // it's keyed on fieldCollection's identity specifically). Declared before visibleFieldCollection
   // below since the "Sunflower" filter selection reads from it.
-  const rawSunflowerProbabilities = useSunflowerFieldColors(fieldCollection, submittedCenter, selectedMonth)
+  const rawSunflowerProbabilities = useSunflowerFieldColors(isPast || compareOpen ? null : fieldCollection, submittedCenter, selectedMonth)
   // Safflower RF v0 — same reasoning as Sunflower's hook call above, checked against the full
   // result independently.
-  const rawSafflowerProbabilities = useSafflowerFieldColors(fieldCollection, submittedCenter, selectedMonth)
+  const rawSafflowerProbabilities = useSafflowerFieldColors(isPast || compareOpen ? null : fieldCollection, submittedCenter, selectedMonth)
   // Coriander RF v0 — same reasoning again, checked against the full result independently.
-  const rawCorianderProbabilities = useCorianderFieldColors(fieldCollection, submittedCenter, selectedMonth)
+  const rawCorianderProbabilities = useCorianderFieldColors(isPast || compareOpen ? null : fieldCollection, submittedCenter, selectedMonth)
   // Fennel RF v0 — same reasoning again, checked against the full result independently.
-  const rawFennelProbabilities = useFennelFieldColors(fieldCollection, submittedCenter, selectedMonth)
+  const rawFennelProbabilities = useFennelFieldColors(isPast || compareOpen ? null : fieldCollection, submittedCenter, selectedMonth)
   // Of the four experimental crops, each field keeps only the one with the highest probability, so
   // the map, crop dropdown, distribution and filter never show more than one of them per field.
   // How a winner compares with AMED (isRfOverrideActive) is unchanged.
@@ -382,8 +456,8 @@ function App() {
   // isn't even looking at that filter. Only the crop-specific memo — used exclusively while that
   // filter is actually selected — needs to react to its own probabilities Map at all.
   const nonExperimentalVisible = useMemo(
-    () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop, undefined, undefined, selectedMonth, selectedYear) : null),
-    [fieldCollection, selectedCrop, selectedMonth, selectedYear],
+    () => (fieldCollection ? filterFieldsByCrop(fieldCollection, selectedCrop, undefined, undefined, viewMonth, viewYear, undefined, undefined, undefined, undefined, undefined, undefined, viewKind) : null),
+    [fieldCollection, selectedCrop, viewMonth, viewYear, viewKind],
   )
   const sunflowerVisible = useMemo(
     () =>
@@ -441,7 +515,32 @@ function App() {
           </div>
         </div>
 
-        <MonthSelector month={selectedMonth} onMonthChange={setSelectedMonth} />
+        {!compareOpen && (
+          <>
+            <ViewModeToggle mode={viewMode} onModeChange={handleViewModeChange} year={pastYear} onYearChange={handlePastYearChange} />
+
+            <MonthSelector
+              month={selectedMonth}
+              onMonthChange={setSelectedMonth}
+              maxMonth={isPast ? maxPastMonth : 12}
+              label={isPast ? 'Month' : 'Reference Month'}
+            />
+          </>
+        )}
+
+        <div className="flex flex-col gap-1">
+          <span className="text-xs font-medium text-slate-500">Team observations</span>
+          <button
+            type="button"
+            aria-pressed={compareOpen}
+            onClick={handleToggleCompare}
+            className={`rounded-md border px-3 py-1.5 text-sm font-semibold shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 ${
+              compareOpen ? 'border-sky-600 bg-sky-600 text-white' : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-50'
+            }`}
+          >
+            {compareOpen ? 'Exit compare' : 'Compare'}
+          </button>
+        </div>
 
         <CentroidForm
           lat={latInput}
@@ -464,9 +563,18 @@ function App() {
       </header>
 
       <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
-        <main className="h-[52vh] min-w-0 flex-1 lg:h-full">
+        <main className="relative h-[52vh] min-w-0 flex-1 lg:h-full">
+          <div className="pointer-events-none absolute bottom-7 left-3 z-[500]">
+            {compareOpen ? (
+              <span className="rounded-full bg-sky-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow">
+                Compare · team observations vs AgriMap
+              </span>
+            ) : (
+              <ModeBanner mode={viewMode} month={selectedMonth} year={selectedYear} compact />
+            )}
+          </div>
           <MapView
-            center={submittedCenter}
+            center={compareOpen ? (selectedObservation ? { lat: selectedObservation.lat, lng: selectedObservation.lng } : null) : submittedCenter}
             fieldCollection={fieldCollection}
             visibleFieldCollection={visibleFieldCollection}
             selectedCrop={selectedCrop}
@@ -479,10 +587,15 @@ function App() {
             safflowerProbabilities={safflowerProbabilities}
             corianderProbabilities={corianderProbabilities}
             fennelProbabilities={fennelProbabilities}
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
+            selectedMonth={viewMonth}
+            selectedYear={viewYear}
+            viewMode={viewKind}
+            highlightFieldId={compareOpen && compareData?.field ? String(compareData.field.id) : null}
+            observations={compareOpen && observationsState.status === 'ready' ? observationsState.observations : undefined}
+            selectedObservationId={selectedObservationId}
+            onSelectObservation={(o) => handleSelectObservation(o.id)}
             resetToken={mapResetToken}
-            gridKm={appliedGridKm}
+            gridKm={compareOpen ? compareGridKm : appliedGridKm}
             searchToken={searchToken}
           />
         </main>
@@ -497,6 +610,67 @@ function App() {
           onWheel={(event) => event.stopPropagation()}
         >
           <div className="flex-1 p-4 sm:p-5">
+            {compareOpen ? (
+              <ComparePanel
+                observations={observationsState}
+                onReload={reloadObservations}
+                selectedId={selectedObservationId}
+                onSelect={(o) => handleSelectObservation(o ? o.id : null)}
+                comparison={comparison}
+                month={viewMonth}
+                onMonthChange={setCompareMonthOverride}
+                gridKm={compareGridKm}
+                onGridKmChange={setCompareGridKm}
+                nearby={
+                  compareData ? (
+                    <div className="space-y-5">
+                      <div>
+                        <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                          <h2 className="text-sm font-semibold text-slate-900">Crops in nearby fields — {formatMonthName(viewMonth)}</h2>
+                          {cropOptions.length > 0 && (
+                            <select
+                              aria-label="Filter nearby fields by crop"
+                              value={selectedCrop}
+                              onChange={(event) => handleCropChange(event.target.value)}
+                              className="rounded-md border border-slate-300 bg-white px-2 py-1 text-xs font-medium text-slate-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                            >
+                              <option value={ALL_CROPS}>All Crops</option>
+                              {cropOptions.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                        </div>
+                        <p className="mb-3 text-xs text-slate-500">
+                          {compareData.hasLocalCoverage
+                            ? `Predictive model · fields within ${compareGridKm} km of the observation`
+                            : `No mapped fields at the observation. Showing the nearest mapped fields${compareData.coverage.nearestDistanceKm !== null ? `, ${compareData.coverage.nearestDistanceKm.toFixed(1)} km away` : ''}.`}
+                        </p>
+                        <CropSummaryPanel
+                          fieldCollection={compareData.fieldCollection}
+                          cropColorMap={cropColorMap}
+                          selectedCrop={selectedCrop}
+                          sunflowerProbabilities={EMPTY_PROBABILITIES}
+                          safflowerProbabilities={EMPTY_PROBABILITIES}
+                          corianderProbabilities={EMPTY_PROBABILITIES}
+                          fennelProbabilities={EMPTY_PROBABILITIES}
+                          selectedMonth={viewMonth}
+                          selectedYear={viewYear}
+                          viewMode="predictive"
+                        />
+                      </div>
+                    </div>
+                  ) : null
+                }
+              />
+            ) : (
+            <>
+            <div className="mb-4">
+              <ModeBanner mode={viewMode} month={selectedMonth} year={selectedYear} />
+            </div>
+
             {state.status !== 'idle' && (
               <div className="mb-4 flex items-center justify-between gap-2">
                 <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">Analysis</span>
@@ -538,7 +712,7 @@ function App() {
               <div className="space-y-6">
                 {coverage && coverage.status === 'found_nearby' && <section>{coverageStatusCard(coverage)}</section>}
 
-                {satelliteBusy && (
+                {!isPast && satelliteBusy && (
                   <div role="alert" className="rounded-lg border-2 border-red-600 bg-red-50 p-4 text-red-900">
                     <p className="text-base font-bold">⚠ Satellite data is currently failing</p>
                     <p className="mt-1 text-sm">
@@ -550,8 +724,12 @@ function App() {
 
                 <section>
                   <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
-                    <h2 className="text-sm font-semibold text-slate-900">Predicted crop distribution — {formatMonthName(selectedMonth)}</h2>
-                    {(cropOptions.length > 0 || hasSunflowerMatch || hasSafflowerMatch || hasCorianderMatch || hasFennelMatch) && (
+                    <h2 className="text-sm font-semibold text-slate-900">
+                      {isPast
+                        ? `Past crop distribution (AMED record) — ${formatMonthName(selectedMonth)} ${selectedYear}`
+                        : `Predicted crop distribution — ${formatMonthName(selectedMonth)}`}
+                    </h2>
+                    {(cropOptions.length > 0 || (!isPast && (hasSunflowerMatch || hasSafflowerMatch || hasCorianderMatch || hasFennelMatch))) && (
                       <select
                         aria-label="Filter fields by crop"
                         value={selectedCrop}
@@ -565,13 +743,17 @@ function App() {
                             cleared the threshold. Only ever rendered when their own UI_ENABLED
                             flag is true (hasSunflowerMatch/hasSafflowerMatch are hard-gated on it
                             — see their own definitions above). */}
-                        <option value={SUNFLOWER_CROP_KEY}>Sunflower</option>
-                        <option value={SAFFLOWER_CROP_KEY}>Safflower</option>
-                        <option value={CORIANDER_CROP_KEY}>Coriander</option>
-                        <option value={FENNEL_CROP_KEY}>Fennel</option>
+                        {!isPast && (
+                          <>
+                            <option value={SUNFLOWER_CROP_KEY}>Sunflower</option>
+                            <option value={SAFFLOWER_CROP_KEY}>Safflower</option>
+                            <option value={CORIANDER_CROP_KEY}>Coriander</option>
+                            <option value={FENNEL_CROP_KEY}>Fennel</option>
+                          </>
+                        )}
                         {cropOptions.map((option) => (
                           <option key={option.value} value={option.value}>
-                            {option.label}
+                            {isPast && option.value === 'NO_PREDICTION' ? 'No AMED record' : option.label}
                           </option>
                         ))}
                       </select>
@@ -579,8 +761,8 @@ function App() {
                   </div>
                   {selectedCrop === ALL_CROPS && (
                     <p className="mb-3 text-xs text-slate-500">
-                      Based on historical crop-season patterns · {fieldCollection.features.length}{' '}
-                      landscape features in the analyzed area
+                      {isPast ? 'Recorded by AMED satellite monitoring' : 'Based on historical crop-season patterns'} ·{' '}
+                      {fieldCollection.features.length} landscape features in the analyzed area
                     </p>
                   )}
                   <CropSummaryPanel
@@ -593,6 +775,7 @@ function App() {
                     fennelProbabilities={fennelProbabilities}
                     selectedMonth={selectedMonth}
                     selectedYear={selectedYear}
+                    viewMode={viewMode}
                   />
                 </section>
 
@@ -607,9 +790,12 @@ function App() {
                     cropColorMap={cropColorMap}
                     selectedMonth={selectedMonth}
                     selectedYear={selectedYear}
+                    viewMode={viewMode}
                   />
                 </section>
               </div>
+            )}
+            </>
             )}
           </div>
         </aside>

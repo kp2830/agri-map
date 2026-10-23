@@ -5,6 +5,7 @@ import { getSunflowerRf } from '../controllers/sunflowerRfController.js'
 import { getSafflowerRf } from '../controllers/safflowerRfController.js'
 import { getCorianderRf } from '../controllers/corianderRfController.js'
 import { getFennelRf } from '../controllers/fennelRfController.js'
+import { listCropObservations } from '../controllers/observationsController.js'
 
 export const agricultureRouter = Router()
 
@@ -24,3 +25,6 @@ agricultureRouter.post('/coriander-rf', getCorianderRf)
 
 // Fennel RF v0 — same shape as Coriander RF, its own model/season. See controllers/fennelRfController.ts.
 agricultureRouter.post('/fennel-rf', getFennelRf)
+
+// Team crop observations (production FieldView export) for the Compare view.
+agricultureRouter.get('/observations', listCropObservations)

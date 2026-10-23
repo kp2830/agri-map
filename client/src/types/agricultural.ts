@@ -133,3 +133,24 @@ export type SafflowerRfResponse =
       labelType: 'weakly_supervised_model'
     }
   | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'SATELLITE_BUSY' | 'PREDICTION_FAILED' }
+
+/** One crop observation logged by the team in the FieldView app (production), with its place name. */
+export interface CropObservation {
+  id: string
+  capturedAt: string
+  lat: number
+  lng: number
+  growthStage: string | null
+  cropId: string | null
+  cropName: string | null
+  /** True when the user accepted the app's AI suggestion instead of picking the crop by hand. */
+  aiPredicted: boolean
+  aiPredictedCropName: string | null
+  aiConfidence: number | null
+  place: { state: string | null; district: string | null; city: string | null } | null
+}
+
+export interface CropObservationsResponse {
+  observations: CropObservation[]
+  fetchedAt: string
+}

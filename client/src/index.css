@@ -5,6 +5,16 @@
   filter: drop-shadow(0 0 5px rgba(11, 11, 11, 0.45));
 }
 
+.field-observed {
+  filter: drop-shadow(0 0 6px rgba(2, 132, 199, 0.95)) drop-shadow(0 0 14px rgba(2, 132, 199, 0.6));
+  animation: observed-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes observed-pulse {
+  0%, 100% { stroke-opacity: 1; }
+  50% { stroke-opacity: 0.45; }
+}
+
 .leaflet-control-attribution {
   font-size: 10px;
   opacity: 0.85;
