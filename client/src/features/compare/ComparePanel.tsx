@@ -1,51 +1,17 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import type { CropObservation } from '../../types/agricultural'
-import {
-  CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
-  FENNEL_MAP_COLOR_THRESHOLD_PERCENT,
-  SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
-  SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
-  formatCropLabel,
-  formatTimestamp,
-  isRfOverrideActive,
-} from '../fields/cropDisplay'
+import { formatCropLabel, formatTimestamp } from '../fields/cropDisplay'
 import { formatMonthName } from '../fields/cropPrediction'
 import { MonthSelector } from '../fields/MonthSelector'
 import { MODEL_SIGNALS } from '../fields/modelSignals'
+import { formatDate, formatPlace, formatStage } from './format'
+import { ObservationBrowser } from './ObservationBrowser'
 import { amedCropMatches, isModelCrop, type ModelKey, type Verdict } from './compareLogic'
+import { activeModelOverride } from './modelOverride'
 import type { ComparisonState, ObservationComparison } from './useObservationComparison'
 import type { ObservationsState } from './useCropObservations'
 
-const MODEL_THRESHOLDS: Record<ModelKey, number> = {
-  sunflower: SUNFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
-  safflower: SAFFLOWER_MAP_COLOR_THRESHOLD_PERCENT,
-  coriander: CORIANDER_MAP_COLOR_THRESHOLD_PERCENT,
-  fennel: FENNEL_MAP_COLOR_THRESHOLD_PERCENT,
-}
 const MODEL_KEYS: ModelKey[] = ['sunflower', 'safflower', 'coriander', 'fennel']
-
-const GROWTH_STAGE_LABELS: Record<string, string> = {
-  sowing_seedling: 'Sowing / seedling',
-  vegetative: 'Vegetative',
-  flowering: 'Flowering',
-  fruiting_grain: 'Fruiting / grain filling',
-  harvesting_mature: 'Harvesting / mature',
-}
-
-function formatStage(stage: string | null): string {
-  if (!stage) return 'Stage not recorded'
-  return GROWTH_STAGE_LABELS[stage] ?? stage.replace(/_/g, ' ')
-}
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
-}
-
-function formatPlace(place: CropObservation['place']): string {
-  if (!place) return 'Looking up place…'
-  const parts = [place.city, place.district, place.state].filter((p): p is string => !!p)
-  return [...new Set(parts)].join(', ') || 'Place unknown'
-}
 
 const VERDICT_STYLE: Record<Verdict, { icon: string; chip: string }> = {
   match: { icon: '✓', chip: 'bg-emerald-100 text-emerald-700' },
@@ -86,15 +52,11 @@ function ComparisonDetail({ observation, data }: { observation: CropObservation;
   const predictiveVerdict: Verdict =
     !crop || crop === 'UNKNOWN_CROP' || crop === 'NO_PREDICTION' ? 'neutral' : amedCropMatches(observed, crop) ? 'match' : 'mismatch'
 
-  // A crop model is mentioned only once it actually predicts its crop for this field.
-  const detectedModels = MODEL_KEYS.flatMap((key) => {
-    const check = data[key]
-    if (check.status !== 'done' || !check.response.available) return []
-    const percent = check.response.probabilityPercent
-    // Same rule as the main predictive module: shown only when this crop is actually our predicted crop.
-    if (!isRfOverrideActive(predicted?.confidencePercent ?? null, percent, MODEL_THRESHOLDS[key])) return []
-    return [{ key, info: MODEL_SIGNALS[key], percent, verdict: (isModelCrop(observed, key) ? 'match' : 'mismatch') as Verdict }]
-  })
+  // One of our four models takes over from AMED exactly when it would in the main predictive module.
+  const override = activeModelOverride(data)
+  const overrideInfo = override ? MODEL_SIGNALS[override.key] : null
+  const modelsChecking = MODEL_KEYS.some((key) => data[key].status === 'loading')
+  const verdict: Verdict = override ? (isModelCrop(observed, override.key) ? 'match' : 'mismatch') : predictiveVerdict
 
   if (!data.field) {
     return (
@@ -106,7 +68,7 @@ function ComparisonDetail({ observation, data }: { observation: CropObservation;
     )
   }
 
-  const style = VERDICT_STYLE[predictiveVerdict]
+  const style = VERDICT_STYLE[verdict]
   return (
     <div className="space-y-5">
       <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-3">
@@ -116,8 +78,17 @@ function ComparisonDetail({ observation, data }: { observation: CropObservation;
         <div className="mt-2 grid grid-cols-2 gap-3">
           <div>
             <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">Predicted</p>
-            <p className="mt-0.5 text-lg font-bold text-slate-900">{crop ? formatCropLabel(crop) : 'No prediction'}</p>
-            {predicted?.confidencePercent != null && <p className="text-xs text-slate-500">{predicted.confidencePercent}%</p>}
+            <p className="mt-0.5 text-lg font-bold text-slate-900">
+              {overrideInfo ? overrideInfo.label : crop ? formatCropLabel(crop) : 'No prediction'}
+            </p>
+            {overrideInfo && override ? (
+              <p className="text-xs text-slate-500">
+                {override.percent}% · our {overrideInfo.label} model
+                {crop && crop !== 'UNKNOWN_CROP' && crop !== 'NO_PREDICTION' ? ` (AMED said ${formatCropLabel(crop)})` : ''}
+              </p>
+            ) : (
+              predicted?.confidencePercent != null && <p className="text-xs text-slate-500">{predicted.confidencePercent}%</p>
+            )}
           </div>
           <div>
             <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">Logged by team</p>
@@ -126,14 +97,9 @@ function ComparisonDetail({ observation, data }: { observation: CropObservation;
         </div>
         <p className={`mt-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${style.chip}`}>
           <span aria-hidden>{style.icon}</span>
-          {predictiveVerdict === 'match' ? 'Matches' : predictiveVerdict === 'mismatch' ? 'Differs' : 'No crop to compare'}
+          {verdict === 'match' ? 'Matches' : verdict === 'mismatch' ? 'Differs' : 'No crop to compare'}
         </p>
-        {detectedModels.map((m) => (
-          <p key={m.key} className={`ml-2 mt-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${VERDICT_STYLE[m.verdict].chip}`}>
-            <span aria-hidden>{VERDICT_STYLE[m.verdict].icon}</span>
-            {m.info.label} model {m.percent}%
-          </p>
-        ))}
+        {modelsChecking && !override && <p className="mt-2 text-xs text-slate-500">Checking our four crop models for this field…</p>}
       </div>
 
       <FieldHistory data={data} />
@@ -175,6 +141,15 @@ export function ComparePanel({ observations, onReload, selectedId, onSelect, com
 
   return (
     <div className="space-y-4" ref={topRef}>
+      {observations.status === 'ready' && observations.demo && (
+        <div role="note" className="rounded-lg border border-amber-300 bg-amber-50 p-3">
+          <p className="text-xs font-bold uppercase tracking-wide text-amber-800">Demo data</p>
+          <p className="mt-1 text-sm text-amber-900">
+            These observations are made up to show how Compare works. They are not real team observations, and the accuracy figures
+            below do not describe our models.
+          </p>
+        </div>
+      )}
       {!selected && (
       <div className="rounded-lg border border-sky-300 bg-sky-50 p-3">
         <p className="text-xs font-bold uppercase tracking-wide text-sky-800">Compare with team crop observations</p>
@@ -195,49 +170,10 @@ export function ComparePanel({ observations, onReload, selectedId, onSelect, com
         </div>
       )}
 
-      {observations.status === 'ready' && !selected && (
-        <>
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-slate-900">
-              {observations.observations.length} observation{observations.observations.length === 1 ? '' : 's'}
-            </h2>
-            <button type="button" onClick={onReload} className="text-xs font-medium text-sky-700 hover:text-sky-800">
-              Refresh
-            </button>
-          </div>
-
-          {observations.observations.length === 0 ? (
-            <p className="text-sm text-slate-500">No crop observations have been logged yet.</p>
-          ) : (
-            <ul className="space-y-2">
-              {observations.observations.map((o) => {
-                const active = o.id === selectedId
-                return (
-                  <li key={o.id}>
-                    <button
-                      type="button"
-                      onClick={() => onSelect(active ? null : o)}
-                      aria-pressed={active}
-                      className={`w-full rounded-lg border p-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 ${
-                        active ? 'border-sky-500 bg-sky-50' : 'border-slate-200 bg-white hover:bg-slate-50'
-                      }`}
-                    >
-                      <div className="flex items-baseline justify-between gap-2">
-                        <span className="text-sm font-semibold text-slate-900">{o.cropName ?? 'Unknown crop'}</span>
-                        <span className="shrink-0 text-xs text-slate-400">{formatDate(o.capturedAt)}</span>
-                      </div>
-                      <p className="mt-0.5 text-xs text-slate-600">{formatPlace(o.place)}</p>
-                      <p className="mt-0.5 text-[11px] text-slate-400">
-                        {o.lat.toFixed(5)}, {o.lng.toFixed(5)} · {formatStage(o.growthStage)} ·{' '}
-                        {o.aiPredicted ? 'AI suggestion accepted' : 'Picked by hand'}
-                      </p>
-                    </button>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-        </>
+      {observations.status === 'ready' && (
+        <div className={selected ? 'hidden' : undefined}>
+          <ObservationBrowser observations={observations.observations} selectedId={selectedId} onSelect={onSelect} onReload={onReload} />
+        </div>
       )}
 
       {selected && (

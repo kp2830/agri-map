@@ -5,6 +5,7 @@ import { AMED_CROP_KEYS } from '../fields/cropFilter'
 const NAME_ALIASES: Record<string, string> = {
   MAIZE: 'CORN',
   SOYBEAN: 'SOYBEANS',
+  SOYABEAN: 'SOYBEANS',
   PEANUT: 'GROUNDNUT',
   CHICKPEA: 'GRAM',
   JOWAR: 'SORGHUM',
@@ -37,6 +38,34 @@ export function isAmedCoveredCrop(observedName: string | null): boolean {
 }
 
 export type ModelKey = 'sunflower' | 'safflower' | 'coriander' | 'fennel'
+
+const MODEL_KEYS_ORDER: ModelKey[] = ['sunflower', 'safflower', 'coriander', 'fennel']
+
+/** How our models see a team-logged crop: one of AMED's 12, one of our 4 added crops, or neither. */
+export type CropCoverage = 'amed' | 'added' | 'other'
+
+export function cropCoverage(name: string | null): { coverage: CropCoverage; amedKey: string | null; modelKey: ModelKey | null } {
+  const keys = observedCropKeys(name)
+  const amedKey = (AMED_CROP_KEYS as readonly string[]).find((k) => keys.includes(k)) ?? null
+  if (amedKey) return { coverage: 'amed', amedKey, modelKey: null }
+  const modelKey = MODEL_KEYS_ORDER.find((m) => keys.includes(m.toUpperCase())) ?? null
+  return modelKey ? { coverage: 'added', amedKey: null, modelKey } : { coverage: 'other', amedKey: null, modelKey: null }
+}
+
+const AMED_GROUP_LABELS: Record<string, string> = {
+  CORN: 'Maize (Corn)',
+  GRAM: 'Chickpea (Gram)',
+  SOYBEANS: 'Soybean',
+  BAJRA: 'Pearl Millet (Bajra)',
+}
+
+/** One display name per crop for grouping and filtering, so "Maize" and "Corn" are the same crop. */
+export function cropGroupLabel(name: string | null): string {
+  const { coverage, amedKey, modelKey } = cropCoverage(name)
+  if (coverage === 'amed' && amedKey) return AMED_GROUP_LABELS[amedKey] ?? amedKey.charAt(0) + amedKey.slice(1).toLowerCase()
+  if (coverage === 'added' && modelKey) return modelKey.charAt(0).toUpperCase() + modelKey.slice(1)
+  return name?.trim() || 'Unknown crop'
+}
 
 /** Whether the team-logged crop is one that the given experimental model detects. */
 export function isModelCrop(observedName: string | null, model: ModelKey): boolean {

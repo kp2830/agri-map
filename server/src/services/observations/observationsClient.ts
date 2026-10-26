@@ -6,6 +6,8 @@
  * Read-only: only GETs the export endpoint. The observation's crop is the team's own entry
  * (or their accepted AI suggestion) — it is never altered here.
  */
+import { readFileSync } from 'node:fs'
+
 const DEFAULT_EXPORT_URL = 'https://api.udyamita.org/field-view/crop-observations/export'
 const PAGE_SIZE = 500
 /** Safety cap on pages followed in one refresh (500 x 20 = 10,000 observations). */
@@ -24,6 +26,8 @@ interface ExportRecord {
   ai_predicted_crop_name: string | null
   ai_confidence: number | null
   is_ai_predicted: boolean
+  /** Only in the bundled demo file, where places are already filled in. */
+  place?: ObservationPlace | null
 }
 
 export interface ObservationPlace {
@@ -45,6 +49,21 @@ export interface CropObservationDto {
   aiPredictedCropName: string | null
   aiConfidence: number | null
   place: ObservationPlace | null
+}
+
+/**
+ * Demo mode (OBSERVATIONS_SOURCE=demo): serves a bundled set of made-up observations instead of the
+ * production export, so the Compare screens can be shown without real data. Remove the setting to go
+ * back to production — nothing else changes. The response says `demo: true` so the UI labels it.
+ */
+export function isDemoMode(): boolean {
+  return process.env.OBSERVATIONS_SOURCE?.trim().toLowerCase() === 'demo'
+}
+
+let demoRecords: ExportRecord[] | null = null
+function loadDemoRecords(): ExportRecord[] {
+  demoRecords ??= JSON.parse(readFileSync(new URL('./demoObservations.json', import.meta.url), 'utf8')) as ExportRecord[]
+  return demoRecords
 }
 
 function exportUrl(): string {
@@ -125,16 +144,18 @@ async function fetchAllRecords(signal?: AbortSignal): Promise<ExportRecord[]> {
   return records
 }
 
-export async function getCropObservations(signal?: AbortSignal): Promise<{ observations: CropObservationDto[]; fetchedAt: string }> {
-  if (!cache || Date.now() - cache.at > CACHE_TTL_MS) {
+export async function getCropObservations(signal?: AbortSignal): Promise<{ observations: CropObservationDto[]; fetchedAt: string; demo: boolean }> {
+  const demo = isDemoMode()
+  if (!demo && (!cache || Date.now() - cache.at > CACHE_TTL_MS)) {
     cache = { at: Date.now(), records: await fetchAllRecords(signal) }
   }
+  const records = demo ? loadDemoRecords() : cache!.records
 
-  const observations = cache.records
+  const observations = records
     .filter((r) => Number.isFinite(r.latitude) && Number.isFinite(r.longitude))
     .map((r): CropObservationDto => {
-      const place = placeCache.get(placeKey(r.latitude, r.longitude)) ?? null
-      if (!place) enqueueGeocode(r.latitude, r.longitude)
+      const place = r.place ?? placeCache.get(placeKey(r.latitude, r.longitude)) ?? null
+      if (!place && !demo) enqueueGeocode(r.latitude, r.longitude)
       return {
         id: r.id,
         capturedAt: r.captured_at,
@@ -151,6 +172,6 @@ export async function getCropObservations(signal?: AbortSignal): Promise<{ obser
     })
     .sort((a, b) => b.capturedAt.localeCompare(a.capturedAt))
 
-  void runGeocodeQueue()
-  return { observations, fetchedAt: new Date(cache.at).toISOString() }
+  if (!demo) void runGeocodeQueue()
+  return { observations, fetchedAt: new Date(demo ? Date.now() : cache!.at).toISOString(), demo }
 }

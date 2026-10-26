@@ -153,4 +153,6 @@ export interface CropObservation {
 export interface CropObservationsResponse {
   observations: CropObservation[]
   fetchedAt: string
+  /** True when the server is showing made-up demo observations instead of the production ones. */
+  demo?: boolean
 }

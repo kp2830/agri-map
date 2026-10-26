@@ -5,10 +5,10 @@ import type { CropObservation } from '../../types/agricultural'
 export type ObservationsState =
   | { status: 'idle' | 'loading' }
   | { status: 'error'; message: string }
-  | { status: 'ready'; observations: CropObservation[]; fetchedAt: string }
+  | { status: 'ready'; observations: CropObservation[]; fetchedAt: string; demo: boolean }
 
 const PLACE_RETRY_MS = 4000
-const PLACE_RETRY_LIMIT = 6
+const PLACE_RETRY_LIMIT = 40
 /** How often the list re-reads production while Compare is open, so newly logged observations appear on their own. */
 const LIVE_REFRESH_MS = 30 * 1000
 
@@ -25,7 +25,7 @@ export function useCropObservations(enabled: boolean) {
     if (!silent) setState({ status: 'loading' })
     try {
       const data = await getCropObservations(signal)
-      setState({ status: 'ready', observations: data.observations, fetchedAt: data.fetchedAt })
+      setState({ status: 'ready', observations: data.observations, fetchedAt: data.fetchedAt, demo: data.demo === true })
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return
       if (!silent) setState({ status: 'error', message: error instanceof Error ? error.message : 'Failed to load observations' })

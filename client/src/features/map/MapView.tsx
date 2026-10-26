@@ -348,19 +348,18 @@ export function MapView({
     // outline (not just a different fill hue) — a fill-color-only difference from the existing
     // categorical crop palette read as ambiguous in practice (a real Corn field's assigned
     // orange/amber landed close enough to an earlier gold choice to be mistaken for it).
-    const strokeColor = isObserved
-      ? '#0369a1'
-      : isSelected
-      ? '#0b0b0b'
-      : isFennelLikely
-        ? FENNEL_LIKELY_STROKE_COLOR
-        : isCorianderLikely
+    const likelyStroke = isFennelLikely
+      ? FENNEL_LIKELY_STROKE_COLOR
+      : isCorianderLikely
         ? CORIANDER_LIKELY_STROKE_COLOR
         : isSafflowerLikely
           ? SAFFLOWER_LIKELY_STROKE_COLOR
           : isSunflowerLikely
             ? SUNFLOWER_LIKELY_STROKE_COLOR
-            : color
+            : null
+    // The observed field keeps its crop's own colors (yellow Sunflower, etc.) and is marked by its heavy
+    // outline and glow; a plain blue outline is used only when no crop model colors it.
+    const strokeColor = isObserved ? (likelyStroke ?? '#0369a1') : isSelected ? '#0b0b0b' : (likelyStroke ?? color)
     const weight = isObserved ? 5 : isSelected ? 3 : isFennelLikely || isCorianderLikely || isSafflowerLikely || isSunflowerLikely ? 2.5 : 1.25
 
     return {

@@ -18,6 +18,7 @@ import { ComparePanel } from './features/compare/ComparePanel'
 import { useCropObservations } from './features/compare/useCropObservations'
 import { useObservationComparison } from './features/compare/useObservationComparison'
 import { captureMonthYear } from './features/compare/compareLogic'
+import { activeModelOverride } from './features/compare/modelOverride'
 import { useAgriculturalFields } from './features/fields/useAgriculturalFields'
 import { decodeFieldId } from './lib/api'
 import { defaultMapCenter } from './lib/config'
@@ -75,7 +76,7 @@ const DEFAULT_GRID_KM = 3
 const DEFAULT_MAX_SEARCH_KM = 10
 
 /** Experimental model crops — predictive mode only. */
-/** Compare never colors the map from the four crop models. */
+/** Nothing known yet from the four crop models. */
 const EMPTY_PROBABILITIES = new Map<string, number>()
 
 const RF_CROP_KEYS = [SUNFLOWER_CROP_KEY, SAFFLOWER_CROP_KEY, CORIANDER_CROP_KEY, FENNEL_CROP_KEY]
@@ -423,6 +424,14 @@ function App() {
     () => keepOnlyTopRfCropPerField(rawSunflowerProbabilities, rawSafflowerProbabilities, rawCorianderProbabilities, rawFennelProbabilities),
     [rawSunflowerProbabilities, rawSafflowerProbabilities, rawCorianderProbabilities, rawFennelProbabilities],
   )
+  // Compare checks our four models only for the observed field (one satellite call each), so the
+  // nearby-crops list shows a model's crop for that field alone — and only when it overrides AMED.
+  const compareProbabilities = useMemo(() => {
+    const maps = { sunflower: EMPTY_PROBABILITIES, safflower: EMPTY_PROBABILITIES, coriander: EMPTY_PROBABILITIES, fennel: EMPTY_PROBABILITIES }
+    const override = compareData ? activeModelOverride(compareData) : null
+    if (compareData?.field && override) maps[override.key] = new Map([[String(compareData.field.id), override.percent]])
+    return maps
+  }, [compareData])
 
   // Whether the "Sunflower"/"Safflower" options should even appear in the crop dropdown — only
   // once at least one field in the current search has actually cleared the threshold, same
@@ -583,10 +592,10 @@ function App() {
             onSelectField={handleSelectField}
             onMapClick={handleMapClick}
             cropColorMap={cropColorMap}
-            sunflowerProbabilities={sunflowerProbabilities}
-            safflowerProbabilities={safflowerProbabilities}
-            corianderProbabilities={corianderProbabilities}
-            fennelProbabilities={fennelProbabilities}
+            sunflowerProbabilities={compareOpen ? compareProbabilities.sunflower : sunflowerProbabilities}
+            safflowerProbabilities={compareOpen ? compareProbabilities.safflower : safflowerProbabilities}
+            corianderProbabilities={compareOpen ? compareProbabilities.coriander : corianderProbabilities}
+            fennelProbabilities={compareOpen ? compareProbabilities.fennel : fennelProbabilities}
             selectedMonth={viewMonth}
             selectedYear={viewYear}
             viewMode={viewKind}
@@ -652,10 +661,10 @@ function App() {
                           fieldCollection={compareData.fieldCollection}
                           cropColorMap={cropColorMap}
                           selectedCrop={selectedCrop}
-                          sunflowerProbabilities={EMPTY_PROBABILITIES}
-                          safflowerProbabilities={EMPTY_PROBABILITIES}
-                          corianderProbabilities={EMPTY_PROBABILITIES}
-                          fennelProbabilities={EMPTY_PROBABILITIES}
+                          sunflowerProbabilities={compareProbabilities.sunflower}
+                          safflowerProbabilities={compareProbabilities.safflower}
+                          corianderProbabilities={compareProbabilities.coriander}
+                          fennelProbabilities={compareProbabilities.fennel}
                           selectedMonth={viewMonth}
                           selectedYear={viewYear}
                           viewMode="predictive"
