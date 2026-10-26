@@ -135,6 +135,18 @@ export type SafflowerRfResponse =
   | { available: false; reason: 'AMED_HIGH_CONFIDENCE' | 'OUT_OF_SEASON' | 'SATELLITE_DATA_UNAVAILABLE' | 'SATELLITE_BUSY' | 'PREDICTION_FAILED' }
 
 /** One crop observation logged by the team in the FieldView app (production), with its place name. */
+/** A right/wrong verdict on one observation (see features/compare/accuracy.ts). */
+export interface ObservationVerdict {
+  status: 'right' | 'wrong' | 'unjudged'
+  reason?: 'no_field' | 'no_prediction' | 'not_covered' | 'out_of_season' | 'no_satellite'
+  /** What the predictive model said (display label), when it said anything. */
+  predicted: string | null
+  /** Extra line for the row, e.g. the model percentage that decided it. */
+  detail?: string
+  /** Capture month the model was run for. */
+  month: number
+}
+
 export interface CropObservation {
   id: string
   capturedAt: string
@@ -148,6 +160,8 @@ export interface CropObservation {
   aiPredictedCropName: string | null
   aiConfidence: number | null
   place: { state: string | null; district: string | null; city: string | null } | null
+  /** Worked out ahead of time (demo data only); production observations are judged in the browser. */
+  evaluation?: ObservationVerdict
 }
 
 export interface CropObservationsResponse {

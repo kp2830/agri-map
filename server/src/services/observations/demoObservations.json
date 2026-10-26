@@ -18,6 +18,12 @@
    "state": "Gujarat",
    "district": "Rajkot",
    "city": "Rajkot"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "no_field",
+   "predicted": null,
+   "month": 2
   }
  },
  {
@@ -39,6 +45,12 @@
    "state": "Haryana",
    "district": "Ambala",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sunflower",
+   "detail": "Sunflower model 99%",
+   "month": 5
   }
  },
  {
@@ -60,6 +72,12 @@
    "state": "Rajasthan",
    "district": "Kota",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Coriander",
+   "detail": "Coriander model 57%",
+   "month": 2
   }
  },
  {
@@ -81,6 +99,11 @@
    "state": "Andhra Pradesh",
    "district": "Kurnool District",
    "city": "Kurnool"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Chilli",
+   "month": 11
   }
  },
  {
@@ -102,6 +125,11 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Kurukshetra"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Rice",
+   "month": 10
   }
  },
  {
@@ -123,6 +151,12 @@
    "state": "Gujarat",
    "district": "Mahesana",
    "city": "Mahesana"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Fennel",
+   "detail": "Fennel model 86%",
+   "month": 12
   }
  },
  {
@@ -144,6 +178,12 @@
    "state": "Maharashtra",
    "district": "Latur District",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Safflower",
+   "detail": "Safflower model 94%",
+   "month": 12
   }
  },
  {
@@ -165,6 +205,12 @@
    "state": "Rajasthan",
    "district": "Kota",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Coriander",
+   "detail": "Coriander model 57%",
+   "month": 1
   }
  },
  {
@@ -186,6 +232,11 @@
    "state": "Madhya Pradesh",
    "district": "Vidisha",
    "city": null
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Corn",
+   "month": 2
   }
  },
  {
@@ -207,6 +258,11 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": "Baran"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Mustard",
+   "month": 11
   }
  },
  {
@@ -228,6 +284,12 @@
    "state": "Punjab",
    "district": "Ludhiana",
    "city": "Ludhiana"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "no_field",
+   "predicted": null,
+   "month": 10
   }
  },
  {
@@ -249,6 +311,11 @@
    "state": "Madhya Pradesh",
    "district": "Neemuch",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Wheat",
+   "month": 12
   }
  },
  {
@@ -270,6 +337,11 @@
    "state": "Telangana",
    "district": "Warangal",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Rice",
+   "month": 8
   }
  },
  {
@@ -291,6 +363,11 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": "Baran"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Mustard",
+   "month": 12
   }
  },
  {
@@ -312,6 +389,11 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": "Baran"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sugarcane",
+   "month": 4
   }
  },
  {
@@ -333,6 +415,12 @@
    "state": "Rajasthan",
    "district": "Sri Ganganagar",
    "city": null
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 11
   }
  },
  {
@@ -354,6 +442,11 @@
    "state": "Telangana",
    "district": "Warangal",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Cotton",
+   "month": 9
   }
  },
  {
@@ -375,6 +468,12 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Kurukshetra"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Rice",
+   "detail": "Sunflower model 0%",
+   "month": 4
   }
  },
  {
@@ -396,6 +495,11 @@
    "state": "Madhya Pradesh",
    "district": "Neemuch",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Gram",
+   "month": 4
   }
  },
  {
@@ -417,6 +521,12 @@
    "state": "Rajasthan",
    "district": "Kota",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Coriander",
+   "detail": "Coriander model 74%",
+   "month": 1
   }
  },
  {
@@ -438,6 +548,12 @@
    "state": "Punjab",
    "district": "Bathinda",
    "city": "Sivian"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "no_field",
+   "predicted": null,
+   "month": 10
   }
  },
  {
@@ -459,6 +575,11 @@
    "state": "Madhya Pradesh",
    "district": "Vidisha",
    "city": null
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Sugarcane",
+   "month": 4
   }
  },
  {
@@ -480,6 +601,11 @@
    "state": "Rajasthan",
    "district": "Sri Ganganagar",
    "city": null
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Mustard",
+   "month": 3
   }
  },
  {
@@ -501,6 +627,11 @@
    "state": "Uttar Pradesh",
    "district": "Prayagraj",
    "city": "Naini"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Rice",
+   "month": 5
   }
  },
  {
@@ -522,6 +653,11 @@
    "state": "Maharashtra",
    "district": "Latur District",
    "city": "Latur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Gram",
+   "month": 1
   }
  },
  {
@@ -543,6 +679,11 @@
    "state": "Uttar Pradesh",
    "district": "Muzaffarnagar",
    "city": "Muzaffarnagar"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Corn",
+   "month": 10
   }
  },
  {
@@ -564,6 +705,12 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Kurukshetra"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 9
   }
  },
  {
@@ -585,6 +732,11 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Rice",
+   "month": 10
   }
  },
  {
@@ -606,6 +758,11 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": "Baran"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Mustard",
+   "month": 2
   }
  },
  {
@@ -627,6 +784,11 @@
    "state": "Rajasthan",
    "district": "Sri Ganganagar",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Cotton",
+   "month": 10
   }
  },
  {
@@ -648,6 +810,11 @@
    "state": "Uttar Pradesh",
    "district": "Bahraich",
    "city": "Bahraich"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Wheat",
+   "month": 12
   }
  },
  {
@@ -669,6 +836,11 @@
    "state": "Telangana",
    "district": "Warangal",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Chilli",
+   "month": 9
   }
  },
  {
@@ -690,6 +862,11 @@
    "state": "Madhya Pradesh",
    "district": "Neemuch",
    "city": null
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Soybeans",
+   "month": 5
   }
  },
  {
@@ -711,6 +888,11 @@
    "state": "Rajasthan",
    "district": "Sri Ganganagar",
    "city": null
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Mustard",
+   "month": 3
   }
  },
  {
@@ -732,6 +914,11 @@
    "state": "Rajasthan",
    "district": "Sri Ganganagar",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Bajra",
+   "month": 2
   }
  },
  {
@@ -753,6 +940,12 @@
    "state": "Odisha",
    "district": "Cuttack",
    "city": "Cuttack"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 2
   }
  },
  {
@@ -774,6 +967,12 @@
    "state": "Karnataka",
    "district": "Raichur",
    "city": "Raichur"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "no_prediction",
+   "predicted": null,
+   "month": 8
   }
  },
  {
@@ -795,6 +994,11 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Bajra",
+   "month": 7
   }
  },
  {
@@ -816,6 +1020,11 @@
    "state": "Telangana",
    "district": "Warangal",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Rice",
+   "month": 6
   }
  },
  {
@@ -837,6 +1046,12 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Kurukshetra"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 9
   }
  },
  {
@@ -858,6 +1073,11 @@
    "state": "Madhya Pradesh",
    "district": "Neemuch",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Wheat",
+   "month": 3
   }
  },
  {
@@ -879,6 +1099,12 @@
    "state": "Rajasthan",
    "district": "Sri Ganganagar",
    "city": null
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 11
   }
  },
  {
@@ -900,6 +1126,12 @@
    "state": "Gujarat",
    "district": "Sabarkantha",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Fennel",
+   "detail": "Fennel model 82%",
+   "month": 1
   }
  },
  {
@@ -921,6 +1153,11 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Bajra",
+   "month": 10
   }
  },
  {
@@ -942,6 +1179,11 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": "Baran"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Soybeans",
+   "month": 7
   }
  },
  {
@@ -963,6 +1205,12 @@
    "state": "Rajasthan",
    "district": "Alwar",
    "city": "Alwar"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 12
   }
  },
  {
@@ -984,6 +1232,12 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": "Baran"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 3
   }
  },
  {
@@ -1005,6 +1259,11 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Wheat",
+   "month": 3
   }
  },
  {
@@ -1026,6 +1285,11 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Kurukshetra"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Wheat",
+   "month": 2
   }
  },
  {
@@ -1047,6 +1311,12 @@
    "state": "Madhya Pradesh",
    "district": "Neemuch",
    "city": null
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": null,
+   "detail": "Fennel model 0%",
+   "month": 2
   }
  },
  {
@@ -1068,6 +1338,12 @@
    "state": "Maharashtra",
    "district": "Latur District",
    "city": "Latur"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": null,
+   "detail": "Safflower model 14%",
+   "month": 2
   }
  },
  {
@@ -1089,6 +1365,11 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Wheat",
+   "month": 9
   }
  },
  {
@@ -1110,6 +1391,11 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sugarcane",
+   "month": 1
   }
  },
  {
@@ -1131,6 +1417,11 @@
    "state": "Madhya Pradesh",
    "district": "Vidisha",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Rice",
+   "month": 8
   }
  },
  {
@@ -1152,6 +1443,12 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Kurukshetra"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sunflower",
+   "detail": "Sunflower model 80%",
+   "month": 4
   }
  },
  {
@@ -1173,6 +1470,11 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Wheat",
+   "month": 11
   }
  },
  {
@@ -1194,6 +1496,11 @@
    "state": "Uttar Pradesh",
    "district": "Muzaffarnagar",
    "city": "Muzaffarnagar"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Corn",
+   "month": 9
   }
  },
  {
@@ -1215,6 +1522,12 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Kurukshetra"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sunflower",
+   "detail": "Sunflower model 98%",
+   "month": 5
   }
  },
  {
@@ -1236,6 +1549,11 @@
    "state": "Rajasthan",
    "district": "Sri Ganganagar",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Groundnut",
+   "month": 4
   }
  },
  {
@@ -1257,6 +1575,11 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": "Baran"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Soybeans",
+   "month": 8
   }
  },
  {
@@ -1278,6 +1601,12 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Shahbad"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sunflower",
+   "detail": "Sunflower model 91%",
+   "month": 4
   }
  },
  {
@@ -1299,6 +1628,12 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 12
   }
  },
  {
@@ -1320,6 +1655,11 @@
    "state": "Telangana",
    "district": "Warangal",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sugarcane",
+   "month": 9
   }
  },
  {
@@ -1341,6 +1681,11 @@
    "state": "Haryana",
    "district": "Karnal",
    "city": "Karnal"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Corn",
+   "month": 7
   }
  },
  {
@@ -1362,6 +1707,11 @@
    "state": "Uttar Pradesh",
    "district": "Bahraich",
    "city": "Bahraich"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Sugarcane",
+   "month": 4
   }
  },
  {
@@ -1383,6 +1733,11 @@
    "state": "Rajasthan",
    "district": "Alwar",
    "city": "Alwar"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Cotton",
+   "month": 8
   }
  },
  {
@@ -1404,6 +1759,12 @@
    "state": "Haryana",
    "district": "Sirsa",
    "city": "Sirsa"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "no_field",
+   "predicted": null,
+   "month": 9
   }
  },
  {
@@ -1425,6 +1786,11 @@
    "state": "Haryana",
    "district": "Kurukshetra",
    "city": "Kurukshetra"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Rice",
+   "month": 2
   }
  },
  {
@@ -1446,6 +1812,11 @@
    "state": "Madhya Pradesh",
    "district": "Neemuch",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Cotton",
+   "month": 10
   }
  },
  {
@@ -1467,6 +1838,12 @@
    "state": "Maharashtra",
    "district": "Latur District",
    "city": "Latur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Safflower",
+   "detail": "Safflower model 93%",
+   "month": 12
   }
  },
  {
@@ -1488,6 +1865,11 @@
    "state": "Madhya Pradesh",
    "district": "Neemuch",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Wheat",
+   "month": 3
   }
  },
  {
@@ -1509,6 +1891,12 @@
    "state": "Rajasthan",
    "district": "Alwar",
    "city": null
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 2
   }
  },
  {
@@ -1530,6 +1918,11 @@
    "state": "Madhya Pradesh",
    "district": "Vidisha",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Corn",
+   "month": 6
   }
  },
  {
@@ -1551,6 +1944,11 @@
    "state": "Odisha",
    "district": "Cuttack",
    "city": "Cuttack"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": "Sugarcane",
+   "month": 2
   }
  },
  {
@@ -1572,6 +1970,11 @@
    "state": "Haryana",
    "district": "Hisar",
    "city": "Hisar"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Wheat",
+   "month": 1
   }
  },
  {
@@ -1593,6 +1996,12 @@
    "state": "Andhra Pradesh",
    "district": "Kurnool District",
    "city": "Kurnool"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 2
   }
  },
  {
@@ -1614,6 +2023,12 @@
    "state": "Madhya Pradesh",
    "district": "Mandsaur",
    "city": null
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 3
   }
  },
  {
@@ -1635,6 +2050,12 @@
    "state": "Maharashtra",
    "district": "Solapur District",
    "city": "Solapur"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "no_field",
+   "predicted": null,
+   "month": 1
   }
  },
  {
@@ -1656,6 +2077,11 @@
    "state": "Madhya Pradesh",
    "district": "Vidisha",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Gram",
+   "month": 12
   }
  },
  {
@@ -1677,6 +2103,12 @@
    "state": "Rajasthan",
    "district": "Jaipur",
    "city": "Jaipur Municipal Corporation"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "no_field",
+   "predicted": null,
+   "month": 1
   }
  },
  {
@@ -1698,6 +2130,11 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": "Baran"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Groundnut",
+   "month": 9
   }
  },
  {
@@ -1719,6 +2156,12 @@
    "state": "Maharashtra",
    "district": "Latur District",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Safflower",
+   "detail": "Safflower model 88%",
+   "month": 1
   }
  },
  {
@@ -1740,6 +2183,12 @@
    "state": "Gujarat",
    "district": "Sabarkantha",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Fennel",
+   "detail": "Fennel model 87%",
+   "month": 1
   }
  },
  {
@@ -1761,6 +2210,11 @@
    "state": "Andhra Pradesh",
    "district": "Kurnool District",
    "city": "Kurnool"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sorghum",
+   "month": 1
   }
  },
  {
@@ -1782,6 +2236,12 @@
    "state": "Andhra Pradesh",
    "district": "Kurnool District",
    "city": "Kurnool"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 10
   }
  },
  {
@@ -1803,6 +2263,12 @@
    "state": "Madhya Pradesh",
    "district": "Mandsaur",
    "city": null
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": null,
+   "detail": "Fennel model 15%",
+   "month": 1
   }
  },
  {
@@ -1824,6 +2290,12 @@
    "state": "Madhya Pradesh",
    "district": "Mandsaur",
    "city": null
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "not_covered",
+   "predicted": null,
+   "month": 11
   }
  },
  {
@@ -1845,6 +2317,11 @@
    "state": "Rajasthan",
    "district": "Sri Ganganagar",
    "city": "Sri Ganganagar"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Mustard",
+   "month": 10
   }
  },
  {
@@ -1866,6 +2343,12 @@
    "state": "Rajasthan",
    "district": "Baran",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Coriander",
+   "detail": "Coriander model 74%",
+   "month": 2
   }
  },
  {
@@ -1887,6 +2370,11 @@
    "state": "Madhya Pradesh",
    "district": "Neemuch",
    "city": null
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Soybeans",
+   "month": 6
   }
  },
  {
@@ -1908,6 +2396,11 @@
    "state": "Maharashtra",
    "district": "Latur District",
    "city": "Latur"
+  },
+  "evaluation": {
+   "status": "right",
+   "predicted": "Sorghum",
+   "month": 3
   }
  },
  {
@@ -1929,6 +2422,12 @@
    "state": "Haryana",
    "district": "Hisar",
    "city": "Hisar"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": null,
+   "detail": "Sunflower model 6%",
+   "month": 5
   }
  },
  {
@@ -1950,6 +2449,12 @@
    "state": "Rajasthan",
    "district": "Bharatpur",
    "city": "Bharatpur"
+  },
+  "evaluation": {
+   "status": "wrong",
+   "predicted": null,
+   "detail": "Coriander model 2%",
+   "month": 1
   }
  },
  {
@@ -1971,6 +2476,12 @@
    "state": "Gujarat",
    "district": "Mahesana",
    "city": "Mahesana"
+  },
+  "evaluation": {
+   "status": "unjudged",
+   "reason": "no_field",
+   "predicted": null,
+   "month": 2
   }
  }
 ]

@@ -28,6 +28,8 @@ interface ExportRecord {
   is_ai_predicted: boolean
   /** Only in the bundled demo file, where places are already filled in. */
   place?: ObservationPlace | null
+  /** Only in the bundled demo file: the verdict worked out once, so every visitor sees it straight away. */
+  evaluation?: Record<string, unknown> | null
 }
 
 export interface ObservationPlace {
@@ -49,6 +51,8 @@ export interface CropObservationDto {
   aiPredictedCropName: string | null
   aiConfidence: number | null
   place: ObservationPlace | null
+  /** Precomputed right/wrong verdict (demo data only). */
+  evaluation?: Record<string, unknown>
 }
 
 /**
@@ -168,6 +172,7 @@ export async function getCropObservations(signal?: AbortSignal): Promise<{ obser
         aiPredictedCropName: r.ai_predicted_crop_name,
         aiConfidence: r.ai_confidence,
         place,
+        ...(r.evaluation ? { evaluation: r.evaluation } : {}),
       }
     })
     .sort((a, b) => b.capturedAt.localeCompare(a.capturedAt))

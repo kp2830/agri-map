@@ -41,6 +41,12 @@ function writeCache(results: Map<string, EvalResult>): void {
   }
 }
 
+/** Verdicts that arrive with the observations (demo data) are used as they are — no work, no waiting. */
+function seedResults(cached: Map<string, EvalResult>, observations: readonly CropObservation[]): Map<string, EvalResult> {
+  for (const o of observations) if (o.evaluation) cached.set(o.id, o.evaluation)
+  return cached
+}
+
 /**
  * Marks observations right or wrong in the background. Observations are worked through in the
  * order given (put what is on screen first), a few field lookups at a time and our crop models one
@@ -49,7 +55,7 @@ function writeCache(results: Map<string, EvalResult>): void {
  */
 export function useObservationEvaluations(order: readonly CropObservation[]): { evals: EvalMap; retryFailed: () => void } {
   const [store] = useState(() => ({
-    results: readCache(),
+    results: seedResults(readCache(), order),
     inFlight: new Set<string>(),
     errorAt: new Map<string, number>(),
     running: { field: 0, model: 0 } as Record<Lane, number>,
@@ -65,6 +71,11 @@ export function useObservationEvaluations(order: readonly CropObservation[]): { 
     if (!signal || signal.aborted) return
     let changed = false
     for (const o of orderRef.current) {
+      if (o.evaluation && store.results.get(o.id) !== o.evaluation) {
+        store.results.set(o.id, o.evaluation)
+        changed = true
+        continue
+      }
       const known = store.results.get(o.id)
       if (known && known.status !== 'error') continue
       if (store.inFlight.has(o.id)) continue

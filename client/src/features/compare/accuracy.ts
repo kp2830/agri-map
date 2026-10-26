@@ -1,4 +1,4 @@
-import type { CropObservation } from '../../types/agricultural'
+import type { CropObservation, ObservationVerdict } from '../../types/agricultural'
 
 /** Why an observation could not be marked right or wrong. */
 export type UnjudgedReason = 'no_field' | 'no_prediction' | 'not_covered' | 'out_of_season' | 'no_satellite'
@@ -12,16 +12,7 @@ export const UNJUDGED_REASON_TEXT: Record<UnjudgedReason, string> = {
 }
 
 /** Verdict on one observation: did the predictive model say the crop the team logged? */
-export interface Evaluation {
-  status: 'right' | 'wrong' | 'unjudged'
-  reason?: UnjudgedReason
-  /** What the predictive model said (display label), when it said anything. */
-  predicted: string | null
-  /** Extra line for the row, e.g. the model percentage that decided it. */
-  detail?: string
-  /** Capture month the model was run for. */
-  month: number
-}
+export type Evaluation = ObservationVerdict
 
 /** A finished verdict, or a failed attempt (satellite busy, network). Absent from the map = still queued. */
 export type EvalResult = Evaluation | { status: 'error' }
